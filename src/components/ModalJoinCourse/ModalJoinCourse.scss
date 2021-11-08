@@ -1,0 +1,23 @@
+.modal-join-course {
+  padding: 20px;
+  padding-bottom: 20px;
+
+  &__title {
+    font-weight: bold;
+    font-size: 18px;
+  }
+
+  &__form {
+    padding-bottom: 40px !important;
+  }
+
+  &__group-btn {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__btn {
+    margin-left: 20px;
+    width: 130px;
+  }
+}

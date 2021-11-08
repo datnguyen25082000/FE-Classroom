@@ -1,0 +1,19 @@
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px transparent solid;
+  transition: all 0.4s;
+
+  &:hover {
+    border: 1px rgba($color: #000000, $alpha: 0.5) solid;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

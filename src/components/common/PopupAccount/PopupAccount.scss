@@ -1,0 +1,81 @@
+.popup-account {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  top: 0px;
+  right: 20px;
+  background-color: #fff;
+  border: 2px #aaa solid;
+  border-radius: 8px;
+  transition: all 0.2s;
+  transform: scale(0);
+
+  &--show {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    top: 70px;
+    box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    transform: scale(1);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  &__item {
+    display: flex;
+    // justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px;
+    span {
+      margin-left: 10px;
+    }
+
+    &:hover {
+      background-color: rgba($color: #000000, $alpha: 0.1);
+    }
+  }
+
+  &-cover {
+    position: relative;
+    // height: 144px;
+    width: 170px;
+
+    &__arrow {
+      position: absolute;
+      top: -18px;
+      // right: -60px;
+      overflow: hidden;
+      z-index: -999;
+    }
+  }
+
+  &__arr {
+    width: 160px;
+    height: 160px;
+    background-color: #aaa;
+    clip-path: polygon(50% 0%, 44% 11%, 55% 11%);
+    position: relative;
+    right: -67px;
+    &::before {
+      content: '';
+      width: 154px;
+      height: 156px;
+      clip-path: polygon(50% 0%, 44% 11%, 55% 11%);
+      background: #fff;
+      display: block;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+    }
+  }
+}
