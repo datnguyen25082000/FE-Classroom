@@ -1,0 +1,74 @@
+.room-edit {
+  padding-bottom: 100px;
+  &__container {
+    margin: auto;
+    margin-top: 100px !important;
+  }
+  &__block {
+    border: 1px rgb(219, 219, 219) solid;
+    border-radius: 12px;
+    padding: 30px 25px 5px;
+    background-color: #fff;
+    margin-bottom: 25px;
+  }
+
+  &__input {
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    font-size: 30px;
+    color: #c26401;
+    margin-bottom: 20px;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(57, 63, 72, 0.3);
+    z-index: 10;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-left: 10px;
+      font-weight: 500;
+      font-size: 18px;
+    }
+  }
+
+  &__icon {
+    cursor: pointer;
+  }
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+
+    &-title {
+      font-weight: 500;
+    }
+
+    &-right {
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-right: 8px;
+        display: inline-block;
+      }
+    }
+  }
+}

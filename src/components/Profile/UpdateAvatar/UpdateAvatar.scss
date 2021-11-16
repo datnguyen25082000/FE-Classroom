@@ -1,0 +1,59 @@
+.updateAvatar {
+  position: relative;
+  width: 110px;
+  height: 110px;
+
+  &__ava {
+    width: 110px !important;
+    height: 110px !important;
+  }
+
+  &__editAvatarImage {
+    background-color: #fff;
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    z-index: 10;
+    height: 30px;
+    width: 30px;
+    border: 1px rgba($color: #000000, $alpha: 0.5) solid;
+    cursor: pointer;
+    border-radius: 50%;
+    svg {
+      position: absolute;
+      width: 19px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .avatar {
+    background-color: #fff;
+  }
+
+  &__text {
+    color: rgba(102, 102, 102, 1);
+    text-align: center;
+    font-weight: 600;
+    margin-top: 3px;
+    font-size: 13px;
+    line-height: 15px;
+  }
+  &__empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__emptyDetail {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}

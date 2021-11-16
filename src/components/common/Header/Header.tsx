@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import './Header.scss';
-import { AiOutlinePlus } from 'react-icons/ai';
-import { GoThreeBars, GoSettings } from 'react-icons/go';
-import { GiExitDoor } from 'react-icons/gi';
-import { Avatar, PopupAccount } from '../../common';
-import { useAppSelector } from '../../../redux';
-import { IDefaultAvatar } from '../../../constants/images';
+import React, { useState } from "react";
+import "./Header.scss";
+import { AiOutlinePlus } from "react-icons/ai";
+import { GoThreeBars, GoSettings } from "react-icons/go";
+import { GiExitDoor } from "react-icons/gi";
+import { Avatar, PopupAccount } from "../../common";
+import { useAppSelector } from "../../../redux";
+import { IDefaultAvatar } from "../../../constants/images";
 
 export const Header: React.FC<IHeader> = ({
   handleAction1,
@@ -13,7 +13,9 @@ export const Header: React.FC<IHeader> = ({
   handleAction3,
   handleAction4,
 }) => {
-  const { user_thumbnail } = useAppSelector((state) => state.userSlice.dataUser);
+  const { user_thumbnail } = useAppSelector(
+    (state) => state.userSlice.dataUser
+  );
   const [show, setShow] = useState(false);
 
   return (
@@ -42,7 +44,12 @@ export const Header: React.FC<IHeader> = ({
           ></Avatar>
         </div>
       </div>
-      <PopupAccount show={show} handleClose={() => setShow(false)} className="header__popup" />
+      <PopupAccount
+        show={show}
+        setShow={setShow}
+        handleClose={() => setShow(false)}
+        className="header__popup"
+      />
     </>
   );
 };

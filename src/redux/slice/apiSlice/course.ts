@@ -1,15 +1,20 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
-import { doGetAllCourse, doAddCourse } from '../../asyncActions';
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AxiosResponse } from "axios";
+import {
+  doGetAllCourse,
+  doAddCourse,
+  doGetOneCourse,
+} from "../../asyncActions";
 
 const initialState = {
   listClass: [],
+  oneCourse: {},
   isLoading: false,
   error: {},
 } as ISliceClass;
 
 const slice = createSlice({
-  name: 'course@',
+  name: "course@",
   initialState: initialState,
   reducers: {
     doFakeAddCourse(state, action: PayloadAction<IResCourse>) {
@@ -23,10 +28,13 @@ const slice = createSlice({
       state.isLoading = true;
     });
 
-    builder.addCase(doGetAllCourse.fulfilled, (state, action: PayloadAction<IResGetAllCourse>) => {
-      state.listClass = action.payload.content.courses;
-      state.isLoading = false;
-    });
+    builder.addCase(
+      doGetAllCourse.fulfilled,
+      (state, action: PayloadAction<IResGetAllCourse>) => {
+        state.listClass = action.payload.content.courses;
+        state.isLoading = false;
+      }
+    );
 
     builder.addCase(doGetAllCourse.rejected, (state, action) => {
       const error = action.error;
@@ -40,11 +48,34 @@ const slice = createSlice({
       state.isLoading = true;
     });
 
-    builder.addCase(doAddCourse.fulfilled, (state, action: PayloadAction<any>) => {
+    builder.addCase(
+      doAddCourse.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+      }
+    );
+
+    builder.addCase(doAddCourse.rejected, (state, action) => {
+      const error = action.error;
+      state.error = error;
       state.isLoading = false;
     });
 
-    builder.addCase(doAddCourse.rejected, (state, action) => {
+    // add class
+    builder.addCase(doGetOneCourse.pending, (state) => {
+      state.error = null;
+      state.isLoading = true;
+    });
+
+    builder.addCase(
+      doGetOneCourse.fulfilled,
+      (state, action: PayloadAction<IResGetOneCourse>) => {
+        state.isLoading = false;
+        if (action.payload) state.oneCourse = action.payload.content.course;
+      }
+    );
+
+    builder.addCase(doGetOneCourse.rejected, (state, action) => {
       const error = action.error;
       state.error = error;
       state.isLoading = false;

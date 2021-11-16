@@ -1,0 +1,61 @@
+.room-member {
+  background-color: #fff;
+  padding-top: 100px;
+  min-height: 100vh;
+  padding-bottom: 150px;
+
+  &__container {
+    max-width: 800px;
+    margin: auto;
+    padding-bottom: 40px;
+  }
+
+  &__title {
+    font-weight: 400;
+    font-size: 32px;
+    padding: 15px 10px;
+    border-bottom: 1px #aaa solid;
+  }
+
+  &__item {
+    padding: 10px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    transition: all 0.2s;
+
+    span {
+      margin-left: 15px;
+      position: relative;
+      top: -2px;
+    }
+
+    &:hover {
+      background-color: rgb(214, 213, 213);
+    }
+  }
+
+  &__students {
+    position: relative;
+    margin-top: 20px;
+
+    &--count {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translate(0%, -50%);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-right: 10px;
+      }
+    }
+
+    &--icons {
+      cursor: pointer;
+    }
+  }
+}

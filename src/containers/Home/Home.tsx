@@ -18,7 +18,7 @@ export const Home = () => {
   const [showCollapse, setShowCollapse] = useState(false);
 
   const handleRedirectClass = (id: number) => {
-    history.push(`/classroom/${id}`);
+    history.push(`/classroom/${id}/newsfeed`);
   };
 
   useEffect(() => {

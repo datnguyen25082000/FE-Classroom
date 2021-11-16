@@ -1,0 +1,51 @@
+.card-student {
+  padding: 10px 10px;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  transition: all 0.2s;
+  justify-content: space-between;
+
+  span {
+    margin-left: 15px;
+    position: relative;
+    top: -2px;
+  }
+
+  &:hover {
+    background-color: rgb(231, 189, 164);
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+  }
+
+  &__right {
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+
+    &:hover {
+      background: rgb(211, 154, 89);
+    }
+  }
+}
+
+.popover-body {
+  padding: 0 !important;
+}
+
+.card-student__item {
+  display: block;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 150px !important;
+
+  &:hover {
+    background: rgb(206, 203, 203);
+  }
+}

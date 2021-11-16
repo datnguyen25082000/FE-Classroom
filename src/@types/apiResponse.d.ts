@@ -15,13 +15,21 @@ interface IResGetAllCourse {
   };
 }
 
+interface IResGetOneCourse {
+  result: number;
+  message: string;
+  content: {
+    course: IResCourse;
+  };
+}
+
 interface IResCourse {
-  course_createdate: string;
-  course_hostid: string;
-  course_id: number;
-  course_name: string;
-  course_thumbnail: string;
-  course_topic: string;
+  course_createdate?: string;
+  course_hostid?: string;
+  course_id?: number;
+  course_name?: string;
+  course_thumbnail?: string;
+  course_topic?: string;
 }
 
 interface IResUser {

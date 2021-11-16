@@ -6,7 +6,7 @@ const initialState = {
   listClass: [],
   isLoading: false,
   error: {},
-} as ISliceClass;
+} as ISliceAuth;
 
 const slice = createSlice({
   name: 'auth@',
@@ -19,7 +19,7 @@ const slice = createSlice({
     });
 
     builder.addCase(doLogin.fulfilled, (state, action: PayloadAction<any>) => {
-      state.listClass = action.payload.result;
+      // state.listClass = action.payload.result;
       state.isLoading = false;
     });
 
