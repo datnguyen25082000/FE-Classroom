@@ -14,9 +14,11 @@ import {
 import { unwrapResult } from "@reduxjs/toolkit";
 import { EToken } from "../../constants";
 import { SvgLogin } from "../../constants/images";
+import { useHistory } from "react-router";
 
 export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const [message, setMessage] = useState("");
   const [kindModal, setKindModal] = useState(1);
@@ -68,6 +70,10 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
           setShowModal(true);
         });
     }
+  };
+
+  const handleForgot = () => {
+    history.push("/forgot-password");
   };
 
   return (
@@ -128,7 +134,12 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                   (Username: admin - password: 123123)
                 </span>
               </div>
-              <span className="login-modal__forgot-pass">Quên mật khẩu?</span>
+              <span
+                className="login-modal__forgot-pass"
+                onClick={() => handleForgot()}
+              >
+                Quên mật khẩu?
+              </span>
               <div className="login-modal__group-btn">
                 <Button
                   variant={

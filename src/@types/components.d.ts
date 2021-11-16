@@ -7,6 +7,8 @@ interface IHeader {
   handleAction2?: any;
   handleAction3?: any;
   handleAction4?: any;
+  classId?: number | string;
+  className?: string;
 }
 
 interface IModalAddCourse {
@@ -24,6 +26,7 @@ interface ICardClass {
 interface IAvatar {
   image?: string;
   onClick?: any;
+  className?: string;
 }
 
 interface ITabs {
@@ -45,7 +48,7 @@ interface IInput extends IStyle {
   onBlur?: React.FocusEventHandler<HTMLInputElement> | undefined;
   onkeypress?: React.KeyboardEventHandler<HTMLInputElement> | undefined;
   onkeyup?: React.KeyboardEventHandler<HTMLInputElement> | undefined;
-  type?: 'text' | 'password' | 'date';
+  type?: "text" | "password" | "date";
   background?: Property.Background<string | number> | undefined;
   borderRadius?: string | undefined;
   width?: string | undefined;
@@ -64,6 +67,7 @@ interface IInput extends IStyle {
 
 interface IModalCenter {
   show: boolean;
+  setShow?: any;
   onHide?: any;
   message?: string;
   handleClose?: any;
@@ -78,4 +82,21 @@ interface ILoader {
   colorLoader?: string;
   height?: string;
   width?: string;
+}
+
+interface IUpdateAvatar {
+  avatarImg?: string;
+  isEditProfile?: boolean;
+  onClick?: (e) => void;
+  className?: string;
+}
+
+interface IModalAddStudent {
+  show?: boolean;
+  setShow?: any;
+  handleClose?: any;
+  handleAction?: any;
+  isTeacherModal?: boolean;
+  title?: string;
+  buttonAction?: string;
 }

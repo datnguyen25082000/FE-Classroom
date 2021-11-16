@@ -1,0 +1,70 @@
+.room {
+  padding-top: 100px;
+
+  &__background {
+    height: 250px;
+    border-radius: 10px;
+    width: 100%;
+    background-color: #fff;
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &-content {
+      position: absolute;
+      bottom: 25px;
+      left: 35px;
+
+      p {
+        font-size: 35px;
+        font-weight: 500;
+        margin-bottom: 5px;
+        color: #fff;
+      }
+
+      span {
+        font-size: 20px;
+        color: #fff;
+      }
+    }
+  }
+
+  &__row {
+    margin: 30px 0px !important;
+  }
+
+  &__col {
+    &--1 {
+      padding-left: 0px !important;
+    }
+
+    &--2 {
+      padding-right: 0px !important;
+    }
+  }
+
+  &__card {
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #c5c9cf;
+    padding: 20px;
+  }
+
+  &__deadline {
+    margin-bottom: 25px;
+    p {
+      font-weight: 500;
+    }
+
+    span {
+      font-size: 15px;
+      opacity: 0.8;
+    }
+  }
+
+  &__text {
+    color: #c26401;
+    font-size: 25px !important;
+  }
+}

@@ -39,14 +39,19 @@ export const OffCanvas: React.FC<IModalAddCourse> = ({
     }
   }, []);
 
+  const handleClickClass = (classId: number) => {
+    history.push(`/classroom/${classId}/newsfeed`)
+  }
   return (
     <Offcanvas show={show} onHide={handleClose} backdropClassName="off-canvas">
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>
-          <div className="off-canvas__header">
-            <Avatar image={dataUser.user_thumbnail || IDefaultAvatar}></Avatar>
-            <span> {dataUser.user_displayname}</span>
-          </div>
+          <span
+            className="off-canvas__app-name"
+            onClick={() => history.push("/")}
+          >
+            NTD Classroom
+          </span>
         </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
@@ -72,7 +77,11 @@ export const OffCanvas: React.FC<IModalAddCourse> = ({
             {listClass &&
               listClass.map((item: any, i: any) => {
                 return (
-                  <div className="off-canvas__item" key={i}>
+                  <div
+                    className="off-canvas__item"
+                    key={i}
+                    onClick={() => handleClickClass(item.course_id)}
+                  >
                     <Avatar
                       image={item.course_thumbnail || IDefaultAvatar}
                     ></Avatar>

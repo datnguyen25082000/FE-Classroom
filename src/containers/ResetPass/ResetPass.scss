@@ -1,0 +1,26 @@
+.reset-pass {
+  &__box {
+    background-color: #fff;
+    padding: 20px 20px 30px;
+    border-radius: 10px;
+  }
+
+  &__groupBtn {
+    margin-top: 20px;
+  }
+
+  &__btn {
+    min-width: 100px;
+    margin-right: 8px;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 30px;
+  }
+
+  &__modal {
+    height: auto !important;
+  }
+}
