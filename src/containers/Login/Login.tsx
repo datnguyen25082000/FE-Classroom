@@ -82,7 +82,7 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
       window.localStorage.setItem(EToken.loginToken, accessToken)
       window.location.replace("/");
     } else {
-      setMessage(res);
+      setMessage("Đăng nhập thất bại");
       setShowModal(true);
     }
   }
