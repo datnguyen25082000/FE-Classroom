@@ -1,5 +1,5 @@
 export const a = '';
 
 export enum EToken {
-  loginToken = 'localStorage@LoginToken',
+  loginToken = 'localStorage@LoginToken'
 }

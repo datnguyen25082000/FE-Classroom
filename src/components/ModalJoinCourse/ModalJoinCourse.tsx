@@ -5,14 +5,14 @@ import { useForm } from "react-hook-form";
 import {
   useAppDispatch,
   useAppSelector,
-  doAddCourse,
-  doFakeAddCourse,
+  doJoinCourse
 } from "../../redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 
 export const ModalJoinCourse: React.FC<IModalAddCourse> = ({
   show,
   setShow,
+  handleAction
 }) => {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.courseSlice);
@@ -24,12 +24,13 @@ export const ModalJoinCourse: React.FC<IModalAddCourse> = ({
   } = useForm();
 
   const onSubmit = handleSubmit((data) => {
-    // dispatch(doAddCourse({ hostclass: 'Nguyễn Tấn Đạt', nameclass: data.nameclass }))
-    //   .then(unwrapResult)
-    //   .then((res: any) => {
-    //     dispatch(doFakeAddCourse(res.result));
-    //     setShow(false);
-    //   });
+    dispatch(doJoinCourse({ courseId: data.idclass }))
+      .then(unwrapResult)
+      .then((res: any) => {
+        handleAction(data.idclass)
+      }, (err) => {
+
+      })
   });
 
   const handleCloseModal = () => {
@@ -49,7 +50,7 @@ export const ModalJoinCourse: React.FC<IModalAddCourse> = ({
         <Form.Floating className="mb-3">
           <Form.Control
             id="floatingInputCustom"
-            type="text"
+            type="number"
             placeholder="Mã lớp học (bắt buộc)"
             {...register("idclass", { required: true, maxLength: 45 })}
           />
@@ -69,7 +70,7 @@ export const ModalJoinCourse: React.FC<IModalAddCourse> = ({
           variant="outline-primary"
           className="modal-add-course__btn"
           disabled={isLoading}
-          onClick={() => {}}
+          onClick={onSubmit}
         >
           {isLoading ? "Đang thêm..." : "Tham gia"}
         </Button>

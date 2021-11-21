@@ -21,6 +21,10 @@ export const Home = () => {
     history.push(`/classroom/${id}/newsfeed`);
   };
 
+  const joinedCourseHandler = (id: number) => {
+    history.push(`/classroom/${id}/newsfeed`);
+  }
+
   useEffect(() => {
     dispatch(doGetAllCourse({}));
   }, []);
@@ -63,7 +67,7 @@ export const Home = () => {
       )}
 
       <ModalAddCourse show={show} setShow={setShow} />
-      <ModalJoinCourse show={showJoin} setShow={setShowJoin} />
+      <ModalJoinCourse show={showJoin} setShow={setShowJoin} handleAction={joinedCourseHandler}/>
       <OffCanvas
         show={showCanvas}
         setShow={setShowCanvas}

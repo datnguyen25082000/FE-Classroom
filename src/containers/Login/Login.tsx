@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Tabs, Input, ModalCenter } from "../../components/common";
 import { Button } from "react-bootstrap";
 import { MdFacebook } from "react-icons/md";
-import { AiFillGooglePlusCircle } from "react-icons/ai";
 import "./Login.scss";
 import { useForm } from "react-hook-form";
 import {
@@ -15,6 +14,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { EToken } from "../../constants";
 import { SvgLogin } from "../../constants/images";
 import { useHistory } from "react-router";
+import FacebookLogin from 'react-facebook-login'
 
 export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
   const dispatch = useAppDispatch();
@@ -75,6 +75,17 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
   const handleForgot = () => {
     history.push("/forgot-password");
   };
+
+  const responseFacebook = (res: any) => {
+    const accessToken = res.accessToken
+    if (accessToken) {
+      window.localStorage.setItem(EToken.loginToken, accessToken)
+      window.location.replace("/");
+    } else {
+      setMessage("Đăng nhập thất bại");
+      setShowModal(true);
+    }
+  }
 
   return (
     <div className="login-container">
@@ -141,29 +152,32 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                 Quên mật khẩu?
               </span>
               <div className="login-modal__group-btn">
-                <Button
-                  variant={
-                    watch("login_username") && watch("login_password")
-                      ? "primary"
-                      : "secondary"
-                  }
-                  disabled={
-                    watch("login_username") && watch("login_password")
-                      ? false
-                      : true
-                  }
-                  className="login-modal__btn"
-                  onClick={handleSubmit(onSubmit)}
-                >
-                  Đăng nhập
-                </Button>
-                <Button variant="primary" className="login-modal__btn">
-                  <MdFacebook size={25} /> <span>Đăng nhập bằng Facebook</span>
-                </Button>
-                <Button className="login-modal__btn login-modal__btn--google">
-                  <AiFillGooglePlusCircle size={25} />
-                  <span>Đăng nhập bằng Google+</span>
-                </Button>
+                <span>
+                  <Button
+                    variant={
+                      watch("login_username") && watch("login_password")
+                        ? "primary"
+                        : "secondary"
+                    }
+                    disabled={
+                      watch("login_username") && watch("login_password")
+                        ? false
+                        : true
+                    }
+                    className="login-modal__btn"
+                    onClick={handleSubmit(onSubmit)}
+                  >
+                    Đăng nhập
+                  </Button>
+                </span>
+                <FacebookLogin
+                  appId='1102985417137686'
+                  fields="name,email,picture"
+                  scope="public_profile,user_friends"
+                  callback={responseFacebook}
+                  textButton=" Đăng nhập bằng Facebook"
+                  cssClass="login-modal__btn btn btn-primary"
+                  icon={<MdFacebook size={25} />} />
               </div>
             </div>,
             <div className="login-modal__register">

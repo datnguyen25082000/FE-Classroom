@@ -15,3 +15,9 @@ interface ISliceUser {
   isLoading: boolean;
   error: any;
 }
+
+interface ISliceCourseJoin {
+  allMembers: Array<IResMember>;
+  isLoading: boolean;
+  error: any
+}
