@@ -6,7 +6,17 @@ import { FiMoreVertical } from "react-icons/fi";
 import { Popover, OverlayTrigger, Button, Modal } from "react-bootstrap";
 import { ModalConfirm } from "..";
 
-export const CardStudent = (props: any) => {
+interface ICardStudent {
+  isTeacher?: boolean;
+  isActive?: boolean;
+  user_displayname?: string;
+}
+
+export const CardStudent: React.FC<ICardStudent> = ({
+  isTeacher = false,
+  isActive = true,
+  user_displayname,
+}) => {
   const [show, setShow] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -26,7 +36,11 @@ export const CardStudent = (props: any) => {
       <Popover.Header as="h3">Tùy chọn</Popover.Header>
       <Popover.Body>
         <div className="card-student__item" onClick={handleClickItem}>
-          Xóa học viên
+          {
+            isTeacher
+              ? "Xóa giáo viên"
+              : " Xóa học viên"
+            }
         </div>
       </Popover.Body>
     </Popover>
@@ -36,7 +50,7 @@ export const CardStudent = (props: any) => {
     <div className="card-student">
       <div className="card-student__left">
         <Avatar image={IDefaultAvatar} />
-        <span>{props.user_displayname}</span>
+        <span>{user_displayname}</span>
       </div>
       <OverlayTrigger
         trigger="click"
@@ -55,7 +69,7 @@ export const CardStudent = (props: any) => {
       <ModalConfirm show={show} handleClose={handleClose} title="Xóa học viên">
         <p>
           Xóa học viên
-          <span style={{ fontWeight: 500 }}> {props.user_displayname}</span> ?
+          <span style={{ fontWeight: 500 }}> {user_displayname}</span> ?
         </p>
         <p>
           Học viên sau khi bị xóa khỏi khóa học sẽ không thể truy cập vào khóa

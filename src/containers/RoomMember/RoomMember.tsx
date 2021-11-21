@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { HeaderRoom } from "../../components/common";
-import { useAppDispatch, useAppSelector, doGetAllMembers } from "../../redux";
+import {
+  useAppDispatch,
+  useAppSelector,
+  doGetAllMembers,
+  doInviteViaEmail,
+} from "../../redux";
 import { OffCanvas, CardStudent, ModalAddStudent } from "../../components";
 import "./RoomMember.scss";
 import { BsPersonPlus } from "react-icons/bs";
-import { UserRole } from '../../constants/user-role'
+import { UserRole } from "../../constants/user-role";
 
 export const RoomMember = () => {
   const dispatch = useAppDispatch();
-  const { allMembers } = useAppSelector((state) => state.courseJoinSlice)
-  const [teachers, setTeachers] = useState(new Array<IResMember>())
-  const [students, setStudents] = useState(new Array<IResMember>())
+  const { allMembers } = useAppSelector((state) => state.courseJoinSlice);
+  const [teachers, setTeachers] = useState(new Array<IResMember>());
+  const [students, setStudents] = useState(new Array<IResMember>());
 
   const { classId } = useParams<{ classId: string }>();
   const [showCanvas, setShowCanvas] = useState(false);
@@ -19,6 +24,7 @@ export const RoomMember = () => {
   const [isTeacherModal, setIsTeacherModal] = useState(false);
 
   const handleClose = () => setShow(false);
+
   const handleShow = (isTeacher: boolean) => {
     setIsTeacherModal(isTeacher);
     setShow(true);
@@ -29,9 +35,24 @@ export const RoomMember = () => {
   }, []);
 
   useEffect(() => {
-    setTeachers(allMembers.filter(x => x.user_role === UserRole.Teacher || x.user_role === UserRole.Host))
-    setStudents(allMembers.filter(x => x.user_role === UserRole.Student))
-  }, [allMembers])
+    setTeachers(
+      allMembers.filter(
+        (x) => x.user_role === UserRole.Teacher || x.user_role === UserRole.Host
+      )
+    );
+    setStudents(allMembers.filter((x) => x.user_role === UserRole.Student));
+  }, [allMembers]);
+
+  const handleSendMail = (email: string) => {
+    dispatch(
+      doInviteViaEmail({
+        email,
+        course_id: classId,
+        teacher_invite: isTeacherModal,
+      })
+    );
+    handleClose();
+  };
 
   return (
     <div className="room-member">
@@ -53,7 +74,13 @@ export const RoomMember = () => {
           <div className="room-member__list">
             {teachers && teachers.length ? (
               teachers.map((user, i) => {
-                return <CardStudent key={i} user_displayname={user.user_displayname} />;
+                return (
+                  <CardStudent
+                    key={i}
+                    user_displayname={user.user_displayname}
+                    isTeacher={true}
+                  />
+                );
               })
             ) : (
               <></>
@@ -75,7 +102,12 @@ export const RoomMember = () => {
           <div className="room-member__list">
             {students && students.length ? (
               students.map((user, i) => {
-                return <CardStudent key={i} user_displayname={user.user_displayname} />;
+                return (
+                  <CardStudent
+                    key={i}
+                    user_displayname={user.user_displayname}
+                  />
+                );
               })
             ) : (
               <></>
@@ -94,6 +126,7 @@ export const RoomMember = () => {
         setShow={setShow}
         handleClose={() => setShow(false)}
         isTeacherModal={isTeacherModal}
+        handleAction={handleSendMail}
       />
     </div>
   );

@@ -24,3 +24,12 @@ export const doJoinCourse = createAsyncThunk(
         return result.data
     }
 )
+
+export const doInviteViaEmail = createAsyncThunk(
+    "course-join@post/postInviteViaEmail",
+    async (params: IParamsInviteViaEmail) => {
+      const result = await apiCourseJoin.inviteViaEmail(params);
+      return result.data;
+    }
+  );
+  
