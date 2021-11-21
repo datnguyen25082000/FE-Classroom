@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { apiCourses } from "../../services/aixos";
+import { apiCourses, apiCourseJoin } from "../../services/aixos";
 
 export const doGetAllCourse = createAsyncThunk(
   "class@get/getAllCourse",
   async (params: any) => {
-    const result = await apiCourses.getAllClass(params);
+    const result = await apiCourseJoin.getAllCourses(params);
     return result.data;
   }
 );
