@@ -6,7 +6,15 @@ import { FiMoreVertical } from "react-icons/fi";
 import { Popover, OverlayTrigger, Button, Modal } from "react-bootstrap";
 import { ModalConfirm } from "..";
 
-export const CardStudent = () => {
+interface ICardStudent {
+  isTeacher?: boolean;
+  isActive?: boolean;
+}
+
+export const CardStudent: React.FC<ICardStudent> = ({
+  isTeacher = false,
+  isActive = true,
+}) => {
   const [show, setShow] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -26,7 +34,11 @@ export const CardStudent = () => {
       <Popover.Header as="h3">Tùy chọn</Popover.Header>
       <Popover.Body>
         <div className="card-student__item" onClick={handleClickItem}>
-          Xóa học viên
+          {isActive
+            ? isTeacher
+              ? "Xóa giáo viên"
+              : " Xóa học viên"
+            : "Xóa lời mời"}
         </div>
       </Popover.Body>
     </Popover>

@@ -19,4 +19,9 @@ export const apiCourses = {
     const url = baseUrl + "GetOneCourse";
     return axiosClient.get(url + objToQuery({ ...params }));
   },
+
+  inviteViaEmail: (params: IParamsInviteViaEmail) => {
+    const url = baseUrl + "InviteViaEmail";
+    return axiosClient.post(url, params);
+  },
 };

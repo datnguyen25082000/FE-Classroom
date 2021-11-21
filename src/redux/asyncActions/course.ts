@@ -25,3 +25,11 @@ export const doGetOneCourse = createAsyncThunk(
     return result.data;
   }
 );
+
+export const doInviteViaEmail = createAsyncThunk(
+  "class@post/postInviteViaEmail",
+  async (params: IParamsInviteViaEmail) => {
+    const result = await apiCourses.inviteViaEmail(params);
+    return result.data;
+  }
+);
