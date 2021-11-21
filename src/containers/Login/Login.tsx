@@ -172,7 +172,6 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                 </span>
                 <FacebookLogin
                   appId='1102985417137686'
-                  autoLoad={true}
                   fields="name,email,picture"
                   scope="public_profile,user_friends"
                   callback={responseFacebook}
