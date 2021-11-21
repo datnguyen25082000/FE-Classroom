@@ -47,3 +47,13 @@ interface IResGetCurrentUser {
     user: IResUser;
   };
 }
+
+interface IResMember {
+  user_id: int;
+  user_username?: string;
+  user_thumbnail?: string;
+  user_displayname?: string;
+  user_phone?: string;
+  user_email?: string;
+  user_role: number;
+}
