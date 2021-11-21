@@ -1,8 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { apiUser } from '../../services/aixos';
+import { apiAuth } from '../../services/aixos';
 
 export const doGetCurrentUser = createAsyncThunk('user@get/currentUser', async () => {
-  const result = await apiUser.getCurrentUser();
+  const result = await apiAuth.getCurrentUser();
   return result.data;
 });

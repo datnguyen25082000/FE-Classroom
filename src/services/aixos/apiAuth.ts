@@ -12,4 +12,9 @@ export const apiAuth = {
     const url = baseUrl + 'Register';
     return axiosClient.post(url, params);
   },
+
+  getCurrentUser: () => {
+    const url = baseUrl + 'GetCurrentUser';
+    return axiosClient.get(url);
+  },
 };
