@@ -30,7 +30,7 @@ export const Room = () => {
 
   const handleCopyClipBoard = () => {
     const el = document.createElement("input");
-    el.value = "acciwyd";
+    el.value = classId;
     document.body.appendChild(el);
     el.select();
     document.execCommand("copy");
@@ -61,7 +61,7 @@ export const Room = () => {
             <div className="room__card room__deadline">
               <p>Mã khóa học</p>
               <span className="room__text">
-                acciwyd{" "}
+                {classId}{" "}
                 <VscCopy
                   className="room-edit__icon"
                   onClick={notify}

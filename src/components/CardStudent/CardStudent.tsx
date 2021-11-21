@@ -6,7 +6,7 @@ import { FiMoreVertical } from "react-icons/fi";
 import { Popover, OverlayTrigger, Button, Modal } from "react-bootstrap";
 import { ModalConfirm } from "..";
 
-export const CardStudent = () => {
+export const CardStudent = (props: any) => {
   const [show, setShow] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -36,7 +36,7 @@ export const CardStudent = () => {
     <div className="card-student">
       <div className="card-student__left">
         <Avatar image={IDefaultAvatar} />
-        <span>Nguyễn Anh Kiệt</span>
+        <span>{props.user_displayname}</span>
       </div>
       <OverlayTrigger
         trigger="click"
@@ -55,7 +55,7 @@ export const CardStudent = () => {
       <ModalConfirm show={show} handleClose={handleClose} title="Xóa học viên">
         <p>
           Xóa học viên
-          <span style={{ fontWeight: 500 }}> Nguyễn Tấn Đạt</span> ?
+          <span style={{ fontWeight: 500 }}> {props.user_displayname}</span> ?
         </p>
         <p>
           Học viên sau khi bị xóa khỏi khóa học sẽ không thể truy cập vào khóa
