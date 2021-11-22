@@ -135,7 +135,7 @@ export const RoomEdit = () => {
             <div className="room-edit__item">
               <span className="room-edit__item-title">Mã lớp học</span>
               <div className="room-edit__item-right">
-                <span>acciwyd</span>
+                <span>{classId}</span>
               </div>
             </div>
 
