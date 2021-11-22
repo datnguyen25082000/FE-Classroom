@@ -44,7 +44,7 @@ export const CardClass: React.FC<ICardClass> = ({
           <Card.Title>{classInfo.course_name}</Card.Title>
           <Card.Text className="card-class__create-date">
             Ngày tạo:&nbsp;
-            {transformDateFormat(classInfo?.course_createdate || new Date())}
+            {transformDateFormat(classInfo?.course_createdate || "")}
           </Card.Text>
           <Button
             variant="primary"

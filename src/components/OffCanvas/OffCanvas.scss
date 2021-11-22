@@ -18,6 +18,12 @@
     -webkit-text-fill-color: transparent;
     cursor: pointer;
     font-size: 25px;
+    display: flex;
+    align-items: center;
+
+    span {
+      margin-left: 10px;
+    }
   }
 
   &__list {

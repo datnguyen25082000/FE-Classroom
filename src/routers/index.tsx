@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import {
+  EditProfile,
   ForgotPass,
   Home,
   Login,
-  Profile,
   ResetPass,
   Room,
   RoomEdit,
@@ -72,8 +72,8 @@ export const Routers = () => {
         />
         <PublicRouter
           exact={true}
-          path={"/profile/:username"}
-          component={Profile}
+          path={"/edit-profile"}
+          component={EditProfile}
           layout={BlankLayout}
         />
         <PublicRouter

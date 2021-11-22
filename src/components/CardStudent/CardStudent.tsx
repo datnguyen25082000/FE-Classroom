@@ -8,14 +8,20 @@ import { ModalConfirm } from "..";
 
 interface ICardStudent {
   isTeacher?: boolean;
-  isActive?: boolean;
   user_displayname?: string;
+  user_studentid?: string;
+  avatar?: string;
+  isHost?: boolean;
+  isMyAccount?: boolean;
 }
 
 export const CardStudent: React.FC<ICardStudent> = ({
   isTeacher = false,
-  isActive = true,
   user_displayname,
+  avatar,
+  isHost = false,
+  isMyAccount = false,
+  user_studentid,
 }) => {
   const [show, setShow] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
@@ -36,11 +42,7 @@ export const CardStudent: React.FC<ICardStudent> = ({
       <Popover.Header as="h3">Tùy chọn</Popover.Header>
       <Popover.Body>
         <div className="card-student__item" onClick={handleClickItem}>
-          {
-            isTeacher
-              ? "Xóa giáo viên"
-              : " Xóa học viên"
-            }
+          {isTeacher ? "Xóa giáo viên" : " Xóa học viên"}
         </div>
       </Popover.Body>
     </Popover>
@@ -49,8 +51,11 @@ export const CardStudent: React.FC<ICardStudent> = ({
   return (
     <div className="card-student">
       <div className="card-student__left">
-        <Avatar image={IDefaultAvatar} />
-        <span>{user_displayname}</span>
+        <Avatar image={avatar || IDefaultAvatar} />
+        <span>
+          {user_displayname}{" "}
+          {user_studentid ? ` - MSSV: ${user_studentid}` : ""}
+        </span>
       </div>
       <OverlayTrigger
         trigger="click"
@@ -62,7 +67,7 @@ export const CardStudent: React.FC<ICardStudent> = ({
           className="card-student__right"
           onClick={() => setShowOverlay(true)}
         >
-          <FiMoreVertical size={20} />
+          {isHost && !isMyAccount && <FiMoreVertical size={20} />}
         </div>
       </OverlayTrigger>
 

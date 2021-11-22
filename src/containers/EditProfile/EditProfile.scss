@@ -1,4 +1,4 @@
-.profile {
+.edit-profile {
   .account-settings .user-profile {
     margin: 0 0 1rem 0;
     padding-bottom: 1rem;
@@ -93,5 +93,11 @@
       font-size: 16px;
       font-weight: 500;
     }
+  }
+
+  &__avatar-modal {
+    object-fit: cover;
+    max-width: 800px;
+    height: auto;
   }
 }

@@ -10,3 +10,4 @@ export * from "./PopupAccount/PopupAccount";
 export * from "./Loader/Loader";
 export * from "./HeaderRoom/HeaderRoom";
 export * from "./InputBootstrap/InputBootstrap";
+export * from "./Page404/Page404";

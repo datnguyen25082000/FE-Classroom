@@ -6,18 +6,20 @@ import { VscCopy } from "react-icons/vsc";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router";
-import { useAppDispatch, useAppSelector, doGetOneCourse } from "../../redux";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useFetchOneCourseQuery,
+} from "../../redux";
 import { useParams } from "react-router";
+import { Page404 } from "../../components/common";
 
 export const RoomEdit = () => {
   const history = useHistory();
   const dispatch = useAppDispatch();
   const { classId } = useParams<{ classId: string }>();
-  const { oneCourse } = useAppSelector((state) => state.courseSlice);
-
-  useEffect(() => {
-    dispatch(doGetOneCourse({ courseId: classId }));
-  }, []);
+  const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
+  const { dataUser } = useAppSelector((state) => state.userSlice);
 
   const notify = () => {
     handleCopyClipBoard();
@@ -43,6 +45,14 @@ export const RoomEdit = () => {
   const handleSaveChange = () => {
     handleReturn();
   };
+
+  if (
+    !oneCourse ||
+    !oneCourse.course_id ||
+    oneCourse.course_hostid !== dataUser.user_id
+  ) {
+    return <Page404 />;
+  }
 
   return (
     <div className="room-edit">

@@ -12,6 +12,7 @@ interface ISliceAuth {
 
 interface ISliceUser {
   dataUser: IResUser;
+  userInfo: IResUser;
   isLoading: boolean;
   error: any;
 }
@@ -19,5 +20,5 @@ interface ISliceUser {
 interface ISliceCourseJoin {
   allMembers: Array<IResMember>;
   isLoading: boolean;
-  error: any
+  error: any;
 }

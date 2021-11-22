@@ -5,6 +5,7 @@ import {
   doAddCourse,
   doGetOneCourse,
 } from "../../asyncActions";
+import { courseApi } from "../../apis";
 
 const initialState = {
   listClass: [],
@@ -65,6 +66,7 @@ const slice = createSlice({
     builder.addCase(doGetOneCourse.pending, (state) => {
       state.error = null;
       state.isLoading = true;
+      state.oneCourse = {};
     });
 
     builder.addCase(
@@ -80,6 +82,14 @@ const slice = createSlice({
       state.error = error;
       state.isLoading = false;
     });
+
+    // api get one
+    builder.addMatcher(
+      courseApi.endpoints.fetchOneCourse.matchFulfilled,
+      (state, { payload }) => {
+        state.oneCourse = payload;
+      }
+    );
   },
 });
 const { reducer: courseReducer, actions } = slice;

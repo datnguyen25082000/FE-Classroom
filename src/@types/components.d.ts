@@ -48,7 +48,7 @@ interface IInput extends IStyle {
   onBlur?: React.FocusEventHandler<HTMLInputElement> | undefined;
   onkeypress?: React.KeyboardEventHandler<HTMLInputElement> | undefined;
   onkeyup?: React.KeyboardEventHandler<HTMLInputElement> | undefined;
-  type?: "text" | "password" | "date";
+  type?: "text" | "password" | "date" | "email" | "tel";
   background?: Property.Background<string | number> | undefined;
   borderRadius?: string | undefined;
   width?: string | undefined;
@@ -89,6 +89,7 @@ interface IUpdateAvatar {
   isEditProfile?: boolean;
   onClick?: (e) => void;
   className?: string;
+  onClickAvatar?: (e) => void;
 }
 
 interface IModalAddStudent {

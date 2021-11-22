@@ -1,20 +1,15 @@
-import { defaultParmasAPI, objToQuery } from './../../helpers/api';
-import axiosClient from './axiosClient';
+import { defaultParmasAPI, objToQuery } from "./../../helpers/api";
+import axiosClient from "./axiosClient";
 
-const baseUrl = 'Auth/';
+const baseUrl = "Auth/";
 export const apiAuth = {
   login: (params: any) => {
-    const url = baseUrl + 'Login';
+    const url = baseUrl + "Login";
     return axiosClient.post(url, params);
   },
 
   register: (params: any) => {
-    const url = baseUrl + 'Register';
+    const url = baseUrl + "Register";
     return axiosClient.post(url, params);
-  },
-
-  getCurrentUser: () => {
-    const url = baseUrl + 'GetCurrentUser';
-    return axiosClient.get(url);
   },
 };
