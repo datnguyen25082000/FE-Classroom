@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { UserRole } from "../../constants/user-role";
 import { apiCourseJoin } from "../../services/aixos";
 
 export const doGetAllCourse = createAsyncThunk(
@@ -31,5 +32,30 @@ export const doInviteViaEmail = createAsyncThunk(
       const result = await apiCourseJoin.inviteViaEmail(params);
       return result.data;
     }
-  );
+);
+  
+export const doGetStudentInvitationCode = createAsyncThunk(
+    "course-join@get/getStudentInvitationCode",
+    async (params: any) => {
+        const result = await apiCourseJoin.getInvitationCode(params);
+        return result.data
+    }
+)
+
+export const doGetTeacherInvitationCode = createAsyncThunk(
+    "course-join@get/getTeacherInvitationCode",
+    async (params: any) => {
+        const result = await apiCourseJoin.getInvitationCode({ ...params, role: UserRole.Teacher });
+        return result.data
+    }
+)
+
+export const doJoinCourseViaInvitationCode = createAsyncThunk(
+    "course-join@get/joinCourseViaInvitationCode",
+    async (params: any) => {
+        const result = await apiCourseJoin.joinCourseViaInvitationCode(params)
+        return result.data
+    }
+
+)
   

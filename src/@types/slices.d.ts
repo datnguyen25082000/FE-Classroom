@@ -19,6 +19,9 @@ interface ISliceUser {
 
 interface ISliceCourseJoin {
   allMembers: Array<IResMember>;
+  studentInvitationCode: string;
+  teacherInvitationCode: string;
+  courseId: number;
   isLoading: boolean;
   error: any;
 }
