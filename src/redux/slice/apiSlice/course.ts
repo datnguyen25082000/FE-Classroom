@@ -22,6 +22,13 @@ const slice = createSlice({
       const newClass = action.payload;
       state.listClass = [newClass, ...state.listClass];
     },
+
+    doFakeLeaveCourse(state, action) {
+      const course_id = action.payload;
+      state.listClass = state.listClass.filter(
+        (item) => item.course_id !== course_id
+      );
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(doGetAllCourse.pending, (state) => {
@@ -93,5 +100,5 @@ const slice = createSlice({
   },
 });
 const { reducer: courseReducer, actions } = slice;
-export const { doFakeAddCourse } = actions;
+export const { doFakeAddCourse, doFakeLeaveCourse } = actions;
 export default courseReducer;

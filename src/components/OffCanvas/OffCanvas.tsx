@@ -61,16 +61,21 @@ export const OffCanvas: React.FC<IModalAddCourse> = ({
         <div className="off-canvas__container">
           <div className="off-canvas__title">Lớp đã tham gia</div>
           <div className="off-canvas__list">
-            {listSection1 &&
-              listSection1.map((item: any, i: any) => {
-                return (
-                  <div className="off-canvas__item" key={i}>
-                    <Avatar
-                      image={dataUser?.user_avatar || IDefaultAvatar}
-                    ></Avatar>
-                    <span>Lớp Kỹ năng mềm</span>
-                  </div>
-                );
+            {listClass &&
+              listClass.map((item: any, i: any) => {
+                if (item.course_hostid !== dataUser.user_id)
+                  return (
+                    <div
+                      className="off-canvas__item"
+                      key={i}
+                      onClick={() => handleClickClass(item.course_id)}
+                    >
+                      <Avatar
+                        image={item.course_thumbnail || IDefaultAvatar}
+                      ></Avatar>
+                      <span>{item.course_name}</span>
+                    </div>
+                  );
               })}
           </div>
         </div>
@@ -79,18 +84,19 @@ export const OffCanvas: React.FC<IModalAddCourse> = ({
           <div className="off-canvas__list">
             {listClass &&
               listClass.map((item: any, i: any) => {
-                return (
-                  <div
-                    className="off-canvas__item"
-                    key={i}
-                    onClick={() => handleClickClass(item.course_id)}
-                  >
-                    <Avatar
-                      image={item.course_thumbnail || IDefaultAvatar}
-                    ></Avatar>
-                    <span>{item.course_name}</span>
-                  </div>
-                );
+                if (item.course_hostid === dataUser.user_id)
+                  return (
+                    <div
+                      className="off-canvas__item"
+                      key={i}
+                      onClick={() => handleClickClass(item.course_id)}
+                    >
+                      <Avatar
+                        image={item.course_thumbnail || IDefaultAvatar}
+                      ></Avatar>
+                      <span>{item.course_name}</span>
+                    </div>
+                  );
               })}
           </div>
         </div>

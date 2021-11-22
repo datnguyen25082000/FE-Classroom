@@ -58,9 +58,7 @@ export const Room = () => {
         >
           <div className="room__background-content">
             <p>{oneCourse?.course_name}</p>
-            <span>
-              Ngày tạo: {transformDateFormat(oneCourse?.course_createdate || '')}
-            </span>
+            <span>Mã môn học: {oneCourse?.course_code}</span>
           </div>
         </div>
 

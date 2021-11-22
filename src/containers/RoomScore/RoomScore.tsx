@@ -2,7 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { HeaderRoom, Page404 } from "../../components/common";
 import { OffCanvas } from "../../components";
-import { useAppSelector, useAppDispatch, useFetchOneCourseQuery } from "../../redux";
+import {
+  useAppSelector,
+  useAppDispatch,
+  useFetchOneCourseQuery,
+} from "../../redux";
+import "./RoomScore.scss";
+
 export const RoomScore = () => {
   const dispatch = useAppDispatch();
 
@@ -21,7 +27,7 @@ export const RoomScore = () => {
         handleAction1={() => setShowCanvas(true)}
         className={oneCourse.course_name}
       />
-
+      <h1>Ứng dụng đang phát triển</h1>
       <OffCanvas
         show={showCanvas}
         setShow={setShowCanvas}

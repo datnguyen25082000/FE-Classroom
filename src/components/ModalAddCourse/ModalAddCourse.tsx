@@ -29,6 +29,7 @@ export const ModalAddCourse: React.FC<IModalAddCourse> = ({
       doAddCourse({
         hostclass: dataUser.user_displayname,
         nameclass: data.nameclass,
+        codeclass: data?.codeclass,
       })
     )
       .then(unwrapResult)
@@ -65,10 +66,10 @@ export const ModalAddCourse: React.FC<IModalAddCourse> = ({
           <Form.Control
             id="floatingPasswordCustom"
             type="text"
-            placeholder="Chủ đề"
-            {...register("dat")}
+            placeholder="Mã lớp học"
+            {...register("codeclass")}
           />
-          <label htmlFor="floatingPasswordCustom">Chủ đề</label>
+          <label htmlFor="floatingPasswordCustom">Mã lớp học</label>
         </Form.Floating>
       </div>
 

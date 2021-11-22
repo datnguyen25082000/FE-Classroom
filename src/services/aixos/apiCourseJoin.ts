@@ -25,4 +25,9 @@ export const apiCourseJoin = {
     const url = baseUrl + "InviteViaEmail";
     return axiosClient.post(url, params);
   },
+
+  leaveCourse: (params: IParamsLeaveCourse) => {
+    const url = baseUrl + "LeaveCourse";
+    return axiosClient.post(url, params);
+  },
 };

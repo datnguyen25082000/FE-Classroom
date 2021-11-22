@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./RoomEdit.scss";
 import { FloatingLabel, Form, Row, Col, Button } from "react-bootstrap";
 import { MdOutlineBackspace } from "react-icons/md";
@@ -10,9 +10,14 @@ import {
   useAppDispatch,
   useAppSelector,
   useFetchOneCourseQuery,
+  doUpdateCourseInfo,
+  doDeleteCourse,
 } from "../../redux";
 import { useParams } from "react-router";
-import { Page404 } from "../../components/common";
+import { Page404, ModalCenter } from "../../components/common";
+import { useForm } from "react-hook-form";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { ModalConfirm } from "../../components";
 
 export const RoomEdit = () => {
   const history = useHistory();
@@ -20,6 +25,10 @@ export const RoomEdit = () => {
   const { classId } = useParams<{ classId: string }>();
   const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
   const { dataUser } = useAppSelector((state) => state.userSlice);
+
+  const [showModal, setShowModal] = useState(false);
+  const [showModalConfirm, setShowModalConfirm] = useState(false);
+  const [message, setMessage] = useState("");
 
   const notify = () => {
     handleCopyClipBoard();
@@ -42,8 +51,23 @@ export const RoomEdit = () => {
     document.body.removeChild(el);
   };
 
-  const handleSaveChange = () => {
-    handleReturn();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data: any) => {
+    dispatch(doUpdateCourseInfo({ ...data, course_id: classId }))
+      .then(unwrapResult)
+      .then((res: any) => {
+        if (res.content && res.content.update) {
+          setMessage("Cập nhập thông tin thành công");
+        } else setMessage("Đã có lỗi xảy ra, vui lòng thử lại");
+
+        setShowModal(true);
+      });
   };
 
   if (
@@ -53,6 +77,14 @@ export const RoomEdit = () => {
   ) {
     return <Page404 />;
   }
+
+  const handleDeleteCourse = () => {
+    dispatch(doDeleteCourse({ idclass: classId }))
+      .then(unwrapResult)
+      .then((res: any) => {
+        history.push("/");
+      });
+  };
 
   return (
     <div className="room-edit">
@@ -65,7 +97,7 @@ export const RoomEdit = () => {
           />
           <span>Cài đặt lớp học</span>
         </div>
-        <Button variant="success" onClick={handleSaveChange}>
+        <Button variant="success" onClick={handleSubmit(onSubmit)}>
           Lưu thông tin
         </Button>
       </div>
@@ -81,8 +113,13 @@ export const RoomEdit = () => {
               >
                 <Form.Control
                   type="text"
-                  defaultValue={oneCourse.course_name}
+                  defaultValue={oneCourse?.course_name}
                   placeholder="name@example.com"
+                  {...register("course_name", {
+                    required: "Vui lòng nhập tên lớp",
+                    maxLength: 40,
+                  })}
+                  isInvalid={!!errors.course_name}
                 />
               </FloatingLabel>
             </div>
@@ -95,23 +132,30 @@ export const RoomEdit = () => {
                 <Form.Control
                   as="textarea"
                   placeholder="Leave a comment here"
+                  defaultValue={oneCourse?.course_des}
                   style={{ height: "100px" }}
+                  {...register("course_des")}
                 />
               </FloatingLabel>
             </div>
             <div className="room-edit__input">
-              <FloatingLabel controlId="floatingInputGrid" label="Phần">
-                <Form.Control type="text" placeholder="name@example.com" />
-              </FloatingLabel>
-            </div>
-            <div className="room-edit__input">
-              <FloatingLabel controlId="floatingInputGrid" label="Phòng">
-                <Form.Control type="text" placeholder="name@example.com" />
+              <FloatingLabel controlId="floatingInputGrid" label="Mã môn học">
+                <Form.Control
+                  type="text"
+                  placeholder="name@example.com"
+                  defaultValue={oneCourse?.course_code}
+                  {...register("course_code")}
+                />
               </FloatingLabel>
             </div>
             <div className="room-edit__input">
               <FloatingLabel controlId="floatingInputGrid" label="Chủ đề">
-                <Form.Control type="text" placeholder="name@example.com" />
+                <Form.Control
+                  type="text"
+                  placeholder="name@example.com"
+                  defaultValue={oneCourse?.course_topic}
+                  {...register("course_topic")}
+                />
               </FloatingLabel>
             </div>
           </div>
@@ -156,9 +200,39 @@ export const RoomEdit = () => {
               </div>
             </div>
           </div>
+
+          <div className="room-edit__block">
+            <h2 className="room-edit__title">Xóa khóa học</h2>
+            <Button
+              variant="danger"
+              className="room-edit__remove-btn"
+              onClick={() => setShowModalConfirm(true)}
+            >
+              Xóa khóa học
+            </Button>
+          </div>
         </Col>
       </Row>
       <ToastContainer autoClose={1500} />
+
+      <ModalCenter
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        handleClose={() => setShowModal(false)}
+        message={message}
+      ></ModalCenter>
+
+      <ModalConfirm
+        show={showModalConfirm}
+        handleClose={() => setShowModalConfirm(false)}
+        handleAction={handleDeleteCourse}
+        title="Xóa lớp học"
+      >
+        <p>
+          Tất cả dữ liệu liên quan đến lớp học này sẽ bị xóa. Bạn có muốn tiếp
+          tục?
+        </p>
+      </ModalConfirm>
     </div>
   );
 };

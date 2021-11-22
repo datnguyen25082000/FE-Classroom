@@ -7,6 +7,8 @@ import {
   useFetchOneCourseQuery,
   useAppDispatch,
 } from "../../redux";
+import "./RoomPractice.scss";
+
 export const RoomPractice = () => {
   const dispatch = useAppDispatch();
   const { classId } = useParams<{ classId: string }>();
@@ -24,6 +26,8 @@ export const RoomPractice = () => {
         handleAction1={() => setShowCanvas(true)}
         className={oneCourse.course_name}
       />
+
+      <h1>Ứng dụng đang phát triển</h1>
 
       <OffCanvas
         show={showCanvas}

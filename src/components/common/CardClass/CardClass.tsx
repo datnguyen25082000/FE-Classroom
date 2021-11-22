@@ -5,13 +5,21 @@ import { transformDateFormat } from "../../../helpers/time";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { Popover, OverlayTrigger } from "react-bootstrap";
 import { ModalConfirm } from "../..";
+import {
+  useAppSelector,
+  useAppDispatch,
+  doLeaveCourse,
+  doFakeLeaveCourse,
+} from "../../../redux";
 
 export const CardClass: React.FC<ICardClass> = ({
   classInfo,
   handleAction,
 }) => {
+  const dispatch = useAppDispatch();
   const [show, setShow] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
+  const { user_id } = useAppSelector((state) => state.userSlice.dataUser);
 
   const handleShowModal = () => {
     setShow(true);
@@ -31,6 +39,14 @@ export const CardClass: React.FC<ICardClass> = ({
       </Popover.Body>
     </Popover>
   );
+
+  const handleLeaveCourse = () => {
+    if (classInfo) {
+      dispatch(doLeaveCourse({ course_id: classInfo?.course_id }));
+      dispatch(doFakeLeaveCourse(classInfo?.course_id));
+    }
+    setShow(false);
+  };
 
   return (
     <div key={classInfo.course_id} className="card-class">
@@ -54,19 +70,21 @@ export const CardClass: React.FC<ICardClass> = ({
             Vào lớp
           </Button>
         </Card.Body>
-        <OverlayTrigger
-          trigger="click"
-          placement="bottom"
-          overlay={popover}
-          rootClose
-        >
-          <div
-            className="card-class__more"
-            onClick={() => setShowOverlay(true)}
+        {user_id !== classInfo.course_hostid && (
+          <OverlayTrigger
+            trigger="click"
+            placement="bottom"
+            overlay={popover}
+            rootClose
           >
-            <FiMoreHorizontal size={20} />
-          </div>
-        </OverlayTrigger>
+            <div
+              className="card-class__more"
+              onClick={() => setShowOverlay(true)}
+            >
+              <FiMoreHorizontal size={20} />
+            </div>
+          </OverlayTrigger>
+        )}
       </Card>
 
       <ModalConfirm
@@ -74,10 +92,14 @@ export const CardClass: React.FC<ICardClass> = ({
         handleClose={() => setShow(false)}
         title="Rời khóa học"
         buttonAction="Rời khóa học"
+        handleAction={handleLeaveCourse}
       >
         <p>
           Rời khóa học
-          <span style={{ fontWeight: 500 }}> Nguyễn Tấn Đạt</span> ?
+          <span style={{ fontWeight: 500 }}>
+            {" " + classInfo?.course_name}
+          </span>{" "}
+          ?
         </p>
         <p>
           Sau khi rời khóa học, bạn sẽ không thể truy cập vào lớp học nữa và sẽ

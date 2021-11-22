@@ -21,7 +21,7 @@ export const ModalConfirm: React.FC<IModalAddStudent> = ({
         <Button variant="secondary" onClick={handleClose}>
           Hủy
         </Button>
-        <Button variant="danger" onClick={handleClose}>
+        <Button variant="danger" onClick={handleAction}>
           {buttonAction ? buttonAction : "Xóa"}
         </Button>
       </Modal.Footer>

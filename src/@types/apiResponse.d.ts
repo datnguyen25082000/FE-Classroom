@@ -30,6 +30,8 @@ interface IResCourse {
   course_name?: string;
   course_thumbnail?: string;
   course_topic?: string;
+  course_des?: string;
+  course_code?: string;
 }
 
 interface IResUser {
