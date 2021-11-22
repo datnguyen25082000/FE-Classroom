@@ -75,4 +75,18 @@
   &__remove-btn {
     margin-bottom: 20px;
   }
+
+  &__link {
+    display: block;
+
+    .room-edit__item-right {
+      display: block;
+    }
+  }
+
+  &__link-class {
+    margin-top: 10px;
+    word-break: break-all;
+    display: block;
+  }
 }

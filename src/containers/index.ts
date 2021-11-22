@@ -8,3 +8,4 @@ export * from "./RoomEdit/RoomEdit";
 export * from "./EditProfile/EditProfile";
 export * from "./ForgotPass/ForgotPass";
 export * from "./ResetPass/ResetPass";
+export * from "./RoomJoin/RoomJoin"

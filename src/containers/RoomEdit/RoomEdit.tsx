@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router";
 import {
+  doGetStudentInvitationCode,
   useAppDispatch,
   useAppSelector,
   useFetchOneCourseQuery,
@@ -18,6 +19,7 @@ import { Page404, ModalCenter } from "../../components/common";
 import { useForm } from "react-hook-form";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { ModalConfirm } from "../../components";
+import { UserRole } from "../../constants/user-role";
 
 export const RoomEdit = () => {
   const history = useHistory();
@@ -25,6 +27,9 @@ export const RoomEdit = () => {
   const { classId } = useParams<{ classId: string }>();
   const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
   const { dataUser } = useAppSelector((state) => state.userSlice);
+  const { studentInvitationCode } = useAppSelector(
+    (state) => state.courseJoinSlice
+  );
 
   const [showModal, setShowModal] = useState(false);
   const [showModalConfirm, setShowModalConfirm] = useState(false);
@@ -44,7 +49,7 @@ export const RoomEdit = () => {
 
   const handleCopyClipBoard = () => {
     const el = document.createElement("input");
-    el.value = "https://classroom.google.com/c/NDA1MTc3NzczMTM5?cjc=acciwyd";
+    el.value = `${window.origin}/classroom/join/${studentInvitationCode}`;
     document.body.appendChild(el);
     el.select();
     document.execCommand("copy");
@@ -69,6 +74,12 @@ export const RoomEdit = () => {
         setShowModal(true);
       });
   };
+
+  useEffect(() => {
+    dispatch(
+      doGetStudentInvitationCode({ courseId: classId, role: UserRole.Student })
+    );
+  }, [classId]);
 
   if (
     !oneCourse ||
@@ -162,11 +173,11 @@ export const RoomEdit = () => {
 
           <div className="room-edit__block">
             <h2 className="room-edit__title">Thông tin chung</h2>
-            <div className="room-edit__item">
+            <div className="room-edit__item room-edit__link">
               <span className="room-edit__item-title">Đường liên kết mời</span>
-              <div className="room-edit__item-right">
-                <span>
-                  https://classroom.google.com/c/NDA1MTc3NzczMTM5?cjc=acciwyd
+              <div className="room-edit__item-right ">
+                <span className="room-edit__link-class">
+                  {`${window.origin}/classroom/join/${studentInvitationCode}`}
                 </span>
                 <VscCopy
                   className="room-edit__icon"
@@ -179,7 +190,7 @@ export const RoomEdit = () => {
             <div className="room-edit__item">
               <span className="room-edit__item-title">Mã lớp học</span>
               <div className="room-edit__item-right">
-                <span>acciwyd</span>
+                <span>{classId}</span>
               </div>
             </div>
 
