@@ -9,14 +9,23 @@ export const apiCourses = {
     return axiosClient.get(url + objToQuery({ ...params, ...defaultParams }));
   },
 
-  addClass: (params: any) => {
+  addClass: (params: IParamsAddCourse) => {
     const url = baseUrl + "AddCourse";
-    const defaultParams = defaultParmasAPI(params.currentpage, params.limit);
-    return axiosClient.post(url + objToQuery({ ...params, ...defaultParams }));
+    return axiosClient.post(url + objToQuery({ ...params }));
   },
 
   getOneCourse: (params: IParamsGetOneCourse) => {
     const url = baseUrl + "GetOneCourse";
     return axiosClient.get(url + objToQuery({ ...params }));
+  },
+
+  updateCourseInfo: (params: IParamsUpdateCourse) => {
+    const url = baseUrl + "UpdateCourseInfo";
+    return axiosClient.post(url, params);
+  },
+
+  deleteCourse: (params: IParamsDeleteCouse) => {
+    const url = baseUrl + "DeleteCourse";
+    return axiosClient.post(url + objToQuery({ ...params }));
   },
 };

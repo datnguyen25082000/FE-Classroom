@@ -26,6 +26,10 @@ export const apiCourseJoin = {
     return axiosClient.post(url, params);
   },
 
+  leaveCourse: (params: IParamsLeaveCourse) => {
+    const url = baseUrl + "LeaveCourse";
+    return axiosClient.post(url, params);
+  },
   getInvitationCode: (params: any) => {
     const url = baseUrl + "getInvitationCode";
     const defaultParams = defaultParmasAPI(params.currentpage, params.limit);

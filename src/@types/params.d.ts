@@ -16,3 +16,25 @@ interface IParamsUpdateInfo {
   user_studentid?: string;
   user_nameinroom?: string;
 }
+
+interface IParamsUpdateCourse {
+  course_id: string;
+  course_des?: string;
+  course_topic?: string;
+  course_code?: string;
+  course_name: string;
+}
+
+interface IParamsAddCourse {
+  nameclass: string;
+  codeclass?: string;
+  hostclass?: string;
+}
+
+interface IParamsDeleteCouse {
+  idclass: string | number;
+}
+
+interface IParamsLeaveCourse {
+  course_id?: string | number;
+}
