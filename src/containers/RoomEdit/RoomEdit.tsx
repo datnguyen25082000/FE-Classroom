@@ -7,12 +7,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router";
 import {
+  doGetStudentInvitationCode,
   useAppDispatch,
   useAppSelector,
   useFetchOneCourseQuery,
 } from "../../redux";
 import { useParams } from "react-router";
 import { Page404 } from "../../components/common";
+import { UserRole } from "../../constants/user-role";
 
 export const RoomEdit = () => {
   const history = useHistory();
@@ -20,6 +22,7 @@ export const RoomEdit = () => {
   const { classId } = useParams<{ classId: string }>();
   const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
   const { dataUser } = useAppSelector((state) => state.userSlice);
+  const { studentInvitationCode } = useAppSelector((state) => state.courseJoinSlice)
 
   const notify = () => {
     handleCopyClipBoard();
@@ -35,7 +38,7 @@ export const RoomEdit = () => {
 
   const handleCopyClipBoard = () => {
     const el = document.createElement("input");
-    el.value = "https://classroom.google.com/c/NDA1MTc3NzczMTM5?cjc=acciwyd";
+    el.value = `${window.origin}/classroom/join/${studentInvitationCode}`;
     document.body.appendChild(el);
     el.select();
     document.execCommand("copy");
@@ -45,6 +48,10 @@ export const RoomEdit = () => {
   const handleSaveChange = () => {
     handleReturn();
   };
+
+  useEffect(() => {
+    dispatch(doGetStudentInvitationCode({ courseId: classId, role: UserRole.Student }))    
+  }, [classId])
 
   if (
     !oneCourse ||
@@ -122,7 +129,7 @@ export const RoomEdit = () => {
               <span className="room-edit__item-title">Đường liên kết mời</span>
               <div className="room-edit__item-right">
                 <span>
-                  https://classroom.google.com/c/NDA1MTc3NzczMTM5?cjc=acciwyd
+                  {`${window.origin}/classroom/join/${studentInvitationCode}`}
                 </span>
                 <VscCopy
                   className="room-edit__icon"
@@ -135,7 +142,7 @@ export const RoomEdit = () => {
             <div className="room-edit__item">
               <span className="room-edit__item-title">Mã lớp học</span>
               <div className="room-edit__item-right">
-                <span>acciwyd</span>
+                <span>{classId}</span>
               </div>
             </div>
 

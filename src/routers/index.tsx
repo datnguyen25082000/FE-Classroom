@@ -8,6 +8,7 @@ import {
   ResetPass,
   Room,
   RoomEdit,
+  RoomJoin,
   RoomMember,
   RoomPractice,
   RoomScore,
@@ -38,6 +39,12 @@ export const Routers = () => {
           exact={true}
           path={"/classroom/:classId/newsfeed"}
           component={Room}
+          layout={BlankLayout}
+        />
+        <PrivateRouter
+          exact={true}
+          path={"/classroom/join/:invitationCode"}
+          component={RoomJoin}
           layout={BlankLayout}
         />
         <PrivateRouter
