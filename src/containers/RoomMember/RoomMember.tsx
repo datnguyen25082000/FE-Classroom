@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { HeaderRoom } from "../../components/common";
+import { HeaderRoom, Page404 } from "../../components/common";
 import {
   useAppDispatch,
   useAppSelector,
   doGetAllMembers,
   doInviteViaEmail,
+  doGetOneCourse,
+  useFetchOneCourseQuery,
 } from "../../redux";
 import { OffCanvas, CardStudent, ModalAddStudent } from "../../components";
 import "./RoomMember.scss";
@@ -17,11 +19,15 @@ export const RoomMember = () => {
   const { allMembers } = useAppSelector((state) => state.courseJoinSlice);
   const [teachers, setTeachers] = useState(new Array<IResMember>());
   const [students, setStudents] = useState(new Array<IResMember>());
-
   const { classId } = useParams<{ classId: string }>();
   const [showCanvas, setShowCanvas] = useState(false);
   const [show, setShow] = useState(false);
   const [isTeacherModal, setIsTeacherModal] = useState(false);
+  const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
+
+  const { user_id } = useAppSelector((state) => state.userSlice.dataUser);
+
+  const isHost = user_id === oneCourse?.course_hostid ? true : false;
 
   const handleClose = () => setShow(false);
 
@@ -32,7 +38,7 @@ export const RoomMember = () => {
 
   useEffect(() => {
     dispatch(doGetAllMembers({ courseId: classId }));
-  }, []);
+  }, [classId]);
 
   useEffect(() => {
     setTeachers(
@@ -54,9 +60,17 @@ export const RoomMember = () => {
     handleClose();
   };
 
+  if (!oneCourse || !oneCourse.course_id) {
+    return <Page404 />;
+  }
+
   return (
     <div className="room-member">
-      <HeaderRoom classId={classId} handleAction1={() => setShowCanvas(true)} />
+      <HeaderRoom
+        classId={classId}
+        handleAction1={() => setShowCanvas(true)}
+        className={oneCourse.course_name}
+      />
 
       <div className="room-member__container ">
         <div>
@@ -64,11 +78,13 @@ export const RoomMember = () => {
             <p className="room-member__title">Giáo viên</p>
             <div className="room-member__students--count">
               <span>{teachers.length} giáo viên</span>
-              <BsPersonPlus
-                className="room-member__students--icons"
-                size={25}
-                onClick={() => handleShow(true)}
-              />
+              {isHost && (
+                <BsPersonPlus
+                  className="room-member__students--icons"
+                  size={25}
+                  onClick={() => handleShow(true)}
+                />
+              )}
             </div>
           </div>
           <div className="room-member__list">
@@ -78,7 +94,10 @@ export const RoomMember = () => {
                   <CardStudent
                     key={i}
                     user_displayname={user.user_displayname}
+                    isMyAccount={user.user_id === user_id}
+                    avatar={user.user_avatar}
                     isTeacher={true}
+                    isHost={isHost}
                   />
                 );
               })
@@ -92,11 +111,13 @@ export const RoomMember = () => {
             <p className="room-member__title">Học viên</p>
             <div className="room-member__students--count">
               <span>{students.length} học viên</span>
-              <BsPersonPlus
-                className="room-member__students--icons"
-                size={25}
-                onClick={() => handleShow(false)}
-              />
+              {isHost && (
+                <BsPersonPlus
+                  className="room-member__students--icons"
+                  size={25}
+                  onClick={() => handleShow(false)}
+                />
+              )}
             </div>
           </div>
           <div className="room-member__list">
@@ -105,7 +126,11 @@ export const RoomMember = () => {
                 return (
                   <CardStudent
                     key={i}
-                    user_displayname={user.user_displayname}
+                    avatar={user.user_avatar}
+                    isMyAccount={user.user_id === user_id}
+                    user_displayname={user?.user_displayname}
+                    user_studentid={user?.user_studentid}
+                    isHost={isHost}
                   />
                 );
               })

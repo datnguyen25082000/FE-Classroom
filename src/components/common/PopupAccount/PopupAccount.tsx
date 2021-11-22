@@ -16,7 +16,7 @@ export const PopupAccount: React.FC<IModalCenter> = ({
 }) => {
   const history = useHistory();
   const ref = useRef<HTMLDivElement>(null);
-  const { user_username } = useAppSelector((state) => state.userSlice.dataUser);
+  // const { user_id } = useAppSelector((state) => state.userSlice.dataUser);
 
   useEffect(() => {
     if (show) {
@@ -36,7 +36,7 @@ export const PopupAccount: React.FC<IModalCenter> = ({
   }, [ref, show, document]);
 
   const handleRedirectProfile = () => {
-    history.push(`/profile/${user_username}`);
+    history.push(`/edit-profile`);
     if (setShow) setShow(false);
   };
 

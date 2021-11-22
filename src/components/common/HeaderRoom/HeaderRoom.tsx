@@ -3,7 +3,7 @@ import "./HeaderRoom.scss";
 import { AiFillSetting } from "react-icons/ai";
 import { GoThreeBars } from "react-icons/go";
 import { Avatar, PopupAccount } from "../../common";
-import { useAppSelector } from "../../../redux";
+import { useAppSelector, useFetchOneCourseQuery } from "../../../redux";
 import { IDefaultAvatar } from "../../../constants/images";
 import { useLocation, useHistory } from "react-router";
 
@@ -15,12 +15,16 @@ export const HeaderRoom: React.FC<IHeader> = ({
   classId,
   className,
 }) => {
-  const { user_thumbnail } = useAppSelector(
+  const { user_avatar, user_id } = useAppSelector(
     (state) => state.userSlice.dataUser
   );
+  const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
+
   const location = useLocation();
   const history = useHistory();
   const [show, setShow] = useState(false);
+
+  const isHost = user_id === oneCourse?.course_hostid ? true : false;
 
   return (
     <>
@@ -78,6 +82,7 @@ export const HeaderRoom: React.FC<IHeader> = ({
                 : ""
             }`}
             onClick={() => history.push(`/classroom/${classId}/score`)}
+            style={{ display: isHost ? "" : "none" }}
           >
             Số điểm
           </p>
@@ -87,12 +92,13 @@ export const HeaderRoom: React.FC<IHeader> = ({
           <div
             className="header-room__i header-room__i-plus"
             onClick={() => history.push(`/classroom/${classId}/edit`)}
+            style={{ display: isHost ? "" : "none" }}
           >
             <AiFillSetting size={25} />
           </div>
 
           <Avatar
-            image={user_thumbnail || IDefaultAvatar}
+            image={user_avatar || IDefaultAvatar}
             onClick={(e: any) => {
               e.stopPropagation();
               setShow(!show);

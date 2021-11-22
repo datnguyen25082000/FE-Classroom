@@ -7,6 +7,7 @@ import { useHistory } from "react-router";
 import { AiFillSetting } from "react-icons/ai";
 import { VscReport } from "react-icons/vsc";
 import "./OffCanvas.scss";
+import { AiOutlineHome } from "react-icons/ai";
 
 export const OffCanvas: React.FC<IModalAddCourse> = ({
   show,
@@ -40,8 +41,9 @@ export const OffCanvas: React.FC<IModalAddCourse> = ({
   }, []);
 
   const handleClickClass = (classId: number) => {
-    history.push(`/classroom/${classId}/newsfeed`)
-  }
+    history.push(`/classroom/${classId}/newsfeed`);
+    setShow(false);
+  };
   return (
     <Offcanvas show={show} onHide={handleClose} backdropClassName="off-canvas">
       <Offcanvas.Header closeButton>
@@ -50,7 +52,8 @@ export const OffCanvas: React.FC<IModalAddCourse> = ({
             className="off-canvas__app-name"
             onClick={() => history.push("/")}
           >
-            NTD Classroom
+            <AiOutlineHome size={30} color="#0093e9" />
+            <span> NTD Classroom</span>
           </span>
         </Offcanvas.Title>
       </Offcanvas.Header>
@@ -63,7 +66,7 @@ export const OffCanvas: React.FC<IModalAddCourse> = ({
                 return (
                   <div className="off-canvas__item" key={i}>
                     <Avatar
-                      image={dataUser.user_thumbnail || IDefaultAvatar}
+                      image={dataUser?.user_avatar || IDefaultAvatar}
                     ></Avatar>
                     <span>Lớp Kỹ năng mềm</span>
                   </div>

@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { HeaderRoom } from "../../components/common";
+import { HeaderRoom, Page404 } from "../../components/common";
 import { OffCanvas, CardPost, InputPost } from "../../components";
 import { IDefaultClass } from "../../constants/images";
 import { Row, Col } from "react-bootstrap";
-import { useAppDispatch, useAppSelector, doGetOneCourse } from "../../redux";
+import {
+  useAppDispatch,
+  useAppSelector,
+  doGetOneCourse,
+  useFetchOneCourseQuery,
+} from "../../redux";
 import "./Room.scss";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { VscCopy } from "react-icons/vsc";
+import { transformDateFormat } from "../../helpers/time";
 
 export const Room = () => {
   const dispatch = useAppDispatch();
   const { classId } = useParams<{ classId: string }>();
   const [showCanvas, setShowCanvas] = useState(false);
-  const { oneCourse } = useAppSelector((state) => state.courseSlice);
-
-  useEffect(() => {
-    dispatch(doGetOneCourse({ courseId: classId }));
-  }, []);
+  const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
 
   const notify = () => {
     handleCopyClipBoard();
@@ -37,12 +39,16 @@ export const Room = () => {
     document.body.removeChild(el);
   };
 
+  if (!oneCourse || !oneCourse.course_id) {
+    return <Page404 />;
+  }
+
   return (
     <div className="room">
       <HeaderRoom
         classId={classId}
         handleAction1={() => setShowCanvas(true)}
-        className={oneCourse.course_name}
+        className={oneCourse?.course_name}
       />
 
       <div className="room__container">
@@ -51,8 +57,10 @@ export const Room = () => {
           style={{ backgroundImage: `url(${IDefaultClass})` }}
         >
           <div className="room__background-content">
-            <p>{oneCourse.course_name}</p>
-            <span>PTUDWNC</span>
+            <p>{oneCourse?.course_name}</p>
+            <span>
+              Ngày tạo: {transformDateFormat(oneCourse?.course_createdate || '')}
+            </span>
           </div>
         </div>
 

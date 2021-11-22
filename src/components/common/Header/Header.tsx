@@ -13,7 +13,7 @@ export const Header: React.FC<IHeader> = ({
   handleAction3,
   handleAction4,
 }) => {
-  const { user_thumbnail } = useAppSelector(
+  const { user_avatar } = useAppSelector(
     (state) => state.userSlice.dataUser
   );
   const [show, setShow] = useState(false);
@@ -36,7 +36,7 @@ export const Header: React.FC<IHeader> = ({
           </div>
 
           <Avatar
-            image={user_thumbnail || IDefaultAvatar}
+            image={user_avatar || IDefaultAvatar}
             onClick={(e: any) => {
               e.stopPropagation();
               setShow(!show);

@@ -9,25 +9,38 @@ export const UpdateAvatar: React.FC<IUpdateAvatar> = ({
   isEditProfile,
   className,
   onClick,
+  onClickAvatar,
 }) => {
   return (
     <div className={`updateAvatar ${className}`}>
       {!avatarImg ? (
         isEditProfile ? (
           <Fragment>
-            <Avatar className="updateAvatar__ava" />
+            <Avatar
+              className="updateAvatar__ava"
+              image={avatarImg || IDefaultAvatar}
+              onClick={onClickAvatar}
+            />
             <div className="updateAvatar__empty">
-              <span className="updateAvatar__text">Logo công ty</span>
+              <span className="updateAvatar__text">Ảnh đại diện</span>
             </div>
           </Fragment>
         ) : (
           <Fragment>
-            <Avatar className="updateAvatar__ava" />
+            <Avatar
+              className="updateAvatar__ava"
+              image={avatarImg || IDefaultAvatar}
+              onClick={onClickAvatar}
+            />
             <div className="updateAvatar__emptyDetail"></div>
           </Fragment>
         )
       ) : (
-        <Avatar className="updateAvatar__ava" image={avatarImg} />
+        <Avatar
+          className="updateAvatar__ava"
+          onClick={onClickAvatar}
+          image={avatarImg || IDefaultAvatar}
+        />
       )}
 
       <div className="updateAvatar__editAvatarImage" onClick={onClick}>

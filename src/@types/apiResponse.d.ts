@@ -34,10 +34,14 @@ interface IResCourse {
 
 interface IResUser {
   user_username?: string;
-  user_thumbnail?: string;
+  user_avatar?: string;
   user_displayname?: string;
   user_phone?: string;
   user_email?: string;
+  user_id?: number;
+  user_address?: string;
+  user_studentid?: string;
+  user_nameinroom?: string;
 }
 
 interface IResGetCurrentUser {
@@ -51,9 +55,10 @@ interface IResGetCurrentUser {
 interface IResMember {
   user_id: int;
   user_username?: string;
-  user_thumbnail?: string;
+  user_avatar?: string;
   user_displayname?: string;
   user_phone?: string;
   user_email?: string;
   user_role: number;
+  user_studentid?: string;
 }
