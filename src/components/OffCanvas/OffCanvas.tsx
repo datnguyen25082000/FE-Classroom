@@ -80,7 +80,7 @@ export const OffCanvas: React.FC<IModalAddCourse> = ({
           </div>
         </div>
         <div className="off-canvas__container">
-          <div className="off-canvas__title">Lớp đang giảng dạy</div>
+          <div className="off-canvas__title">Lớp đang tổ chức</div>
           <div className="off-canvas__list">
             {listClass &&
               listClass.map((item: any, i: any) => {

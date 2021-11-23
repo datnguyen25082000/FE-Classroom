@@ -14,7 +14,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { EToken } from "../../constants";
 import { SvgLogin } from "../../constants/images";
 import { useHistory } from "react-router";
-import FacebookLogin from 'react-facebook-login'
+import FacebookLogin from "react-facebook-login";
 
 export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
   const dispatch = useAppDispatch();
@@ -77,15 +77,22 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
   };
 
   const responseFacebook = (res: any) => {
-    const accessToken = res.accessToken
+    const accessToken = res.accessToken;
     if (accessToken) {
-      window.localStorage.setItem(EToken.loginToken, accessToken)
-      window.location.replace("/");
+      window.localStorage.setItem(EToken.loginToken, accessToken);
+      if (
+        document.referrer &&
+        document.referrer.includes(window.location.origin)
+      )
+        window.location.replace(document.referrer);
+      else {
+        window.location.replace("/");
+      }
     } else {
       setMessage("Đăng nhập thất bại");
       setShowModal(true);
     }
-  }
+  };
 
   return (
     <div className="login-container">
@@ -171,13 +178,14 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                   </Button>
                 </span>
                 <FacebookLogin
-                  appId='1102985417137686'
+                  appId="1102985417137686"
                   fields="name,email,picture"
                   scope="public_profile,user_friends"
                   callback={responseFacebook}
                   textButton=" Đăng nhập bằng Facebook"
                   cssClass="login-modal__btn btn btn-primary"
-                  icon={<MdFacebook size={25} />} />
+                  icon={<MdFacebook size={25} />}
+                />
               </div>
             </div>,
             <div className="login-modal__register">
