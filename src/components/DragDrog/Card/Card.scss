@@ -1,0 +1,24 @@
+.dd-card {
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+
+  &__groupBtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  p {
+    margin-bottom: 0;
+    font-size: 18px;
+  }
+
+  &__value {
+    margin-top: 5px;
+  }
+}

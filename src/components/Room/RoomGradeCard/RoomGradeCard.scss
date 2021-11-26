@@ -1,0 +1,11 @@
+.room-grade-card {
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+
+  &__left {
+    flex: 1;
+  }
+}

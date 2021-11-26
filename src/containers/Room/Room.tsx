@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { HeaderRoom, Page404 } from "../../components/common";
-import { OffCanvas, CardPost, InputPost } from "../../components";
+import {
+  OffCanvas,
+  CardPost,
+  InputPost,
+  RoomGradeCard,
+} from "../../components";
 import { IDefaultClass } from "../../constants/images";
 import { Row, Col } from "react-bootstrap";
 import {
@@ -14,7 +19,6 @@ import "./Room.scss";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { VscCopy } from "react-icons/vsc";
-import { transformDateFormat } from "../../helpers/time";
 
 export const Room = () => {
   const dispatch = useAppDispatch();
@@ -75,10 +79,13 @@ export const Room = () => {
                 />
               </span>
             </div>
+
             <div className="room__card room__deadline">
               <p>Sắp đến hạn</p>
               <span>Tuyệt vời, không có bài tập nào sắp đến hạn!</span>
             </div>
+
+            <RoomGradeCard roomId={classId} />
           </Col>
           <Col className="room__col--2" md={9}>
             <InputPost />
