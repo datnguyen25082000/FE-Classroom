@@ -7,3 +7,5 @@ export * from "./CardStudent/CardStudent";
 export * from "./Profile";
 export * from "./ModalAddStudent/ModalAddStudent";
 export * from "./ModalConfirm/ModalConfirm";
+export * from "./DragDrog";
+export * from "./Room";

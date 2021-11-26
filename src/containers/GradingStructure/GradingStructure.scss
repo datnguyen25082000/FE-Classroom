@@ -1,0 +1,60 @@
+.grading-structure {
+  max-width: 800px;
+  margin: auto;
+  padding: 100px 20px 50px;
+
+  &__header {
+    margin-bottom: 30px;
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    border-top: 5px solid rgb(0, 140, 255);
+    position: relative;
+    z-index: 10;
+
+    h1 {
+      font-size: 30px;
+      font-weight: 500;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  &__button {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+  }
+
+  &__add-card {
+    visibility: hidden;
+    position: relative;
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+
+    &--show {
+      display: block;
+      visibility: visible;
+      opacity: 1;
+      height: auto;
+    }
+  }
+
+  &__add-title {
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  &__add-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px;
+  }
+}

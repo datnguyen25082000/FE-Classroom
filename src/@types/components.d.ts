@@ -101,3 +101,24 @@ interface IModalAddStudent {
   title?: string;
   buttonAction?: string;
 }
+
+interface ContainerState {
+  cards: any[];
+}
+
+interface ICardInRoom {
+  title?: string;
+  popover?: any;
+  handleClickMore?: any;
+}
+
+interface IRoomGradeCard {
+  roomId: string;
+}
+
+interface IDDContainer {
+  ITEMS: Array<{
+    id: number;
+    text: string;
+  }>;
+}

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch } from "react-router-dom";
 import {
   EditProfile,
   ForgotPass,
+  GradingStructure,
   Home,
   Login,
   ResetPass,
@@ -94,6 +95,12 @@ export const Routers = () => {
           path={"/reset-password"}
           component={ResetPass}
           layout={FullLayout}
+        />
+        <PrivateRouter
+          exact={true}
+          path={"/classroom/:classId/grading-structure"}
+          component={GradingStructure}
+          layout={BlankLayout}
         />
       </Switch>
     </Router>

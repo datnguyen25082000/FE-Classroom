@@ -77,7 +77,9 @@ export const HeaderRoom: React.FC<IHeader> = ({
           </p>
           <p
             className={`header-room__item ${
-              location.pathname && location.pathname.match(/classroom[^]*score/)
+              (location.pathname &&
+                location.pathname.match(/classroom[^]*score/)) ||
+              location.pathname.match(/classroom[^]*grading-structure/)
                 ? "header-room__item--active"
                 : ""
             }`}
