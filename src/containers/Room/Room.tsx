@@ -14,6 +14,7 @@ import {
   useAppSelector,
   doGetOneCourse,
   useFetchOneCourseQuery,
+  doGetAllAssignByCourse,
 } from "../../redux";
 import "./Room.scss";
 import { ToastContainer, toast } from "react-toastify";
@@ -25,6 +26,10 @@ export const Room = () => {
   const { classId } = useParams<{ classId: string }>();
   const [showCanvas, setShowCanvas] = useState(false);
   const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
+  const { listAssign } = useAppSelector((state) => state.assignCateSlice);
+  const { user_id } = useAppSelector((state) => state.userSlice.dataUser);
+
+  const isHost = user_id === oneCourse?.course_hostid ? true : false;
 
   const notify = () => {
     handleCopyClipBoard();
@@ -42,6 +47,10 @@ export const Room = () => {
     document.execCommand("copy");
     document.body.removeChild(el);
   };
+
+  useEffect(() => {
+    dispatch(doGetAllAssignByCourse({ course_id: classId }));
+  }, []);
 
   if (!oneCourse || !oneCourse.course_id) {
     return <Page404 />;
@@ -85,7 +94,7 @@ export const Room = () => {
               <span>Tuyệt vời, không có bài tập nào sắp đến hạn!</span>
             </div>
 
-            <RoomGradeCard roomId={classId} />
+            <RoomGradeCard roomId={classId} listAssign={listAssign} isHost={isHost} />
           </Col>
           <Col className="room__col--2" md={9}>
             <InputPost />

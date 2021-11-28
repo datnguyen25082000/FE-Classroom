@@ -7,6 +7,8 @@ import {
   useAppSelector,
   useAppDispatch,
   useFetchOneCourseQuery,
+  doGetAllAssignByCourse,
+  doAddAssignmentCategory,
 } from "../../redux";
 import { useParams } from "react-router";
 import "./GradingStructure.scss";
@@ -40,25 +42,41 @@ const ITEMS = [
 ];
 
 export const GradingStructure = () => {
+  const dispatch = useAppDispatch();
   const { classId } = useParams<{ classId: string }>();
   const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
+  const { listAssign } = useAppSelector((state) => state.assignCateSlice);
+
   const [showCanvas, setShowCanvas] = useState(false);
   const [showAddCard, setShowAddCard] = useState(false);
 
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     formState: { errors },
   } = useForm();
 
   useEffect(() => {
     window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+
+    dispatch(doGetAllAssignByCourse({ course_id: classId }));
   }, []);
 
   const onSubmit = (data: any) => {
+    const { name, point } = data;
+
+    dispatch(
+      doAddAssignmentCategory({
+        name,
+        point: parseInt(point),
+        course_id: parseInt(classId),
+      })
+    );
     setShowAddCard(false);
     notify();
+    reset({ name: "", point: null });
   };
 
   const notify = () => {
@@ -102,11 +120,11 @@ export const GradingStructure = () => {
             type="text"
             placeholder=""
             style={{ marginTop: 15 }}
-            {...register("col_name", {
+            {...register("name", {
               required: "Vui lòng nhập cột điểm",
               maxLength: 40,
             })}
-            isInvalid={!!errors.col_name}
+            isInvalid={!!errors.name}
           />
         </FloatingLabel>
         <FloatingLabel
@@ -117,28 +135,50 @@ export const GradingStructure = () => {
           <Form.Control
             type="number"
             placeholder=""
-            {...register("col_value", {
+            {...register("point", {
               required: "Vui lòng nhập số điểm",
               maxLength: 40,
             })}
-            isInvalid={!!errors.col_value}
+            isInvalid={!!errors.point}
           />
         </FloatingLabel>
+        <Button
+          variant="outline-dark"
+          style={{ marginRight: 10 }}
+          onClick={() => setShowAddCard(false)}
+        >
+          Hủy
+        </Button>
         <Button variant="outline-primary" onClick={handleSubmit(onSubmit)}>
           Thêm mới
         </Button>
       </div>
 
-      <DndProvider backend={HTML5Backend}>
-        <DDContainer ITEMS={ITEMS} />
-      </DndProvider>
-
-      {/* <div className="grading-structure__add-button">
-        <AiOutlinePlusCircle
-          size={35}
-          onClick={() => setShowAddCard(!showAddCard)}
-        />
-      </div> */}
+      {listAssign && listAssign.length ? (
+        <DndProvider backend={HTML5Backend}>
+          <DDContainer
+            ITEMS={listAssign.map((item) => {
+              return {
+                id: item.id,
+                text: item.name,
+                value: item.point,
+              };
+            })}
+          />
+        </DndProvider>
+      ) : (
+        <p
+          style={{
+            fontSize: 30,
+            fontWeight: "400",
+            fontStyle: "italic",
+            textAlign: "center",
+            marginTop: 30,
+          }}
+        >
+          Chưa có cột điểm. Vui lòng thêm mới
+        </p>
+      )}
 
       <OffCanvas
         show={showCanvas}

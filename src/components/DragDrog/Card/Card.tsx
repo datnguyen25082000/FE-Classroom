@@ -1,9 +1,15 @@
-import { CSSProperties, FC, memo, useState } from "react";
+import { FC, memo, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { FloatingLabel, Form, Button } from "react-bootstrap";
 import "./Card.scss";
 import { useForm } from "react-hook-form";
 import { ModalConfirm } from "../../";
+import {
+  useAppDispatch,
+  doUpdateAssignmentCategory,
+  doDeleteAssignmentCategory,
+  doFakeDeleteAssign,
+} from "../../../redux";
 
 export interface CardProps {
   id: string;
@@ -25,6 +31,7 @@ export const Card: FC<CardProps> = memo(function Card({
   moveCard,
   findCard,
 }) {
+  const dispatch = useAppDispatch();
   const originalIndex = findCard(id).index;
 
   const [{ isDragging }, drag] = useDrag(
@@ -73,6 +80,14 @@ export const Card: FC<CardProps> = memo(function Card({
   } = useForm();
 
   const onSubmit = (data: any) => {
+    const { name, point } = data;
+    dispatch(
+      doUpdateAssignmentCategory({
+        newName: name,
+        newPoint: parseInt(point),
+        assignmentCategoryId: parseInt(id),
+      })
+    );
     setShowAddCard(false);
   };
 
@@ -84,7 +99,14 @@ export const Card: FC<CardProps> = memo(function Card({
     setShowModalConfirm(true);
   };
 
-  const handleDeleteItem = () => {};
+  const handleDeleteItem = () => {
+    dispatch(
+      doDeleteAssignmentCategory({ assignmentCategoryId: parseInt(id) })
+    );
+
+    dispatch(doFakeDeleteAssign({ id: parseInt(id) }));
+    setShowModalConfirm(false);
+  };
 
   return (
     <div
@@ -121,11 +143,11 @@ export const Card: FC<CardProps> = memo(function Card({
               defaultValue={text}
               style={{ marginTop: 40 }}
               placeholder=""
-              {...register("col_name", {
+              {...register("name", {
                 required: "Vui lòng nhập cột điểm",
                 maxLength: 40,
               })}
-              isInvalid={!!errors.col_name}
+              isInvalid={!!errors.name}
             />
           </FloatingLabel>
           <FloatingLabel
@@ -137,11 +159,11 @@ export const Card: FC<CardProps> = memo(function Card({
               type="number"
               defaultValue={value}
               placeholder=""
-              {...register("col_value", {
+              {...register("point", {
                 required: "Vui lòng nhập số điểm",
                 maxLength: 40,
               })}
-              isInvalid={!!errors.col_value}
+              isInvalid={!!errors.point}
             />
           </FloatingLabel>
           <Button variant="outline-primary" onClick={handleSubmit(onSubmit)}>

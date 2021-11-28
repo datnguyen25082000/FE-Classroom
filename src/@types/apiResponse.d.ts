@@ -64,3 +64,9 @@ interface IResMember {
   user_role: number;
   user_studentid?: string;
 }
+
+interface IResAddAssignCate {
+  result: number;
+  message: string;
+  content: IItemAssignCate;
+}

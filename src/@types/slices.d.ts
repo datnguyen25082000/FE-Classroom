@@ -25,3 +25,17 @@ interface ISliceCourseJoin {
   isLoading: boolean;
   error: any;
 }
+
+interface ISliceAssignCate {
+  listAssign: Array<IItemAssignCate>;
+  isLoading: boolean;
+  error: any;
+}
+
+interface IItemAssignCate {
+  id: number;
+  point: number;
+  name: string;
+  position: number;
+  course_id: number;
+}

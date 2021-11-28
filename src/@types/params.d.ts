@@ -38,3 +38,30 @@ interface IParamsDeleteCouse {
 interface IParamsLeaveCourse {
   course_id?: string | number;
 }
+
+interface IParamsGetAllAssignByCourse {
+  course_id: string | number;
+}
+
+interface IParamsAddAssignmentCategory {
+  name: string;
+  point: number;
+  course_id: number | string;
+}
+
+interface IParamsUpdateAssignmentCategory {
+  assignmentCategoryId: number | string;
+  newName: string;
+  newPoint: number;
+}
+
+interface IParamsDeleteAssignmentCategory {
+  assignmentCategoryId: number;
+}
+
+interface IParamsUpdatePositionAssignCate {
+  assignmentCategories: Array<{
+    id: number;
+    position: number;
+  }>;
+}
