@@ -110,10 +110,13 @@ interface ICardInRoom {
   title?: string;
   popover?: any;
   handleClickMore?: any;
+  isHost: boolean;
 }
 
 interface IRoomGradeCard {
   roomId: string;
+  listAssign?: Array<IItemAssignCate>;
+  isHost: boolean;
 }
 
 interface IDDContainer {

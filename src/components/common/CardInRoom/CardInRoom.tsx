@@ -8,21 +8,26 @@ export const CardInRoom: React.FC<ICardInRoom> = ({
   children,
   handleClickMore,
   popover,
+  isHost,
 }) => {
   return (
     <div className="card-in-room">
       <div className="card-in-room__header">
         <p className="card-in-room__title">{title}</p>
-        <div className="card-in-room__icon">
-          <OverlayTrigger
-            trigger="click"
-            placement="bottom"
-            overlay={popover}
-            rootClose
-          >
-            <div onClick={handleClickMore}>{<FiMoreVertical size={20} />}</div>
-          </OverlayTrigger>
-        </div>
+        {isHost && (
+          <div className="card-in-room__icon">
+            <OverlayTrigger
+              trigger="click"
+              placement="bottom"
+              overlay={popover}
+              rootClose
+            >
+              <div onClick={handleClickMore}>
+                {<FiMoreVertical size={20} />}
+              </div>
+            </OverlayTrigger>
+          </div>
+        )}
       </div>
       {children}
     </div>
