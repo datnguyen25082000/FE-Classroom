@@ -1,0 +1,36 @@
+.table {
+  display: block;
+  // max-width: 1200px;
+  overflow-y: auto;
+  margin: auto;
+
+  .pagination {
+    button {
+      border-radius: 10px;
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  &__fimore {
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 3px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

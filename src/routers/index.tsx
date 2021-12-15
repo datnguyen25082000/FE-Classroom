@@ -64,7 +64,7 @@ export const Routers = () => {
           exact={true}
           path={"/classroom/:classId/score"}
           component={RoomScore}
-          layout={BlankLayout}
+          layout={FullLayout}
         />
         <PrivateRouter
           exact={true}
