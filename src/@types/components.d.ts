@@ -125,3 +125,11 @@ interface IDDContainer {
     text: string;
   }>;
 }
+
+interface ITable {
+  columns: any;
+  data: any;
+  updateMyData: any;
+  skipPageReset: any;
+  updateStatusStudent: any;
+}
