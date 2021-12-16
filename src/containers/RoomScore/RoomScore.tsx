@@ -16,7 +16,8 @@ import { useHistory } from "react-router-dom";
 
 export const RoomScore = () => {
   const dispatch = useAppDispatch();
-  const refInput = useRef<any>(null);
+  const refInputScoreList = useRef<any>(null);
+  const refInputStudentList = useRef<any>(null);
   const history = useHistory();
   const { classId } = useParams<{ classId: string }>();
   const [showCanvas, setShowCanvas] = useState(false);
@@ -30,6 +31,7 @@ export const RoomScore = () => {
   useEffect(() => {
     dispatch(doGetAllAssignByCourse({ course_id: classId }));
   }, [classId]);
+
 
   // data export template data
   const header1 = [
@@ -153,11 +155,26 @@ export const RoomScore = () => {
 
   const handleExportData = () => {};
 
-  const handleImportData = () => {
-    if (refInput) {
-      refInput.current.click();
-    }
+  const handleScoreListUploaded = (e: any) => {
+    const file = e.target.files[0]
+    
   };
+
+  const handleStudentListUploaded = (e: any) => {
+    const file = e.target.files[0]
+  }
+
+  const handleStudentListImportClicked = () => {
+    if (refInputStudentList) {
+      refInputStudentList.current.click()
+    }
+  }
+
+  const handleScoreListImportClicked = () => {
+    if (refInputScoreList) {
+      refInputScoreList.current.click()
+    }
+  }
 
   if (!oneCourse || !oneCourse.course_id) {
     return <Page404 />;
@@ -175,10 +192,16 @@ export const RoomScore = () => {
         <input
           type="file"
           style={{ display: "none" }}
-          ref={refInput}
-          name="file"
-          id="file"
-          accept=".csv"
+          ref={refInputScoreList}
+          accept=".csv,.xlsx"
+          onChange={e => handleScoreListUploaded(e)}
+        />
+        <input
+          type="file"
+          style={{ display: "none" }}
+          ref={refInputStudentList}
+          accept=".csv,.xlsx"
+          onChange={e => handleStudentListUploaded(e)}
         />
 
         <div
@@ -243,14 +266,14 @@ export const RoomScore = () => {
           <Button
             className="room-score__button"
             variant="outline-dark"
-            onClick={handleImportData}
+            onClick={handleStudentListImportClicked}
           >
             Nhập dữ liệu danh sách học viên(csv)
           </Button>
           <Button
             className="room-score__button"
             variant="outline-dark"
-            onClick={handleImportData}
+            onClick={handleScoreListImportClicked}
           >
             Nhập dữ liệu danh sách điểm(csv)
           </Button>
