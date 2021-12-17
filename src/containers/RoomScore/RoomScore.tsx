@@ -13,6 +13,7 @@ import { Button } from "react-bootstrap";
 import { makeData } from "./MakeData";
 import { CSVLink } from "react-csv";
 import { useHistory } from "react-router-dom";
+import xlsx from "xlsx";
 
 export const RoomScore = () => {
   const dispatch = useAppDispatch();
@@ -34,10 +35,15 @@ export const RoomScore = () => {
 
 
   // data export template data
-  const header1 = [
-    { label: "Họ và tên", key: "fullname" },
-    { label: "Mã số học viên", key: "studentid" },
+  const studentListHeader = [
+    { label: "Mã số sinh viên", key: "studentId" },
+    { label: "Họ và tên", key: "fullName" },
   ];
+
+  const scoreListHeader = [
+    { label: "Mã số sinh viên", key: "studentId" },
+    { label: "Điểm", key: "score" }
+  ]
 
   // data export template grade
   const header2 = useMemo(() => {
@@ -149,19 +155,77 @@ export const RoomScore = () => {
     console.log("haha", rowIndex);
   };
 
-  const handleExportTemplateData = () => {};
+  const handleExportTemplateData = () => { };
 
-  const handleExportTemplateScore = () => {};
+  const handleExportTemplateScore = () => { };
 
-  const handleExportData = () => {};
+  const handleExportData = () => { };
 
-  const handleScoreListUploaded = (e: any) => {
-    const file = e.target.files[0]
-    
+  const handleScoreListUploaded = async (e: any) => {
+    const file: File = e.target.files[0]
+
+    if (file) {
+      const content = await getContentFromExcelFile(file)
+
+      // Remove first row which is header
+      content.shift()
+
+      const studentScores: Array<{ studentId: string, score: number }> = []
+
+      for (const element of content) {
+        if (element.length !== 2) {
+          // thông báo file không đúng template
+          return;
+        }
+
+        studentScores.push({
+          studentId: element[0],
+          score: element[1]
+        })
+      }
+
+      console.log("studentScores: ", studentScores);
+    }
   };
 
-  const handleStudentListUploaded = (e: any) => {
-    const file = e.target.files[0]
+  const handleStudentListUploaded = async (e: any) => {
+    const file: File = e.target.files[0]
+
+    if (file) {
+      const content = await getContentFromExcelFile(file)
+
+      // Remove first row which is header
+      content.shift()
+
+      const students: Array<{ studentId: string, fullName: string }> = []
+
+      for (const element of content) {
+        if (element.length !== 2) {
+          // thông báo file không đúng template
+          return;
+        }
+
+        students.push({
+          studentId: element[0],
+          fullName: element[1]
+        })
+      }
+
+      console.log("students: ", students);
+
+    }
+  }
+
+  const getContentFromExcelFile = async (file: File) => {
+    const data = await file.arrayBuffer()
+
+    const wb = xlsx.read(data);
+    const wsname = wb.SheetNames[0];
+    const ws = wb.Sheets[wsname];
+
+    const content: Array<Array<any>> = xlsx.utils.sheet_to_json(ws, { header: 1 });
+
+    return content
   }
 
   const handleStudentListImportClicked = () => {
@@ -238,8 +302,8 @@ export const RoomScore = () => {
         >
           <CSVLink
             data={[]}
-            headers={header1}
-            filename={"classroom-template-data.csv"}
+            headers={studentListHeader}
+            filename={"student-list-template.csv"}
           >
             <Button
               className="room-score__button"
@@ -251,8 +315,8 @@ export const RoomScore = () => {
           </CSVLink>
           <CSVLink
             data={[]}
-            headers={header2}
-            filename={"classroom-template-grade.csv"}
+            headers={scoreListHeader}
+            filename={"score-list-template.csv"}
           >
             <Button
               className="room-score__button"
