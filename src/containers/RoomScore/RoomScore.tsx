@@ -13,10 +13,12 @@ import { Button } from "react-bootstrap";
 import { makeData } from "./MakeData";
 import { CSVLink } from "react-csv";
 import { useHistory } from "react-router-dom";
+import xlsx from "xlsx";
 
 export const RoomScore = () => {
   const dispatch = useAppDispatch();
-  const refInput = useRef<any>(null);
+  const refInputScoreList = useRef<any>(null);
+  const refInputStudentList = useRef<any>(null);
   const history = useHistory();
   const { classId } = useParams<{ classId: string }>();
   const [showCanvas, setShowCanvas] = useState(false);
@@ -33,11 +35,17 @@ export const RoomScore = () => {
     dispatch(doGetAllAssignByCourse({ course_id: classId }));
   }, [classId]);
 
+
   // data export template data
-  const header1 = [
-    { label: "Họ và tên", key: "fullname" },
-    { label: "Mã số học viên", key: "studentid" },
+  const studentListHeader = [
+    { label: "Mã số sinh viên", key: "studentId" },
+    { label: "Họ và tên", key: "fullName" },
   ];
+
+  const scoreListHeader = [
+    { label: "Mã số sinh viên", key: "studentId" },
+    { label: "Điểm", key: "score" }
+  ]
 
   // data export template grade
   const header2 = useMemo(() => {
@@ -153,35 +161,90 @@ export const RoomScore = () => {
     console.log("haha", rowIndex);
   };
 
-  // handle export/ import
-  const handleExportTemplateData = () => {};
+  const handleExportTemplateData = () => { };
 
-  const handleExportTemplateScore = () => {};
+  const handleExportTemplateScore = () => { };
 
-  const handleExportData = () => {};
+  const handleExportData = () => { };
 
-  const handleImportData = () => {
-    if (refInput) {
-      refInput.current.click();
+  const handleScoreListUploaded = async (e: any) => {
+    const file: File = e.target.files[0]
+
+    if (file) {
+      const content = await getContentFromExcelFile(file)
+
+      // Remove first row which is header
+      content.shift()
+
+      const studentScores: Array<{ studentId: string, point: number }> = []
+
+      for (const element of content) {
+        if (element.length !== 2) {
+          // thông báo file không đúng template
+          return;
+        }
+
+        studentScores.push({
+          studentId: element[0],
+          point: element[1]
+        })
+      }
+
+      console.log("studentScores: ", studentScores);
     }
   };
 
-  // import each column
-  const handleImportColumn = (column: any) => {
-    setColFocus(column.colId);
-    setTypeOfImport("ColImport");
-    refInput.current.click();
-  };
+  const handleStudentListUploaded = async (e: any) => {
+    const file: File = e.target.files[0]
 
-  // handle change input file
-  const handleChangeInput = (e: any) => {
-    const file = e.target.files[0];
-    console.log("file", file);
+    if (file) {
+      const content = await getContentFromExcelFile(file)
 
-    if (typeOfImport === "ColImport") {
-      //api with colFocus: idcol
+      // Remove first row which is header
+      content.shift()
+
+      const students: Array<{ student_id: string, full_name: string }> = []
+
+      for (const element of content) {
+        if (element.length !== 2) {
+          // thông báo file không đúng template
+          return;
+        }
+
+        students.push({
+          student_id: element[0],
+          full_name: element[1]
+        })
+      }
+
+      console.log("students: ", students);
+
     }
-  };
+  }
+
+  const getContentFromExcelFile = async (file: File) => {
+    const data = await file.arrayBuffer()
+
+    const wb = xlsx.read(data);
+    const wsname = wb.SheetNames[0];
+    const ws = wb.Sheets[wsname];
+
+    const content: Array<Array<any>> = xlsx.utils.sheet_to_json(ws, { header: 1 });
+
+    return content
+  }
+
+  const handleStudentListImportClicked = () => {
+    if (refInputStudentList) {
+      refInputStudentList.current.click()
+    }
+  }
+
+  const handleScoreListImportClicked = () => {
+    if (refInputScoreList) {
+      refInputScoreList.current.click()
+    }
+  }
 
   if (!oneCourse || !oneCourse.course_id) {
     return <Page404 />;
@@ -199,11 +262,16 @@ export const RoomScore = () => {
         <input
           type="file"
           style={{ display: "none" }}
-          ref={refInput}
-          onChange={handleChangeInput}
-          name="file"
-          id="file"
-          accept=".csv"
+          ref={refInputScoreList}
+          accept=".csv,.xlsx"
+          onChange={e => handleScoreListUploaded(e)}
+        />
+        <input
+          type="file"
+          style={{ display: "none" }}
+          ref={refInputStudentList}
+          accept=".csv,.xlsx"
+          onChange={e => handleStudentListUploaded(e)}
         />
 
         <div
@@ -240,8 +308,8 @@ export const RoomScore = () => {
         >
           <CSVLink
             data={[]}
-            headers={header1}
-            filename={"classroom-template-data.csv"}
+            headers={studentListHeader}
+            filename={"student-list-template.csv"}
           >
             <Button
               className="room-score__button"
@@ -253,8 +321,8 @@ export const RoomScore = () => {
           </CSVLink>
           <CSVLink
             data={[]}
-            headers={header2}
-            filename={"classroom-template-grade.csv"}
+            headers={scoreListHeader}
+            filename={"score-list-template.csv"}
           >
             <Button
               className="room-score__button"
@@ -268,14 +336,14 @@ export const RoomScore = () => {
           <Button
             className="room-score__button"
             variant="outline-dark"
-            onClick={handleImportData}
+            onClick={handleStudentListImportClicked}
           >
             Nhập dữ liệu danh sách học viên(csv)
           </Button>
           <Button
             className="room-score__button"
             variant="outline-dark"
-            onClick={handleImportData}
+            onClick={handleScoreListImportClicked}
           >
             Nhập dữ liệu danh sách điểm(csv)
           </Button>
@@ -287,7 +355,7 @@ export const RoomScore = () => {
           updateMyData={updateMyData}
           skipPageReset={skipPageReset}
           updateStatusStudent={updateStatusStudent}
-          handleImportColumn={handleImportColumn}
+          handleImportColumn={handleScoreListImportClicked}
         />
       </>
 

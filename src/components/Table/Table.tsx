@@ -35,11 +35,11 @@ const EditableCell = ({
   const popover = (
     <Popover
       id="popover-basic"
-      // style={{ display: showOverlay ? "block" : "none" }}
+    // style={{ display: showOverlay ? "block" : "none" }}
     >
       <Popover.Header as="h3">Tùy chọn</Popover.Header>
       <Popover.Body>
-        <div className="card-student__item" onClick={() => {}}>
+        <div className="card-student__item" onClick={() => { }}>
           <span>Hoàn tất cột điểm</span>
         </div>
       </Popover.Body>
@@ -129,21 +129,26 @@ export const Table: React.FC<ITable> = ({
     return (
       <Popover
         id="popover-basic"
-        // style={{ display: showOverlay ? "block" : "none" }}
+      // style={{ display: showOverlay ? "block" : "none" }}
       >
         <Popover.Header as="h3">Tùy chọn</Popover.Header>
         <Popover.Body>
           {column.id === "total" ? (
-            <div className="card-student__item" onClick={() => {}}>
+            <div className="card-student__item" onClick={() => { }}>
               <span>Hoàn tất và trả điểm cả lớp</span>
             </div>
           ) : (
-            <div
-              className="card-student__item"
-              onClick={() => handleImportColumn(column)}
-            >
-              <span> Nhập file điểm</span>
-            </div>
+            <>
+              <div
+                className="card-student__item"
+                onClick={() => handleImportColumn(column)}
+              >
+                <span> Nhập file điểm</span>
+              </div>
+              <div className="card-student__item" onClick={() => { }}>
+                <span>Hoàn tất</span>
+              </div>
+            </>
           )}
         </Popover.Body>
       </Popover>
