@@ -96,6 +96,7 @@ export const Table: React.FC<ITable> = ({
   updateMyData,
   skipPageReset,
   updateStatusStudent,
+  handleImportColumn,
 }) => {
   const {
     getTableProps,
@@ -124,19 +125,30 @@ export const Table: React.FC<ITable> = ({
     usePagination
   );
 
-  const popover1 = (
-    <Popover
-      id="popover-basic"
-      // style={{ display: showOverlay ? "block" : "none" }}
-    >
-      <Popover.Header as="h3">Tùy chọn</Popover.Header>
-      <Popover.Body>
-        <div className="card-student__item" onClick={() => {}}>
-          <span>Hoàn tất và trả điểm cả lớp</span>
-        </div>
-      </Popover.Body>
-    </Popover>
-  );
+  const popover1 = (column: any) => {
+    return (
+      <Popover
+        id="popover-basic"
+        // style={{ display: showOverlay ? "block" : "none" }}
+      >
+        <Popover.Header as="h3">Tùy chọn</Popover.Header>
+        <Popover.Body>
+          {column.id === "total" ? (
+            <div className="card-student__item" onClick={() => {}}>
+              <span>Hoàn tất và trả điểm cả lớp</span>
+            </div>
+          ) : (
+            <div
+              className="card-student__item"
+              onClick={() => handleImportColumn(column)}
+            >
+              <span> Nhập file điểm</span>
+            </div>
+          )}
+        </Popover.Body>
+      </Popover>
+    );
+  };
 
   return (
     <div className="table">
@@ -165,7 +177,7 @@ export const Table: React.FC<ITable> = ({
                         <OverlayTrigger
                           trigger="click"
                           placement="bottom"
-                          overlay={popover1}
+                          overlay={popover1(column)}
                           rootClose
                         >
                           <div className="table__fimore">

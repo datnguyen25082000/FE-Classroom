@@ -28,6 +28,8 @@ export const RoomScore = () => {
   const [data, setData] = useState(() => makeData(20));
   const [originalData] = useState(data);
   const [skipPageReset, setSkipPageReset] = useState(false);
+  const [typeOfImport, setTypeOfImport] = useState("");
+  const [colFocus, setColFocus] = useState(0);
 
   useEffect(() => {
     dispatch(doGetAllAssignByCourse({ course_id: classId }));
@@ -124,6 +126,8 @@ export const RoomScore = () => {
           Header: element.name,
           accessor: element.name,
           collapse: true,
+          isTotal: true,
+          colId: element.id,
         };
         arrayHeader[1].columns.push(a);
       });
@@ -136,6 +140,7 @@ export const RoomScore = () => {
     setSkipPageReset(false);
   }, [data]);
 
+  // edit data cell
   const updateMyData = (rowIndex: any, columnId: any, value: any) => {
     setSkipPageReset(true);
     setData((old: any) =>
@@ -151,6 +156,7 @@ export const RoomScore = () => {
     );
   };
 
+  // click popup column
   const updateStatusStudent = (rowIndex: any, value: any) => {
     console.log("haha", rowIndex);
   };
@@ -349,6 +355,7 @@ export const RoomScore = () => {
           updateMyData={updateMyData}
           skipPageReset={skipPageReset}
           updateStatusStudent={updateStatusStudent}
+          handleImportColumn={handleScoreListImportClicked}
         />
       </>
 
