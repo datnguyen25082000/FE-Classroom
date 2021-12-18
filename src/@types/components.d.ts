@@ -132,4 +132,5 @@ interface ITable {
   updateMyData: any;
   skipPageReset: any;
   updateStatusStudent: any;
+  handleImportColumn: any;
 }
