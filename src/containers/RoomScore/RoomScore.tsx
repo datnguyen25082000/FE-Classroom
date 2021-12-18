@@ -176,7 +176,7 @@ export const RoomScore = () => {
       // Remove first row which is header
       content.shift()
 
-      const studentScores: Array<{ studentId: string, score: number }> = []
+      const studentScores: Array<{ studentId: string, point: number }> = []
 
       for (const element of content) {
         if (element.length !== 2) {
@@ -186,7 +186,7 @@ export const RoomScore = () => {
 
         studentScores.push({
           studentId: element[0],
-          score: element[1]
+          point: element[1]
         })
       }
 
@@ -203,7 +203,7 @@ export const RoomScore = () => {
       // Remove first row which is header
       content.shift()
 
-      const students: Array<{ studentId: string, fullName: string }> = []
+      const students: Array<{ student_id: string, full_name: string }> = []
 
       for (const element of content) {
         if (element.length !== 2) {
@@ -212,8 +212,8 @@ export const RoomScore = () => {
         }
 
         students.push({
-          studentId: element[0],
-          fullName: element[1]
+          student_id: element[0],
+          full_name: element[1]
         })
       }
 
