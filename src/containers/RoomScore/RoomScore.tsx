@@ -26,6 +26,8 @@ export const RoomScore = () => {
   const [data, setData] = useState(() => makeData(20));
   const [originalData] = useState(data);
   const [skipPageReset, setSkipPageReset] = useState(false);
+  const [typeOfImport, setTypeOfImport] = useState("");
+  const [colFocus, setColFocus] = useState(0);
 
   useEffect(() => {
     dispatch(doGetAllAssignByCourse({ course_id: classId }));
@@ -116,6 +118,8 @@ export const RoomScore = () => {
           Header: element.name,
           accessor: element.name,
           collapse: true,
+          isTotal: true,
+          colId: element.id,
         };
         arrayHeader[1].columns.push(a);
       });
@@ -128,6 +132,7 @@ export const RoomScore = () => {
     setSkipPageReset(false);
   }, [data]);
 
+  // edit data cell
   const updateMyData = (rowIndex: any, columnId: any, value: any) => {
     setSkipPageReset(true);
     setData((old: any) =>
@@ -143,10 +148,12 @@ export const RoomScore = () => {
     );
   };
 
+  // click popup column
   const updateStatusStudent = (rowIndex: any, value: any) => {
     console.log("haha", rowIndex);
   };
 
+  // handle export/ import
   const handleExportTemplateData = () => {};
 
   const handleExportTemplateScore = () => {};
@@ -156,6 +163,23 @@ export const RoomScore = () => {
   const handleImportData = () => {
     if (refInput) {
       refInput.current.click();
+    }
+  };
+
+  // import each column
+  const handleImportColumn = (column: any) => {
+    setColFocus(column.colId);
+    setTypeOfImport("ColImport");
+    refInput.current.click();
+  };
+
+  // handle change input file
+  const handleChangeInput = (e: any) => {
+    const file = e.target.files[0];
+    console.log("file", file);
+
+    if (typeOfImport === "ColImport") {
+      //api with colFocus: idcol
     }
   };
 
@@ -176,6 +200,7 @@ export const RoomScore = () => {
           type="file"
           style={{ display: "none" }}
           ref={refInput}
+          onChange={handleChangeInput}
           name="file"
           id="file"
           accept=".csv"
@@ -262,6 +287,7 @@ export const RoomScore = () => {
           updateMyData={updateMyData}
           skipPageReset={skipPageReset}
           updateStatusStudent={updateStatusStudent}
+          handleImportColumn={handleImportColumn}
         />
       </>
 
