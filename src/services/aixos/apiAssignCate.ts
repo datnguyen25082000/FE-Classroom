@@ -28,4 +28,8 @@ export const apiAssignCate = {
     const url = baseUrl + "update-position";
     return axiosClient.post(url, params);
   },
+  finalizeAssignment: (params: IParamsDeleteAssignmentCategory) => {
+    const url = baseUrl + "finalize";
+    return axiosClient.post(url, params);
+  },
 };

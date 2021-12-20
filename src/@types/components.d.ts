@@ -133,4 +133,6 @@ interface ITable {
   skipPageReset: any;
   updateStatusStudent: any;
   handleImportColumn: any;
+  handleFinalizeColumn: any;
+  handleSaveData: any;
 }

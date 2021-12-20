@@ -40,3 +40,11 @@ export const doUpdatePositionAssignCate = createAsyncThunk(
     return result.data;
   }
 );
+
+export const doFinalizeAssignment = createAsyncThunk(
+  "assign-cate@post/doFinalizeAssignment",
+  async (params: IParamsDeleteAssignmentCategory) => {
+    const result = await apiAssignCate.finalizeAssignment(params);
+    return result.data;
+  }
+);

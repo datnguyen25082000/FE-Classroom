@@ -70,3 +70,30 @@ interface IResAddAssignCate {
   message: string;
   content: IItemAssignCate;
 }
+
+interface IResGetAllScore {
+  result: number;
+  message: string;
+  content: Array<IResScore>;
+}
+
+interface IResAddScoreCate {
+  result: number;
+  message: string;
+  content: Array<IResScoreOfStudent>;
+}
+
+interface IResScore {
+  course_id: number;
+  full_name: string;
+  id: number;
+  scoresOfStudent: Array<IResScoreOfStudent>;
+  student_id: number | string;
+}
+
+interface IResScoreOfStudent {
+  assignment_category_id: number;
+  course_student_id: number;
+  id: number;
+  point: number;
+}

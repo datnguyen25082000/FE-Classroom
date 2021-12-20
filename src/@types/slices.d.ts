@@ -38,4 +38,12 @@ interface IItemAssignCate {
   name: string;
   position: number;
   course_id: number;
+  isFinalized: number;
+}
+
+interface ISliceScore {
+  listScore: Array<IResScore>;
+  userInfo: IResUser;
+  isLoading: boolean;
+  error: any;
 }

@@ -6,23 +6,55 @@ const range = (len: any) => {
   return arr;
 };
 
-const newPerson = () => {
-  return {
-    fullname: "Nguyen Tan Dat Nguyen",
-    studentid: "18120308",
-    age: Math.floor(Math.random() * 30),
-    visits: Math.floor(Math.random() * 100),
-    progress: Math.floor(Math.random() * 100),
-    status: Math.floor(Math.random() * 100),
+const newPerson = (item: IResScore, listAssign: Array<IItemAssignCate>) => {
+  let row: any = {
+    fullname: item.full_name,
+    studentid: item.student_id,
   };
+
+  let totalScore = 0;
+  let totalPoint = 0;
+
+  if (listAssign && listAssign.length) {
+    listAssign.forEach((element) => {
+      totalPoint += element.point;
+      if (item.scoresOfStudent && item.scoresOfStudent.length) {
+        const index = item.scoresOfStudent.findIndex(
+          (item) => item.assignment_category_id === element.id
+        );
+
+        if (index >= 0) {
+          {
+            row[element.name.replace(/ /g, "_")] =
+              item.scoresOfStudent[index].point;
+
+            totalScore +=
+              (item.scoresOfStudent[index].point / 100) * element.point;
+          }
+        }
+      } else row[element.name.replace(/ /g, "_")] = 0;
+    });
+  }
+
+  if (totalPoint > 0 && totalScore > 0) {
+    row["total"] = ((totalScore / totalPoint) * 100).toFixed(2);
+  }
+
+  return row;
 };
 
-export const makeData = (lens: any) => {
+export const makeData = (
+  lens: Array<IResScore>,
+  listAssign: Array<IItemAssignCate>
+) => {
+  if (!lens || !lens.length) return [];
+
+  console.log(lens);
+
   const makeDataLevel: any = (depth = 0) => {
-    return range(lens).map((d, i) => {
+    return lens.map((item, i) => {
       return {
-        ...newPerson(),
-        subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+        ...newPerson(item, listAssign),
       };
     });
   };

@@ -4,6 +4,7 @@ import {
   doGetAllAssignByCourse,
   doAddAssignmentCategory,
   doUpdateAssignmentCategory,
+  doFinalizeAssignment,
 } from "../../asyncActions";
 
 const initialState = {
@@ -89,6 +90,37 @@ const slice = createSlice({
       }
     );
     builder.addCase(doUpdateAssignmentCategory.rejected, (state, action) => {
+      const error = action.error;
+      state.error = error;
+      state.isLoading = false;
+    });
+
+    //
+    // update
+    builder.addCase(doFinalizeAssignment.pending, (state) => {
+      state.error = null;
+      state.isLoading = true;
+    });
+    builder.addCase(
+      doFinalizeAssignment.fulfilled,
+      (state, action: PayloadAction<IResAddAssignCate>) => {
+        const newAssign = action.payload.content;
+
+        if (newAssign) {
+          const isFinalized = newAssign.isFinalized;
+          const id = newAssign.id;
+
+          const index = state.listAssign.findIndex((item) => item.id === id);
+
+          if (index >= 0) {
+            state.listAssign[index].isFinalized = isFinalized;
+          }
+        }
+
+        state.isLoading = false;
+      }
+    );
+    builder.addCase(doFinalizeAssignment.rejected, (state, action) => {
       const error = action.error;
       state.error = error;
       state.isLoading = false;
