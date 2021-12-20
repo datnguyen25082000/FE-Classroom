@@ -3,6 +3,7 @@ import { AxiosResponse } from "axios";
 import {
   doGetAllScoreOfCourse,
   doAddScoreAssignmentCate,
+  doGetSStudentScore,
 } from "../../asyncActions";
 
 const initialState = {
@@ -10,12 +11,21 @@ const initialState = {
   userInfo: {},
   isLoading: false,
   error: {},
+  studentScore: {},
 } as ISliceScore;
 
 const slice = createSlice({
   name: "score@",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    doFakeAddStudentList(state, action) {
+      const newData = action.payload;
+
+      if (newData) {
+        state.listScore = newData;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(doGetAllScoreOfCourse.pending, (state) => {
       state.listScore = [];
@@ -43,15 +53,21 @@ const slice = createSlice({
 
             if (state.listScore) {
               state.listScore.forEach((element, i) => {
-                const index = element.scoresOfStudent.findIndex(
-                  (item) => item.assignment_category_id === col_id
-                );
+                let index = -1;
+                if (element.scoresOfStudent && element.scoresOfStudent.length) {
+                  index = element.scoresOfStudent.findIndex(
+                    (item) => item.assignment_category_id === col_id
+                  );
+                }
 
-                if (
-                  index >= 0 &&
-                  element.id === score.course_student_id
-                ) {
+                if (index >= 0 && element.id === score.course_student_id) {
                   state.listScore[i].scoresOfStudent[index].point = score.point;
+                } else {
+                  if (element.id === score.course_student_id) {
+                    let arr = state.listScore[i]?.scoresOfStudent || [];
+                    arr.push(score);
+                    state.listScore[i].scoresOfStudent = arr;
+                  }
                 }
               });
             }
@@ -59,8 +75,24 @@ const slice = createSlice({
         }
       }
     );
+
+    //
+    builder.addCase(doGetSStudentScore.pending, (state) => {
+      state.studentScore = undefined;
+      state.isLoading = true;
+    });
+
+    builder.addCase(
+      doGetSStudentScore.fulfilled,
+      (state, action: PayloadAction<IResGetStudentScore>) => {
+        state.isLoading = false;
+        state.studentScore = action.payload.content;
+      }
+    );
   },
 });
 
 const { reducer: scoreReducer, actions } = slice;
+export const { doFakeAddStudentList } = actions;
+
 export default scoreReducer;

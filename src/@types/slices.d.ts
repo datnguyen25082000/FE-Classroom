@@ -43,6 +43,7 @@ interface IItemAssignCate {
 
 interface ISliceScore {
   listScore: Array<IResScore>;
+  studentScore?: IItemStudentScore;
   userInfo: IResUser;
   isLoading: boolean;
   error: any;

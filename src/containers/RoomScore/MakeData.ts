@@ -14,6 +14,7 @@ const newPerson = (item: IResScore, listAssign: Array<IItemAssignCate>) => {
 
   let totalScore = 0;
   let totalPoint = 0;
+  console.log("item", item);
 
   if (listAssign && listAssign.length) {
     listAssign.forEach((element) => {
@@ -32,7 +33,7 @@ const newPerson = (item: IResScore, listAssign: Array<IItemAssignCate>) => {
               (item.scoresOfStudent[index].point / 100) * element.point;
           }
         }
-      } else row[element.name.replace(/ /g, "_")] = 0;
+      } else row[element.name.replace(/ /g, "_")] = "";
     });
   }
 

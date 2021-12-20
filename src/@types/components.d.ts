@@ -135,4 +135,5 @@ interface ITable {
   handleImportColumn: any;
   handleFinalizeColumn: any;
   handleSaveData: any;
+  isStudentTable?: boolean;
 }

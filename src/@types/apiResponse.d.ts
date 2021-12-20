@@ -97,3 +97,14 @@ interface IResScoreOfStudent {
   id: number;
   point: number;
 }
+
+interface IResGetStudentScore {
+  result: number;
+  message: string;
+  content: IItemStudentScore;
+}
+
+interface IItemStudentScore {
+  score: Array<IResScoreOfStudent>;
+  student: IResScore;
+}

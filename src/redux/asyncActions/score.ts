@@ -17,3 +17,11 @@ export const doGetAllScoreOfCourse = createAsyncThunk(
     return result.data;
   }
 );
+
+export const doGetSStudentScore = createAsyncThunk(
+  "score@get/doGetSStudentScore",
+  async (params: IParamsGetAllStudentByCourse) => {
+    const result = await apiScore.getStudentScore(params);
+    return result.data;
+  }
+);

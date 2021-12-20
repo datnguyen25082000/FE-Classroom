@@ -147,6 +147,7 @@ export const EditProfile = () => {
                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <Input
                     label="Mã số sinh viên"
+                    isDisable={dataUser.user_studentid ? true : false}
                     value={dataUser?.user_studentid}
                     {...register("user_studentid")}
                   />
