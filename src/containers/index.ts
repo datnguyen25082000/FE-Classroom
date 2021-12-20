@@ -10,3 +10,4 @@ export * from "./ForgotPass/ForgotPass";
 export * from "./ResetPass/ResetPass";
 export * from "./RoomJoin/RoomJoin";
 export * from "./GradingStructure/GradingStructure";
+export * from "./StudentScore/StudentScore";

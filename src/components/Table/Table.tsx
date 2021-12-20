@@ -14,7 +14,7 @@ import { Popover, OverlayTrigger, Button, Modal } from "react-bootstrap";
 const EditableCell = ({
   value: initialValue,
   row: { index },
-  column: { id, isFinalized },
+  column: { id, isFinalized, isStudent },
   updateMyData,
   updateStatusStudent,
 }: any) => {
@@ -63,7 +63,7 @@ const EditableCell = ({
         style={{ width: "50px", outline: "none" }}
         value={value}
         type="number"
-        disabled={id === "total"}
+        disabled={id === "total" || isStudent}
         min={0}
         max={100}
         onChange={onChange}
@@ -98,6 +98,7 @@ export const Table: React.FC<ITable> = ({
   handleImportColumn,
   handleFinalizeColumn,
   handleSaveData,
+  isStudentTable = false,
 }) => {
   const {
     getTableProps,
@@ -132,7 +133,10 @@ export const Table: React.FC<ITable> = ({
         <Popover.Header as="h3">Tùy chọn</Popover.Header>
         <Popover.Body>
           {column.id === "total" ? (
-            <div className="card-student__item" onClick={() => {}}>
+            <div
+              className="card-student__item"
+              onClick={() => handleFinalizeColumn(column)}
+            >
               <span>Hoàn tất và trả điểm cả lớp</span>
             </div>
           ) : (
@@ -237,7 +241,10 @@ export const Table: React.FC<ITable> = ({
           </tbody>
         </BTable>
 
-        <div className="pagination">
+        <div
+          className="pagination"
+          style={{ display: isStudentTable ? "none" : "" }}
+        >
           <button
             style={{ marginRight: "8px" }}
             onClick={() => gotoPage(0)}

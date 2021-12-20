@@ -79,14 +79,21 @@ export const HeaderRoom: React.FC<IHeader> = ({
             className={`header-room__item ${
               (location.pathname &&
                 location.pathname.match(/classroom[^]*score/)) ||
-              location.pathname.match(/classroom[^]*grading-structure/)
+              location.pathname.match(/classroom[^]*grading-structure/) ||
+              location.pathname.match(/classroom[^]*student-score/)
                 ? "header-room__item--active"
                 : ""
             }`}
-            onClick={() => history.push(`/classroom/${classId}/score`)}
-            style={{ display: isHost ? "" : "none" }}
+            onClick={() => {
+              if (isHost) {
+                history.push(`/classroom/${classId}/score`);
+              } else {
+                history.push(`/classroom/${classId}/student-score`);
+              }
+            }}
+            // style={{ display: isHost ? "" : "none" }}
           >
-            Số điểm
+            {isHost ? "Bảng điểm" : "Điểm số"}
           </p>
         </div>
 

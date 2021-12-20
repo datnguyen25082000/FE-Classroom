@@ -13,6 +13,7 @@ import {
   RoomMember,
   RoomPractice,
   RoomScore,
+  StudentScore,
 } from "../containers";
 import { PrivateRouter } from "./PrivateRouter";
 import { PublicRouter } from "./PublicRouter";
@@ -101,6 +102,13 @@ export const Routers = () => {
           path={"/classroom/:classId/grading-structure"}
           component={GradingStructure}
           layout={BlankLayout}
+        />
+
+        <PrivateRouter
+          exact={true}
+          path={"/classroom/:classId/student-score"}
+          component={StudentScore}
+          layout={FullLayout}
         />
       </Switch>
     </Router>

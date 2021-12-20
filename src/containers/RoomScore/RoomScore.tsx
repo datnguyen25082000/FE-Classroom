@@ -12,6 +12,7 @@ import {
   doGetAllStudentOfCourse,
   doGetAllScoreOfCourse,
   doFinalizeAssignment,
+  doFakeAddStudentList,
 } from "../../redux";
 import "./RoomScore.scss";
 import { Button } from "react-bootstrap";
@@ -19,6 +20,7 @@ import { makeData } from "./MakeData";
 import { CSVLink } from "react-csv";
 import { useHistory } from "react-router-dom";
 import xlsx from "xlsx";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 export const RoomScore = () => {
   const dispatch = useAppDispatch();
@@ -189,8 +191,6 @@ export const RoomScore = () => {
         });
       }
 
-      console.log("studentScores: ", studentScores);
-
       if (studentScores) {
         dispatch(
           doAddScoreAssignmentCate({
@@ -225,15 +225,20 @@ export const RoomScore = () => {
         });
       }
 
-      console.log("students: ", students);
-
       if (students) {
         dispatch(
           doAddStudentsToCourse({
             students: students,
             course_id: parseInt(classId),
           })
-        );
+        )
+          .then(unwrapResult)
+          .then((res: any) => {
+            if (res.content) {
+              dispatch(doGetAllScoreOfCourse({ course_id: parseInt(classId) }));
+              dispatch(doFakeAddStudentList(res.content));
+            }
+          });
       }
     }
   };
@@ -266,8 +271,16 @@ export const RoomScore = () => {
   };
 
   const handleFinalizeColumn = (column: any) => {
-    if (column && column.colId) {
-      dispatch(doFinalizeAssignment({ assignmentCategoryId: column.colId }));
+    if (column.id === "total") {
+      listAssign.forEach((assign) => {
+        if (!assign.isFinalized) {
+          dispatch(doFinalizeAssignment({ assignmentCategoryId: assign.id }));
+        }
+      });
+    } else {
+      if (column && column.colId) {
+        dispatch(doFinalizeAssignment({ assignmentCategoryId: column.colId }));
+      }
     }
   };
 
