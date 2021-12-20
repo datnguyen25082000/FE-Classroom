@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useTable, usePagination } from "react-table";
 import "./Table.scss";
 import BTable from "react-bootstrap/Table";
@@ -14,12 +14,11 @@ import { Popover, OverlayTrigger, Button, Modal } from "react-bootstrap";
 const EditableCell = ({
   value: initialValue,
   row: { index },
-  column: { id },
+  column: { id, isFinalized },
   updateMyData,
   updateStatusStudent,
 }: any) => {
   const [value, setValue] = React.useState(initialValue);
-
   const onChange = (e: any) => {
     setValue(e.target.value);
   };
@@ -35,11 +34,11 @@ const EditableCell = ({
   const popover = (
     <Popover
       id="popover-basic"
-    // style={{ display: showOverlay ? "block" : "none" }}
+      // style={{ display: showOverlay ? "block" : "none" }}
     >
       <Popover.Header as="h3">Tùy chọn</Popover.Header>
       <Popover.Body>
-        <div className="card-student__item" onClick={() => { }}>
+        <div className="card-student__item" onClick={() => {}}>
           <span>Hoàn tất cột điểm</span>
         </div>
       </Popover.Body>
@@ -72,7 +71,7 @@ const EditableCell = ({
       />
       <span style={{ width: "50px" }}>/ 100</span>
 
-      {id === "total" && (
+      {/* {id === "total" && (
         <OverlayTrigger
           trigger="click"
           placement="bottom"
@@ -81,7 +80,7 @@ const EditableCell = ({
         >
           <div className="table__fimore">{<FiMoreVertical size={20} />}</div>
         </OverlayTrigger>
-      )}
+      )} */}
     </div>
   );
 };
@@ -97,6 +96,8 @@ export const Table: React.FC<ITable> = ({
   skipPageReset,
   updateStatusStudent,
   handleImportColumn,
+  handleFinalizeColumn,
+  handleSaveData,
 }) => {
   const {
     getTableProps,
@@ -127,14 +128,11 @@ export const Table: React.FC<ITable> = ({
 
   const popover1 = (column: any) => {
     return (
-      <Popover
-        id="popover-basic"
-      // style={{ display: showOverlay ? "block" : "none" }}
-      >
+      <Popover id="popover-trigger-focus" title="Popover bottom">
         <Popover.Header as="h3">Tùy chọn</Popover.Header>
         <Popover.Body>
           {column.id === "total" ? (
-            <div className="card-student__item" onClick={() => { }}>
+            <div className="card-student__item" onClick={() => {}}>
               <span>Hoàn tất và trả điểm cả lớp</span>
             </div>
           ) : (
@@ -145,8 +143,15 @@ export const Table: React.FC<ITable> = ({
               >
                 <span> Nhập file điểm</span>
               </div>
-              <div className="card-student__item" onClick={() => { }}>
-                <span>Hoàn tất</span>
+              <div
+                className="card-student__item"
+                onClick={() => handleFinalizeColumn(column)}
+              >
+                {column.isFinalized ? (
+                  <span>Hủy hoàn tất</span>
+                ) : (
+                  <span>Hoàn tất</span>
+                )}
               </div>
             </>
           )}
@@ -176,18 +181,26 @@ export const Table: React.FC<ITable> = ({
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
+                          fontWeight: column.isFinalized ? "bold" : "normal",
                         }}
                       >
                         {column.render("Header")}
                         <OverlayTrigger
-                          trigger="click"
+                          trigger="focus"
                           placement="bottom"
                           overlay={popover1(column)}
-                          rootClose
                         >
-                          <div className="table__fimore">
-                            {<FiMoreVertical size={20} />}
-                          </div>
+                          <Button
+                            style={{
+                              background: "none",
+                              border: "none",
+                              padding: 0,
+                            }}
+                          >
+                            <div className="table__fimore">
+                              {<FiMoreVertical size={20} />}
+                            </div>
+                          </Button>
                         </OverlayTrigger>
                       </div>
                     ) : column.Header === "none" ? (
@@ -289,6 +302,14 @@ export const Table: React.FC<ITable> = ({
               </option>
             ))}
           </select>
+          <Button
+            className="room-score__button ml-auto"
+            variant="outline-success"
+            style={{ position: "absolute", right: 50 }}
+            onClick={handleSaveData}
+          >
+            Lưu thay đổi
+          </Button>
         </div>
       </div>
     </div>

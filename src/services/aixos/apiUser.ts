@@ -23,4 +23,9 @@ export const apiUser = {
     const url = baseUrl + `UpdateAvatar`;
     return axiosClient.post(url, params);
   },
+
+  findUserByStudentId: (params: any) => {
+    const url = baseUrl + `find-user-by-student-id`;
+    return axiosClient.get(url + objToQuery({ ...params }));
+  },
 };

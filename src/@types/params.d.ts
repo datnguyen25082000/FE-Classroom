@@ -65,3 +65,23 @@ interface IParamsUpdatePositionAssignCate {
     position: number;
   }>;
 }
+
+interface IParamsGetAllStudentByCourse {
+  course_id: number;
+}
+
+interface IParamsAddStudentsToCourse {
+  students: Array<{
+    student_id: string | number;
+    full_name: string;
+  }>;
+  course_id: number;
+}
+
+interface IParamsAddScoreAssignmentCate {
+  assignment_category_id: number;
+  scores: Array<{
+    student_id: string;
+    point: number;
+  }>;
+}

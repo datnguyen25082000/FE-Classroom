@@ -7,6 +7,11 @@ import {
   useAppDispatch,
   useFetchOneCourseQuery,
   doGetAllAssignByCourse,
+  doAddScoreAssignmentCate,
+  doAddStudentsToCourse,
+  doGetAllStudentOfCourse,
+  doGetAllScoreOfCourse,
+  doFinalizeAssignment,
 } from "../../redux";
 import "./RoomScore.scss";
 import { Button } from "react-bootstrap";
@@ -24,43 +29,43 @@ export const RoomScore = () => {
   const [showCanvas, setShowCanvas] = useState(false);
   const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
   const { listAssign } = useAppSelector((state) => state.assignCateSlice);
+  const { listScore } = useAppSelector((state) => state.scoreSlice);
 
-  const [data, setData] = useState(() => makeData(20));
-  const [originalData] = useState(data);
   const [skipPageReset, setSkipPageReset] = useState(false);
-  const [typeOfImport, setTypeOfImport] = useState("");
   const [colFocus, setColFocus] = useState(0);
 
-  useEffect(() => {
-    dispatch(doGetAllAssignByCourse({ course_id: classId }));
-  }, [classId]);
+  const [data, setData] = useState(() => makeData(listScore, listAssign));
+  const [originalData] = useState(data);
 
-
-  // data export template data
+  // header and data of export template input student
   const studentListHeader = [
     { label: "Mã số sinh viên", key: "studentId" },
     { label: "Họ và tên", key: "fullName" },
   ];
 
+  // header and data of export template col score
   const scoreListHeader = [
     { label: "Mã số sinh viên", key: "studentId" },
-    { label: "Điểm", key: "score" }
-  ]
+    { label: "Điểm", key: "score" },
+  ];
 
-  // data export template grade
-  const header2 = useMemo(() => {
-    let array = [{ label: "Mã số sinh viên", key: "studentid" }];
+  const scoreListData = useMemo(() => {
+    let data: any = [];
 
-    if (listAssign && listAssign.length) {
-      listAssign.forEach((element) => {
-        array.push({ label: element.name, key: element.name });
+    if (listScore && listScore.length) {
+      listScore.forEach((element) => {
+        data.push({
+          studentId: element.student_id,
+          score: "",
+        });
       });
     }
-    return array;
-  }, [listAssign]);
 
-  // data export grade
-  const header3 = useMemo(() => {
+    return data;
+  }, [listScore]);
+
+  // header and data of data score grade
+  const exportDataHeader = useMemo(() => {
     let array = [
       { label: "Họ và tên", key: "fullname" },
       { label: "Mã số học viên", key: "studentid" },
@@ -69,15 +74,18 @@ export const RoomScore = () => {
 
     if (listAssign && listAssign.length) {
       listAssign.forEach((element) => {
-        array.push({ label: element.name, key: element.name });
+        array.push({
+          label: element.name,
+          key: element.name.replace(/ /g, "_"),
+        });
       });
     }
     return array;
   }, [listAssign]);
 
-  const data3 = useMemo(() => {
-    return [];
-  }, []);
+  const exportDataData = useMemo(() => {
+    return data;
+  }, [data]);
 
   // set column of table score
   const columns = useMemo(() => {
@@ -124,10 +132,11 @@ export const RoomScore = () => {
       listAssign.forEach((element, i) => {
         const a = {
           Header: element.name,
-          accessor: element.name,
+          accessor: element.name.replace(/ /g, "_"),
           collapse: true,
           isTotal: true,
           colId: element.id,
+          isFinalized: element.isFinalized,
         };
         arrayHeader[1].columns.push(a);
       });
@@ -135,10 +144,6 @@ export const RoomScore = () => {
 
     return arrayHeader;
   }, [listAssign]);
-
-  useEffect(() => {
-    setSkipPageReset(false);
-  }, [data]);
 
   // edit data cell
   const updateMyData = (rowIndex: any, columnId: any, value: any) => {
@@ -156,27 +161,21 @@ export const RoomScore = () => {
     );
   };
 
-  // click popup column
+  // handle table
   const updateStatusStudent = (rowIndex: any, value: any) => {
     console.log("haha", rowIndex);
   };
 
-  const handleExportTemplateData = () => { };
-
-  const handleExportTemplateScore = () => { };
-
-  const handleExportData = () => { };
-
   const handleScoreListUploaded = async (e: any) => {
-    const file: File = e.target.files[0]
+    const file: File = e.target.files[0];
 
     if (file) {
-      const content = await getContentFromExcelFile(file)
+      const content = await getContentFromExcelFile(file);
 
       // Remove first row which is header
-      content.shift()
+      content.shift();
 
-      const studentScores: Array<{ studentId: string, point: number }> = []
+      const studentScores: Array<{ student_id: string; point: number }> = [];
 
       for (const element of content) {
         if (element.length !== 2) {
@@ -185,25 +184,34 @@ export const RoomScore = () => {
         }
 
         studentScores.push({
-          studentId: element[0],
-          point: element[1]
-        })
+          student_id: element[0],
+          point: element[1],
+        });
       }
 
       console.log("studentScores: ", studentScores);
+
+      if (studentScores) {
+        dispatch(
+          doAddScoreAssignmentCate({
+            assignment_category_id: colFocus,
+            scores: studentScores,
+          })
+        );
+      }
     }
   };
 
   const handleStudentListUploaded = async (e: any) => {
-    const file: File = e.target.files[0]
+    const file: File = e.target.files[0];
 
     if (file) {
-      const content = await getContentFromExcelFile(file)
+      const content = await getContentFromExcelFile(file);
 
       // Remove first row which is header
-      content.shift()
+      content.shift();
 
-      const students: Array<{ student_id: string, full_name: string }> = []
+      const students: Array<{ student_id: string; full_name: string }> = [];
 
       for (const element of content) {
         if (element.length !== 2) {
@@ -213,39 +221,95 @@ export const RoomScore = () => {
 
         students.push({
           student_id: element[0],
-          full_name: element[1]
-        })
+          full_name: element[1],
+        });
       }
 
       console.log("students: ", students);
 
+      if (students) {
+        dispatch(
+          doAddStudentsToCourse({
+            students: students,
+            course_id: parseInt(classId),
+          })
+        );
+      }
     }
-  }
+  };
 
   const getContentFromExcelFile = async (file: File) => {
-    const data = await file.arrayBuffer()
+    const data = await file.arrayBuffer();
 
     const wb = xlsx.read(data);
     const wsname = wb.SheetNames[0];
     const ws = wb.Sheets[wsname];
 
-    const content: Array<Array<any>> = xlsx.utils.sheet_to_json(ws, { header: 1 });
+    const content: Array<Array<any>> = xlsx.utils.sheet_to_json(ws, {
+      header: 1,
+    });
 
-    return content
-  }
+    return content;
+  };
 
   const handleStudentListImportClicked = () => {
     if (refInputStudentList) {
-      refInputStudentList.current.click()
+      refInputStudentList.current.click();
     }
-  }
+  };
 
-  const handleScoreListImportClicked = () => {
+  const handleScoreListImportClicked = (column: any) => {
+    setColFocus(column.colId);
     if (refInputScoreList) {
-      refInputScoreList.current.click()
+      refInputScoreList.current.click();
     }
-  }
+  };
 
+  const handleFinalizeColumn = (column: any) => {
+    if (column && column.colId) {
+      dispatch(doFinalizeAssignment({ assignmentCategoryId: column.colId }));
+    }
+  };
+
+  const handleSaveData = () => {
+    if (data && listAssign) {
+      listAssign.forEach((element) => {
+        let studentScores: Array<{ student_id: string; point: number }> = [];
+        data.forEach((col: any) => {
+          const score = col[element.name.replace(/ /g, "_")] || "";
+
+          studentScores.push({
+            student_id: col.studentid,
+            point: parseInt(score),
+          });
+        });
+
+        dispatch(
+          doAddScoreAssignmentCate({
+            assignment_category_id: element.id,
+            scores: studentScores,
+          })
+        );
+      });
+    }
+  };
+
+  // effect
+  useEffect(() => {
+    dispatch(doGetAllAssignByCourse({ course_id: classId }));
+    // dispatch(doGetAllStudentOfCourse({ course_id: parseInt(classId) }));
+    dispatch(doGetAllScoreOfCourse({ course_id: parseInt(classId) }));
+  }, [classId]);
+
+  useEffect(() => {
+    setData(makeData(listScore, listAssign));
+  }, [listScore, listAssign]);
+
+  useEffect(() => {
+    setSkipPageReset(false);
+  }, [data]);
+
+  // render
   if (!oneCourse || !oneCourse.course_id) {
     return <Page404 />;
   }
@@ -264,14 +328,14 @@ export const RoomScore = () => {
           style={{ display: "none" }}
           ref={refInputScoreList}
           accept=".csv,.xlsx"
-          onChange={e => handleScoreListUploaded(e)}
+          onChange={(e) => handleScoreListUploaded(e)}
         />
         <input
           type="file"
           style={{ display: "none" }}
           ref={refInputStudentList}
           accept=".csv,.xlsx"
-          onChange={e => handleStudentListUploaded(e)}
+          onChange={(e) => handleStudentListUploaded(e)}
         />
 
         <div
@@ -279,15 +343,11 @@ export const RoomScore = () => {
           style={{ justifyContent: "flex-end" }}
         >
           <CSVLink
-            data={data3}
-            headers={header3}
+            data={exportDataData}
+            headers={exportDataHeader}
             filename={"classroom-score.csv"}
           >
-            <Button
-              className="room-score__button"
-              variant="outline-success"
-              onClick={handleExportData}
-            >
+            <Button className="room-score__button" variant="outline-success">
               Xuất bảng điểm excel
             </Button>{" "}
           </CSVLink>
@@ -311,25 +371,17 @@ export const RoomScore = () => {
             headers={studentListHeader}
             filename={"student-list-template.csv"}
           >
-            <Button
-              className="room-score__button"
-              variant="outline-primary"
-              onClick={handleExportTemplateData}
-            >
-              Tải mẫu danh sách học viên
+            <Button className="room-score__button" variant="outline-primary">
+              Tải mẫu nhập danh sách học viên
             </Button>
           </CSVLink>
           <CSVLink
-            data={[]}
+            data={scoreListData}
             headers={scoreListHeader}
             filename={"score-list-template.csv"}
           >
-            <Button
-              className="room-score__button"
-              variant="outline-primary"
-              onClick={handleExportTemplateScore}
-            >
-              Tải mẫu danh sách điểm
+            <Button className="room-score__button" variant="outline-primary">
+              Tải mẫu nhập cột điểm
             </Button>
           </CSVLink>
 
@@ -340,13 +392,13 @@ export const RoomScore = () => {
           >
             Nhập dữ liệu danh sách học viên(csv)
           </Button>
-          <Button
+          {/* <Button
             className="room-score__button"
             variant="outline-dark"
             onClick={handleScoreListImportClicked}
           >
             Nhập dữ liệu danh sách điểm(csv)
-          </Button>
+          </Button> */}
         </div>
 
         <Table
@@ -356,6 +408,8 @@ export const RoomScore = () => {
           skipPageReset={skipPageReset}
           updateStatusStudent={updateStatusStudent}
           handleImportColumn={handleScoreListImportClicked}
+          handleFinalizeColumn={handleFinalizeColumn}
+          handleSaveData={handleSaveData}
         />
       </>
 

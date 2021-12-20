@@ -34,3 +34,11 @@ export const doUpdateAvatar = createAsyncThunk(
     return result.data;
   }
 );
+
+export const doFindUserByStudentId = createAsyncThunk(
+  "user@post/doFindUserByStudentId",
+  async (params: any) => {
+    const result = await apiUser.updateInfo(params);
+    return result.data;
+  }
+);
