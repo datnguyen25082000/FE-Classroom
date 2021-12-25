@@ -9,13 +9,6 @@ aliases:
       name: Install dependencies
       command: npm install
 
-  save_cache: &save_cache
-    save_cache:
-      name: Save NPM package cache
-      key: yarn-cache-netlify-{{ checksum "yarn.lock" }}
-      paths:
-        - ./node_modules
-
 version: 2.1
 
 jobs:
