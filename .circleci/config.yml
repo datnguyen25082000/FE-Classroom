@@ -11,7 +11,7 @@ aliases:
   install_type: &install_type
     run:
       name: Install typescript
-      command: npm install typescript@4.2.3
+      command: npm uninstall typescript && npm install typescript@4.2.3
 
 version: 2.1
 
@@ -20,9 +20,8 @@ jobs:
     executor: node
     steps:
       - checkout
-      
-      - run: npm install
-
+      - <<: *install_node_modules
+      - <<: *install_type
       - run:
           name: Build
           command: npm run build
