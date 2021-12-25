@@ -46,13 +46,17 @@ jobs:
             - build
 
   request-approve:
-    steps: 
+    executor: node
+    steps:
+      - checkout
       - expiration/set:
         ttl: 600
+  
   delivery:
     executor: node
     steps:
       - checkout
+      - expiration/check
       - attach_workspace:
           at: ./
       - <<: *install_node_modules
@@ -98,19 +102,23 @@ workflows:
             branches:
               ignore:
                 - gh-pages
+      
       - build:
           requires:
             - test
+      
       - deploy:
           requires:
             - build
           filters:
             branches:
               only: main
+      
       - request-approve:
           type: approval
           requires:
             - build
+      
       - delivery:
           requires:
             - request-approve
