@@ -101,7 +101,7 @@ workflows:
       
       - delivery:
           requires:
-            - request-approve
+            - approve
           filters:
             branches:
               only: master
