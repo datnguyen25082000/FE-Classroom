@@ -11,7 +11,7 @@ aliases:
   install_type: &install_type
     run:
       name: Install typescript
-      command: npm install -g typescript@4.2.3
+      command: npm install typescript@4.2.3
 
 version: 2.1
 
