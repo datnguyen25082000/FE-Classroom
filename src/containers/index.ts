@@ -11,3 +11,6 @@ export * from "./ResetPass/ResetPass";
 export * from "./RoomJoin/RoomJoin";
 export * from "./GradingStructure/GradingStructure";
 export * from "./StudentScore/StudentScore";
+export * from "./Profile/Profile";
+export * from "./Notification/Notification";
+export * from "./Admin/Admin";

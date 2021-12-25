@@ -178,7 +178,7 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                   </Button>
                 </span>
                 <FacebookLogin
-                  appId="1102985417137686"
+                  appId="1042906876485319"
                   fields="name,email,picture"
                   scope="public_profile,user_friends"
                   callback={responseFacebook}

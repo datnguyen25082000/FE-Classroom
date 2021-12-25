@@ -12,6 +12,7 @@ import {
 import { makeData } from "../RoomScore/MakeData";
 import { useHistory } from "react-router-dom";
 import "./StudentScore.scss";
+import { Button } from "react-bootstrap";
 
 export const StudentScore = () => {
   const dispatch = useAppDispatch();
@@ -112,8 +113,8 @@ export const StudentScore = () => {
       listAssign.forEach((element) => {
         totalPoint += element.point;
         let index = -1;
-        
-        if(studentScore.score.length) {
+
+        if (studentScore.score.length) {
           index = studentScore.score.findIndex(
             (item) => item.assignment_category_id === element.id
           );
@@ -150,7 +151,11 @@ export const StudentScore = () => {
       />
 
       <>
-        <h1 style={{ fontWeight: "bold", margin: "40px" }}>Điểm số</h1>
+        <div className="student-score__header">
+          <h1 style={{ fontWeight: "bold", margin: "40px" }}>Điểm số</h1>
+          {/* <Button variant="outline-primary">Báo cáo</Button> */}
+        </div>
+
         <Table
           columns={columns}
           data={data}

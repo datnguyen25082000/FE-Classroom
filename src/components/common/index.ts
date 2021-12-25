@@ -12,3 +12,4 @@ export * from "./HeaderRoom/HeaderRoom";
 export * from "./InputBootstrap/InputBootstrap";
 export * from "./Page404/Page404";
 export * from "./CardInRoom/CardInRoom";
+export * from "./PopupNotify/PopupNotify";
