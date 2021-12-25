@@ -48,7 +48,6 @@ jobs:
     executor: node
     steps:
       - checkout
-      - expiration/check
       - attach_workspace:
           at: ./
       - <<: *install_node_modules
