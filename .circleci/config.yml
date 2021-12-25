@@ -104,7 +104,7 @@ workflows:
             - build
           filters:
             branches:
-              only: main
+              only: master
       
       - request-approve:
           type: approval
@@ -116,5 +116,5 @@ workflows:
             - request-approve
           filters:
             branches:
-              only: main
+              only: master
      
