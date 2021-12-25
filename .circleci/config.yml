@@ -18,9 +18,6 @@ aliases:
 
 version: 2.1
 
-orbs: 
-  job-expiration: azihsoyn/job-expiration@0.1.0
-
 jobs:
   test:
     executor: node
@@ -46,12 +43,7 @@ jobs:
             - build
 
   request-approve:
-    executor: node
-    steps:
-      - checkout
-      - expiration/set:
-        ttl: 600
-  
+    
   delivery:
     executor: node
     steps:
@@ -72,6 +64,7 @@ jobs:
       - run:
           name: Deploy to Netlify
           command: netlify deploy --dir=./build -p
+          no_output_timeout: 30m
 
   deploy:
     executor: node
