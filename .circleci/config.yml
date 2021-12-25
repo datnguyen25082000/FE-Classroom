@@ -20,20 +20,9 @@ jobs:
     executor: node
     steps:
       - checkout
-      - restore_cache:
-        keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
       
-      - run: yarn install
-   
-      - save_cache:
-        paths:
-          - node_modules
-          - ~/.npm 
-          - ~/.cache
-        key: v1-dependencies-{{ checksum "package.json" }}
-        
+      - run: npm install
+
       - run:
           name: Build
           command: npm run build
