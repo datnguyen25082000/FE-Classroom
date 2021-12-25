@@ -1,11 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 import {
+  Admin,
   EditProfile,
   ForgotPass,
   GradingStructure,
   Home,
   Login,
+  Notifications,
+  Profile,
   ResetPass,
   Room,
   RoomEdit,
@@ -109,6 +112,27 @@ export const Routers = () => {
           path={"/classroom/:classId/student-score"}
           component={StudentScore}
           layout={FullLayout}
+        />
+
+        <PrivateRouter
+          exact={true}
+          path={"/profile/:userId"}
+          component={Profile}
+          layout={BlankLayout}
+        />
+
+        <PrivateRouter
+          exact={true}
+          path={"/notifications"}
+          component={Notifications}
+          layout={BlankLayout}
+        />
+
+        <PrivateRouter
+          exact={true}
+          path={"/admin/home"}
+          component={Admin}
+          layout={BlankLayout}
         />
       </Switch>
     </Router>

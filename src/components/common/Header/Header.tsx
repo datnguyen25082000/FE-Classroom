@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import "./Header.scss";
 import { AiOutlinePlus } from "react-icons/ai";
 import { GoThreeBars, GoSettings } from "react-icons/go";
+import { IoIosNotificationsOutline } from "react-icons/io";
 import { GiExitDoor } from "react-icons/gi";
-import { Avatar, PopupAccount } from "../../common";
+import { Avatar, PopupAccount, PopupNotify } from "../../common";
 import { useAppSelector } from "../../../redux";
 import { IDefaultAvatar } from "../../../constants/images";
 
@@ -13,10 +14,9 @@ export const Header: React.FC<IHeader> = ({
   handleAction3,
   handleAction4,
 }) => {
-  const { user_avatar } = useAppSelector(
-    (state) => state.userSlice.dataUser
-  );
+  const { user_avatar } = useAppSelector((state) => state.userSlice.dataUser);
   const [show, setShow] = useState(false);
+  const [showNoti, setShowNoti] = useState(false);
 
   return (
     <>
@@ -35,21 +35,42 @@ export const Header: React.FC<IHeader> = ({
             <GiExitDoor size={25} />
           </div>
 
-          <Avatar
-            image={user_avatar || IDefaultAvatar}
-            onClick={(e: any) => {
-              e.stopPropagation();
-              setShow(!show);
-            }}
-          ></Avatar>
+          <div
+            className="header__i header__i-notify"
+            style={{ position: "relative" }}
+            
+          >
+            <IoIosNotificationsOutline size={25} />
+
+            <div className="header__i--number">
+              <span>99</span>
+            </div>
+
+            <PopupNotify
+              show={showNoti}
+              setShow={setShowNoti}
+              handleClose={() => setShow(false)}
+              className="header__popup"
+            />
+          </div>
+
+          <div style={{ position: "relative" }}>
+            <Avatar
+              image={user_avatar || IDefaultAvatar}
+              onClick={(e: any) => {
+                e.stopPropagation();
+                setShow(!show);
+              }}
+            ></Avatar>
+            <PopupAccount
+              show={show}
+              setShow={setShow}
+              handleClose={() => setShow(false)}
+              className="header__popup"
+            />
+          </div>
         </div>
       </div>
-      <PopupAccount
-        show={show}
-        setShow={setShow}
-        handleClose={() => setShow(false)}
-        className="header__popup"
-      />
     </>
   );
 };
