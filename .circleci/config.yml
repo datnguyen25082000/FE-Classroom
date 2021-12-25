@@ -8,6 +8,7 @@ aliases:
     run:
       name: Install dependencies
       command: npm install
+  install_type: &install_type
     run:
       name: Install typescript
       command: npm install typescript@4.2.3
@@ -20,6 +21,7 @@ jobs:
     steps:
       - checkout
       - <<: *install_node_modules
+      - <<: *install_type
       - run:
           name: Build
           command: npm run build
