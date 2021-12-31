@@ -38,7 +38,11 @@ export const Header: React.FC<IHeader> = ({
           <div
             className="header__i header__i-notify"
             style={{ position: "relative" }}
-            
+            onClick={(e: any) => {
+              e.stopPropagation();
+              setShow(false);
+              setShowNoti(!showNoti);
+            }}
           >
             <IoIosNotificationsOutline size={25} />
 
@@ -50,7 +54,7 @@ export const Header: React.FC<IHeader> = ({
               show={showNoti}
               setShow={setShowNoti}
               handleClose={() => setShow(false)}
-              className="header__popup"
+              className="header__popup--noti"
             />
           </div>
 
@@ -59,6 +63,7 @@ export const Header: React.FC<IHeader> = ({
               image={user_avatar || IDefaultAvatar}
               onClick={(e: any) => {
                 e.stopPropagation();
+                setShowNoti(false);
                 setShow(!show);
               }}
             ></Avatar>

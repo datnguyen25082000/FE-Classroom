@@ -10,6 +10,7 @@ import {
 } from "../../components";
 import { useAppDispatch, useAppSelector, doGetAllCourse } from "../../redux";
 import { SvgEmpty } from "../../constants/images";
+import "./Notification.scss";
 
 export const Notifications = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +35,7 @@ export const Notifications = () => {
   }, []);
 
   return (
-    <div className="home">
+    <div className="notification">
       <Header
         handleAction1={() => setShowCanvas(true)}
         handleAction2={() => setShow(true)}
@@ -43,11 +44,11 @@ export const Notifications = () => {
 
       {isLoading && <Loader />}
 
-      <h1>Thông báo</h1>
+      {/* <h1 className='notification__title'>Thông báo</h1> */}
 
       <div className="box shadow-sm rounded bg-white mb-5">
         <div className="box-title border-bottom p-3">
-          <h6 className="m-0">Thông báo mới</h6>
+          <h6 className="m-0 notification__header">Thông báo mới</h6>
         </div>
         <div className="box-body p-0">
           {[1, 2, 3, 4, 5].map((item) => {
@@ -57,7 +58,7 @@ export const Notifications = () => {
       </div>
       <div className="box shadow-sm rounded bg-white mb-5">
         <div className="box-title border-bottom p-3">
-          <h6 className="m-0">Thông báo cũ hơn</h6>
+          <h6 className="m-0 notification__header">Thông báo cũ hơn</h6>
         </div>
         <div className="box-body p-0">
           {[1, 2, 3, 4, 5].map((item) => {

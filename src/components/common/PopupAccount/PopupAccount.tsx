@@ -23,9 +23,7 @@ export const PopupAccount: React.FC<IModalCenter> = ({
       const handleClickOutside = (event: any) => {
         if (ref.current && ref.current.contains(event.target)) {
         } else {
-          if (handleClose) {
-            handleClose();
-          }
+          setShow(false);
         }
       };
       document.addEventListener("click", handleClickOutside);

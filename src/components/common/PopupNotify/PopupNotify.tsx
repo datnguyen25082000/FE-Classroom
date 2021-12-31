@@ -5,7 +5,7 @@ import { BiUserPin } from "react-icons/bi";
 import { logout } from "../../../helpers";
 import { useHistory } from "react-router";
 import { useAppSelector } from "../../../redux";
-
+import { CardNotify } from "../../CardNotify/CardNotify";
 export const PopupNotify: React.FC<IModalCenter> = ({
   show,
   top,
@@ -23,9 +23,7 @@ export const PopupNotify: React.FC<IModalCenter> = ({
       const handleClickOutside = (event: any) => {
         if (ref.current && ref.current.contains(event.target)) {
         } else {
-          if (handleClose) {
-            handleClose();
-          }
+          setShow(false);
         }
       };
       document.addEventListener("click", handleClickOutside);
@@ -49,24 +47,16 @@ export const PopupNotify: React.FC<IModalCenter> = ({
       ref={ref}
     >
       <div className="popup-notify__list">
-        <div className="popup-notify-cover__arrow">
-          <div className="popup-notify__arr"></div>
-        </div>
-        <div
-          className="popup-notify__item"
-          onClick={() => handleRedirectProfile()}
-        >
-          <BiUserPin size={20} />
-          <span>Thông tin cá nhân</span>
-        </div>
-        <div className="popup-notify__item">
-          <AiFillSetting size={20} />
-          <span>Cài đặt</span>
-        </div>
-        <div className="popup-notify__item" onClick={() => logout()}>
-          <AiOutlineLogout size={20} />
-          <span> Đăng xuất</span>
-        </div>
+        {[1, 2, 3, 4, 5].map((item, i) => {
+          return (
+            <div className="popup-notify__item" key={i}>
+              <CardNotify showMore={false} />
+            </div>
+          );
+        })}
+      </div>{" "}
+      <div className="popup-notify__more">
+        <a href="/notifications">Xem tất cả</a>
       </div>
     </div>
   );
