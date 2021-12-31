@@ -7,14 +7,12 @@ aliases:
   install_node_modules: &install_node_modules
     run:
       name: Install dependencies
-      command: npm install && npm uninstall typescript && npm i typescript@4.2.4
+      command: npm install 
 
   save_cache: &save_cache
-    save_cache:
-      name: Save NPM package cache
-      key: yarn-cache-netlify-{{ checksum "yarn.lock" }}
-      paths:
-        - ./node_modules
+    run:
+      name: Install dependencies
+      command: npm uninstall typescript && npm i typescript@4.2.4
 
 version: 2.1
 
@@ -24,6 +22,7 @@ jobs:
     steps:
       - checkout
       - <<: *install_node_modules
+      - <<: *save_cache
       - run:
           name: Build
           command: npm run build
@@ -41,6 +40,7 @@ jobs:
       - attach_workspace:
           at: ./
       - <<: *install_node_modules
+      - <<: *save_cache
       - run:
           name: Install netlify-cli
           command: sudo npm install --unsafe-perm=true -g --silent netlify-cli
@@ -61,6 +61,7 @@ jobs:
       - attach_workspace:
           at: ./
       - <<: *install_node_modules
+      - <<: *save_cache
       - run:
           name: Install netlify-cli
           command: sudo npm install --unsafe-perm=true -g --silent netlify-cli
