@@ -27,7 +27,16 @@ export const ResetPass = () => {
     history.goBack();
   };
 
-  const onSubmit = () => {};
+  const onSubmit = (data: any) => {
+    console.log("haha");
+
+    const value = {
+      username: data.password,
+      password: data.repassword,
+    };
+
+    console.log("value", value);
+  };
 
   return (
     <div className="login-container">
@@ -40,21 +49,23 @@ export const ResetPass = () => {
             label="Mật khẩu"
             type="text"
             placeholder="Nhập mật khẩu"
-            {...register("login_username", {
-              required: "Vui lòng nhập tên đăng nhập",
+            {...register("password", {
+              required: "Vui lòng nhập mật khẩu mới",
               maxLength: 40,
             })}
-            error={errors.login_username ? errors.login_username.message : ""}
+            error={errors.password ? errors.password.message : ""}
           />
           <Input
             label="Nhập lại mật khẩu"
             type="text"
             placeholder="Nhập lại mật khẩu"
-            {...register("login_username", {
-              required: "Vui lòng nhập tên đăng nhập",
-              maxLength: 40,
+            {...register("repassword", {
+              required: "Nhập lại mật khẩu không chính xác",
+              validate: (value) =>
+                value === watch("password") ||
+                "Nhập lại mật khẩu không chính xác",
             })}
-            error={errors.login_username ? errors.login_username.message : ""}
+            error={errors.repassword ? errors.repassword.message : ""}
           />
           <div className="reset-pass__groupBtn">
             <Button
@@ -67,7 +78,7 @@ export const ResetPass = () => {
             <Button
               variant="primary"
               className="reset-pass__btn"
-              onClick={() => handleSubmit(onSubmit)}
+              onClick={handleSubmit(onSubmit)}
             >
               Xác nhận
             </Button>{" "}

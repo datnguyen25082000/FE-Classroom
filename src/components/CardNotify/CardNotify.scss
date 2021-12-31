@@ -1,4 +1,8 @@
 .card-notify {
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(223, 221, 221) !important;
+  }
   .dropdown-list-image {
     position: relative;
     height: 2.5rem;

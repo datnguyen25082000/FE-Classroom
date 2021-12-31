@@ -8,13 +8,15 @@
   border: 2px #aaa solid;
   border-radius: 8px;
   transition: all 0.2s;
-  transform: scale(0);
+  transform: scale(0.5);
+  width: 500px;
+  overflow: hidden;
 
   &--show {
     display: block;
     opacity: 1;
     visibility: visible;
-    top: 70px;
+    top: 50px;
     box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.15);
     z-index: 1000;
     transform: scale(1);
@@ -30,9 +32,7 @@
 
   &__item {
     display: flex;
-    // justify-content: center;
     align-items: center;
-    padding: 10px 20px;
     cursor: pointer;
     width: 100%;
     font-size: 14px;
@@ -67,7 +67,7 @@
     position: relative;
     right: -67px;
     &::before {
-      content: '';
+      content: "";
       width: 154px;
       height: 156px;
       clip-path: polygon(50% 0%, 44% 11%, 55% 11%);
@@ -77,5 +77,10 @@
       top: 3px;
       left: 3px;
     }
+  }
+
+  &__more {
+    padding: 10px;
+    text-align: center;
   }
 }

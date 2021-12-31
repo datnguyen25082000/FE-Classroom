@@ -189,6 +189,17 @@ export const EditProfile = () => {
                 >
                   Lưu thay đổi
                 </Button>
+
+                <Button
+                  variant="success"
+                  style={{ marginLeft: "auto" }}
+                  className="edit-profile__btn"
+                  onClick={() => {
+                    history.push("/reset-password");
+                  }}
+                >
+                  Đổi mật khẩu
+                </Button>
               </div>
             </div>
           </div>

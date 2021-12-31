@@ -1,0 +1,17 @@
+.notification {
+  padding-bottom: 50px;
+  padding-top: 120px;
+
+  &__title {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: rgb(27, 182, 27);
+  }
+
+  &__header {
+    font-size: 20px;
+    font-weight: 500;
+    color: rgb(27, 182, 27);
+  }
+}
