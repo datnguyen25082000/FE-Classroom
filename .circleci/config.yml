@@ -19,6 +19,16 @@ aliases:
 version: 2.1
 
 jobs:
+  test:
+    executor: node
+    steps:
+      - checkout
+      - <<: *install_node_modules
+      - <<: *save_cache
+      - run:
+          name: Test
+          command: yarn test
+
   build:
     executor: node
     steps:
@@ -78,8 +88,14 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
       - build:
-      
+          requires:
+            - test
       - deploy:
           requires:
             - build
