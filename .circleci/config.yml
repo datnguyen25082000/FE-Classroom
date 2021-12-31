@@ -1,3 +1,8 @@
+defaults: &defaults
+  #working_directory: ./circleci
+  docker:
+    - image: circleci/node:8
+
 version: 2.1
 
 jobs:
