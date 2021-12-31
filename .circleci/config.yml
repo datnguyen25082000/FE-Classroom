@@ -7,7 +7,7 @@ aliases:
   install_node_modules: &install_node_modules
     run:
       name: Install dependencies
-      command: yarn
+      command: npm i
 
   save_cache: &save_cache
     save_cache:
@@ -18,9 +18,6 @@ aliases:
 
 version: 2.1
 
-orbs: 
-  job-expiration: azihsoyn/job-expiration@0.1.0
-
 jobs:
   test:
     executor: node
@@ -30,7 +27,7 @@ jobs:
       - <<: *save_cache
       - run:
           name: Test
-          command: yarn test
+          command: npm i typescript@4.0.0
 
   build:
     executor: node
@@ -46,9 +43,7 @@ jobs:
             - build
 
   request-approve:
-    steps: 
-      - expiration/set:
-        ttl: 600
+
   delivery:
     executor: node
     steps:
