@@ -44,7 +44,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: ./
-      - <<: *install_node_modules
       - run:
           name: Install netlify-cli
           command: sudo npm install --unsafe-perm=true -g --silent netlify-cli
@@ -65,7 +64,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: ./
-      - <<: *install_node_modules
       - run:
           name: Install netlify-cli
           command: sudo npm install --unsafe-perm=true -g --silent netlify-cli
