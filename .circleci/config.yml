@@ -23,17 +23,14 @@ jobs:
     executor: node
     steps:
       - checkout
-      - <<: *install_node_modules
-      - <<: *save_cache
       - run:
           name: Test
-          command: npm i typescript@4.0.0
+          command: npm i typescript@4.2.4
 
   build:
     executor: node
     steps:
       - checkout
-      - <<: *install_node_modules
       - run:
           name: Build
           command: npm run build
