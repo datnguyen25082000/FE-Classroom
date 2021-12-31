@@ -1,13 +1,12 @@
-defaults: &defaults
-  #working_directory: ./circleci
-  docker:
-    - image: circleci/node:8
+executors:
+  node:
+    docker:
+      - image: circleci/node:12.9.1-browsers
 
 version: 2.1
 
 jobs:
   prepare:
-    <<: *defaults
     steps:
       - checkout
       # Download and cache dependencies
@@ -25,7 +24,6 @@ jobs:
             - node_modules
 
   build:
-    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
@@ -81,7 +79,8 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:      
-      -prepare:
+      - prepare
+
       - build:
           requires: 
             - prepare
