@@ -106,7 +106,7 @@ workflows:
             - build
           filters:
             branches:
-              only: main
+              only: dat-feature
       - request-approve:
           type: approval
           requires:
@@ -116,5 +116,5 @@ workflows:
             - request-approve
           filters:
             branches:
-              only: main
+              only: dat-feature
      
