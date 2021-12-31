@@ -7,7 +7,7 @@ aliases:
   install_node_modules: &install_node_modules
     run:
       name: Install dependencies
-      command: yarn
+      command: npm i && npm uninstall typescript && npm install typescript@4.2.3
 
   save_cache: &save_cache
     save_cache:
@@ -27,7 +27,7 @@ jobs:
       - <<: *save_cache
       - run:
           name: Test
-          command: npm i
+          command: npm uninstall typescript && npm install typescript@4.2.3
 
   build:
     executor: node
