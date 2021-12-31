@@ -7,7 +7,7 @@ aliases:
   install_node_modules: &install_node_modules
     run:
       name: Install dependencies
-      command: npm i && npm uninstall typescript && npm install typescript@4.2.3
+      command: yarn
 
   save_cache: &save_cache
     save_cache:
@@ -19,21 +19,12 @@ aliases:
 version: 2.1
 
 jobs:
-  test:
-    executor: node
-    steps:
-      - checkout
-      - <<: *install_node_modules
-      - <<: *save_cache
-      - run:
-          name: Test
-          command: npm uninstall typescript && npm install typescript@4.2.3
-
   build:
     executor: node
     steps:
       - checkout
       - <<: *install_node_modules
+      - <<: *save_cache
       - run:
           name: Build
           command: npm run build
@@ -54,10 +45,10 @@ jobs:
       - run:
           name: Install netlify-cli
           command: sudo npm install --unsafe-perm=true -g --silent netlify-cli
-      - run: 
+      - run:
           name: Unlink App
           command: netlify unlink
-      - run: 
+      - run:
           name: Define app
           command: netlify link --id $NETLIFY_SITE_ID_DELIVERY
       - run:
@@ -74,10 +65,10 @@ jobs:
       - run:
           name: Install netlify-cli
           command: sudo npm install --unsafe-perm=true -g --silent netlify-cli
-      - run: 
+      - run:
           name: Unlink App
           command: netlify unlink
-      - run: 
+      - run:
           name: Define app
           command: netlify link --id $NETLIFY_SITE_ID_DEPLOY
       - run:
@@ -88,14 +79,8 @@ workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - test:
-          filters:
-            branches:
-              ignore:
-                - gh-pages
-      - build:
-          requires:
-            - test
+      - build
+
       - deploy:
           requires:
             - build
@@ -106,6 +91,9 @@ workflows:
           type: approval
           requires:
             - build
+          filters:
+            branches:
+              only: master
       - delivery:
           requires:
             - request-approve
