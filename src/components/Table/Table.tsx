@@ -99,6 +99,7 @@ export const Table: React.FC<ITable> = ({
   handleFinalizeColumn,
   handleSaveData,
   isStudentTable = false,
+  handleReviewStudent,
 }) => {
   const {
     getTableProps,
@@ -132,7 +133,14 @@ export const Table: React.FC<ITable> = ({
       <Popover id="popover-trigger-focus" title="Popover bottom">
         <Popover.Header as="h3">Tùy chọn</Popover.Header>
         <Popover.Body>
-          {column.id === "total" ? (
+          {column.isStudent ? (
+            <div
+              className="card-student__item"
+              onClick={() => handleReviewStudent(column)}
+            >
+              <span>Xem / gửi phúc khảo </span>
+            </div>
+          ) : column.id === "total" ? (
             <div
               className="card-student__item"
               onClick={() => handleFinalizeColumn(column)}

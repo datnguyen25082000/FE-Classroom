@@ -6,7 +6,7 @@ import { IDefaultAvatar } from "../../../constants/images";
 
 export const UpdateAvatar: React.FC<IUpdateAvatar> = ({
   avatarImg = IDefaultAvatar,
-  isEditProfile,
+  isEditProfile = true,
   className,
   onClick,
   onClickAvatar,
@@ -14,27 +14,14 @@ export const UpdateAvatar: React.FC<IUpdateAvatar> = ({
   return (
     <div className={`updateAvatar ${className}`}>
       {!avatarImg ? (
-        isEditProfile ? (
-          <Fragment>
-            <Avatar
-              className="updateAvatar__ava"
-              image={avatarImg || IDefaultAvatar}
-              onClick={onClickAvatar}
-            />
-            <div className="updateAvatar__empty">
-              <span className="updateAvatar__text">Ảnh đại diện</span>
-            </div>
-          </Fragment>
-        ) : (
-          <Fragment>
-            <Avatar
-              className="updateAvatar__ava"
-              image={avatarImg || IDefaultAvatar}
-              onClick={onClickAvatar}
-            />
-            <div className="updateAvatar__emptyDetail"></div>
-          </Fragment>
-        )
+        <Fragment>
+          <Avatar
+            className="updateAvatar__ava"
+            image={avatarImg || IDefaultAvatar}
+            onClick={onClickAvatar}
+          />
+          <div className="updateAvatar__emptyDetail"></div>
+        </Fragment>
       ) : (
         <Avatar
           className="updateAvatar__ava"
@@ -43,9 +30,11 @@ export const UpdateAvatar: React.FC<IUpdateAvatar> = ({
         />
       )}
 
-      <div className="updateAvatar__editAvatarImage" onClick={onClick}>
-        <AiOutlineCamera color="#000" size={20} />
-      </div>
+      {isEditProfile && (
+        <div className="updateAvatar__editAvatarImage" onClick={onClick}>
+          <AiOutlineCamera color="#000" size={20} />
+        </div>
+      )}
     </div>
   );
 };

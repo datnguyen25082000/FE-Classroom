@@ -1,0 +1,30 @@
+.review-item {
+  margin-bottom: 20px;
+
+  .card-header {
+    padding: 0 !important;
+  }
+
+  &__header {
+    background-color: #fff !important;
+  }
+
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(223, 221, 221) !important;
+  }
+  .dropdown-list-image {
+    position: relative;
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+  .dropdown-list-image img {
+    height: 2.5rem;
+    width: 2.5rem;
+  }
+  .btn-light {
+    color: #2cdd9b;
+    background-color: #e5f7f0;
+    border-color: #d8f7eb;
+  }
+}

@@ -9,7 +9,7 @@ import {
   Login,
   Notifications,
   Profile,
-  ResetPass,
+  UpdatePass,
   Room,
   RoomEdit,
   RoomJoin,
@@ -17,6 +17,7 @@ import {
   RoomPractice,
   RoomScore,
   StudentScore,
+  ReviewList,
 } from "../containers";
 import { PrivateRouter } from "./PrivateRouter";
 import { PublicRouter } from "./PublicRouter";
@@ -76,6 +77,12 @@ export const Routers = () => {
           component={RoomEdit}
           layout={BlankLayout}
         />
+        <PrivateRouter
+          exact={true}
+          path={"/classroom/:classId/review-list"}
+          component={ReviewList}
+          layout={BlankLayout}
+        />
         <PublicRouter
           exact={true}
           path={"/login"}
@@ -96,9 +103,9 @@ export const Routers = () => {
         />
         <PublicRouter
           exact={true}
-          path={"/reset-password"}
-          component={ResetPass}
-          layout={FullLayout}
+          path={"/update-password"}
+          component={UpdatePass}
+          layout={BlankLayout}
         />
         <PrivateRouter
           exact={true}

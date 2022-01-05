@@ -1,0 +1,105 @@
+.profile {
+    .account-settings .user-profile {
+      margin: 0 0 1rem 0;
+      padding-bottom: 1rem;
+      text-align: center;
+    }
+    .account-settings .user-profile .user-avatar {
+      margin: 0 0 1rem 0;
+    }
+    .account-settings .user-profile .user-avatar img {
+      width: 90px;
+      height: 90px;
+      -webkit-border-radius: 100px;
+      -moz-border-radius: 100px;
+      border-radius: 100px;
+    }
+    .account-settings .about {
+      margin: 2rem 0 0 0;
+      text-align: center;
+    }
+  
+    padding-top: 100px;
+    padding-bottom: 50px;
+  
+    &__card {
+      background: #ffffff;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 10px !important;
+      border: 0;
+      margin-bottom: 1rem;
+      padding: 20px !important;
+    }
+  
+    &__groupBtn {
+      margin-top: 20px !important;
+    }
+  
+    &__btn {
+      margin-right: 10px;
+      min-width: 120px;
+    }
+  
+    &__title {
+      font-size: 25px;
+      color: #c26401;
+      font-weight: 500;
+      margin-top: 10px;
+      margin-bottom: 20px !important;
+    }
+  
+    &__knowledge {
+      padding: 12px;
+      margin-top: 20px !important;
+  
+      h1 {
+        font-size: 25px;
+        font-weight: 500;
+        color: #c26401;
+        padding: 10px;
+        border-bottom: 1px #c26401 solid;
+      }
+      .card {
+        padding-bottom: 30px !important;
+      }
+    }
+  
+    &__left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    &__name {
+      margin: 20px 0px;
+      font-weight: 500;
+      font-size: 20px;
+    }
+  
+    &__class {
+      border: 1px rgb(207, 205, 205) solid;
+      padding: 18px;
+      border-radius: 10px;
+      margin-top: 15px;
+      cursor: pointer;
+      background-color: none;
+  
+      &:hover {
+        background-color: rgb(236, 235, 235);
+      }
+  
+      &-name {
+        font-size: 16px;
+        font-weight: 500;
+      }
+    }
+  
+    &__avatar-modal {
+      object-fit: cover;
+      max-width: 800px;
+      height: auto;
+    }
+  }
+  

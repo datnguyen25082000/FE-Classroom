@@ -1,4 +1,4 @@
-import { FC, memo, useState } from "react";
+import React, { FC, memo, useState } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { FloatingLabel, Form, Button } from "react-bootstrap";
 import "./Card.scss";
