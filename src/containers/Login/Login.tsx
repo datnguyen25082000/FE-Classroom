@@ -196,6 +196,10 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                 // titleAction="Gửi mã OTP"
                 {...register2("register_username", {
                   required: "Vui lòng nhập tên đăng nhập",
+                  minLength: {
+                    value: 6,
+                    message: "Độ dài tên không nhỏ hơn 6",
+                  },
                   maxLength: 40,
                 })}
                 error={
@@ -211,6 +215,7 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                 // titleAction="Gửi mã OTP"
                 {...register2("register_fullname", {
                   required: "Vui lòng nhập họ và tên",
+
                   maxLength: 40,
                 })}
                 error={
@@ -227,6 +232,10 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                   placeholder="Nhập mật khẩu"
                   {...register2("register_password", {
                     required: "Vui lòng nhập mật khẩu",
+                    minLength: {
+                      value: 6,
+                      message: "Độ dài mật khẩu không nhỏ hơn 6",
+                    },
                     maxLength: 40,
                   })}
                   error={
@@ -242,9 +251,12 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                   placeholder="Nhập lại mật khẩu"
                   {...register2("register_repassword", {
                     required: "Nhập lại mật khẩu không chính xác",
-                    // minLength: { value: 6, message: 'Nhập lại mật khẩu không chính xác' },
+                    minLength: {
+                      value: 6,
+                      message: "Độ dài mật khẩu không nhỏ hơn 6",
+                    },
                     validate: (value) =>
-                      value === watch2("register_repassword") ||
+                      value === watch2("register_password") ||
                       "Nhập lại mật khẩu không chính xác",
                   })}
                   error={

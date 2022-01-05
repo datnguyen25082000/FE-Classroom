@@ -6,7 +6,7 @@ import { Avatar, PopupAccount } from "../../common";
 import { useAppSelector, useFetchOneCourseQuery } from "../../../redux";
 import { IDefaultAvatar } from "../../../constants/images";
 import { useLocation, useHistory } from "react-router";
-
+import { BsMailbox } from "react-icons/bs";
 export const HeaderRoom: React.FC<IHeader> = ({
   handleAction1,
   handleAction2,
@@ -99,13 +99,27 @@ export const HeaderRoom: React.FC<IHeader> = ({
 
         <div className="header-room__right">
           <div
+            className="header-room__i header-room__i-mail"
+            onClick={() => history.push(`/classroom/${classId}/review-list`)}
+            style={{ display: isHost ? "" : "none" }}
+          >
+            <BsMailbox
+              color={
+                location.pathname.match(/classroom[^]*review-list/)
+                  ? "green"
+                  : ""
+              }
+              size={25}
+            />
+          </div>
+
+          <div
             className="header-room__i header-room__i-plus"
             onClick={() => history.push(`/classroom/${classId}/edit`)}
             style={{ display: isHost ? "" : "none" }}
           >
             <AiFillSetting size={25} />
           </div>
-
           <Avatar
             image={user_avatar || IDefaultAvatar}
             onClick={(e: any) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useParams } from "react-router";
 import { HeaderRoom, Page404 } from "../../components/common";
-import { OffCanvas, Table } from "../../components";
+import { OffCanvas, Table, CardReview } from "../../components";
 import {
   useAppSelector,
   useAppDispatch,
@@ -12,12 +12,13 @@ import {
 import { makeData } from "../RoomScore/MakeData";
 import { useHistory } from "react-router-dom";
 import "./StudentScore.scss";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 
 export const StudentScore = () => {
   const dispatch = useAppDispatch();
   const { classId } = useParams<{ classId: string }>();
   const [showCanvas, setShowCanvas] = useState(false);
+  const [showReview, setShowReview] = useState(false);
   const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
   const { listAssign } = useAppSelector((state) => state.assignCateSlice);
   const { listScore, studentScore } = useAppSelector(
@@ -76,7 +77,7 @@ export const StudentScore = () => {
           Header: element.name,
           accessor: element.name.replace(/ /g, "_"),
           collapse: true,
-          // isTotal: true,
+          isTotal: true,
           colId: element.id,
           isStudent: true,
           // isFinalized: element.isFinalized,
@@ -87,6 +88,10 @@ export const StudentScore = () => {
 
     return arrayHeader;
   }, [listAssign]);
+
+  const handleReviewStudent = () => {
+    setShowReview(true);
+  };
 
   useEffect(() => {
     dispatch(doGetAllAssignByCourse({ course_id: classId }));
@@ -166,6 +171,7 @@ export const StudentScore = () => {
           handleFinalizeColumn={() => {}}
           handleSaveData={() => {}}
           isStudentTable={true}
+          handleReviewStudent={handleReviewStudent}
         />
       </>
 
@@ -174,6 +180,22 @@ export const StudentScore = () => {
         setShow={setShowCanvas}
         handleClose={() => setShowCanvas(false)}
       />
+
+      <Modal
+        show={showReview}
+        aria-labelledby="contained-modal-title-vcenter"
+        size="lg"
+        centered
+        onHide={() => setShowReview(false)}
+      >
+        <div className="student-score__modal-review">
+          <h1 className="student-score__title">Phúc khảo điểm</h1>
+          <CardReview />
+        </div>
+        <Modal.Footer>
+          <Button onClick={() => setShowReview(false)}>Tắt</Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

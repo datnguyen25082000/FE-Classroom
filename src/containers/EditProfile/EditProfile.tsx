@@ -104,7 +104,7 @@ export const EditProfile = () => {
             <div className="card-body">
               <div className="row gutters">
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                  <h6 className="mb-2 edit-profile__title">
+                  <h6 className="edit-profile__title">
                     Thông tin cá nhân
                   </h6>
                 </div>
@@ -140,7 +140,7 @@ export const EditProfile = () => {
 
               <div className="row gutters">
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                  <h6 className="mb-2 edit-profile__title">
+                  <h6 className="edit-profile__title">
                     Thông tin vào lớp
                   </h6>
                 </div>
@@ -195,7 +195,7 @@ export const EditProfile = () => {
                   style={{ marginLeft: "auto" }}
                   className="edit-profile__btn"
                   onClick={() => {
-                    history.push("/reset-password");
+                    history.push("/update-password");
                   }}
                 >
                   Đổi mật khẩu

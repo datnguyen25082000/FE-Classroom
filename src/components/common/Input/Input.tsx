@@ -65,7 +65,7 @@ export const Input = React.forwardRef<any, IInput>(
               ref={ref}
               autoComplete="off"
               onKeyDown={onKeyDown}
-              className={showPassword ? 'input__input input__input--show' : 'input__input'}
+              className={titleAction ? 'input__input input__input--action' : showPassword ? 'input__input input__input--show' : 'input__input'}
             />
             {showPassword && (
               <div
