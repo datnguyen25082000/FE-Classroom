@@ -28,4 +28,9 @@ export const apiUser = {
     const url = baseUrl + `find-user-by-student-id`;
     return axiosClient.get(url + objToQuery({ ...params }));
   },
+
+  changePass: (params: IParamsChangePassword) => {
+    const url = baseUrl + "change-password";
+    return axiosClient.post(url, params);
+  },
 };

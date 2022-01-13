@@ -13,6 +13,7 @@ export const Header: React.FC<IHeader> = ({
   handleAction2,
   handleAction3,
   handleAction4,
+  isAdminHeader = false,
 }) => {
   const { user_avatar } = useAppSelector((state) => state.userSlice.dataUser);
   const [show, setShow] = useState(false);
@@ -22,18 +23,26 @@ export const Header: React.FC<IHeader> = ({
     <>
       <div className="header">
         <div className="header__left">
-          <div className="header__i header__i-three" onClick={handleAction1}>
-            <GoThreeBars size={25} />
-          </div>
-          <span className="header__app-name">NTD Classroom</span>
+          {!isAdminHeader && (
+            <div className="header__i header__i-three" onClick={handleAction1}>
+              <GoThreeBars size={25} />
+            </div>
+          )}
+          <span className="header__app-name">
+            {isAdminHeader ? "Admin Dashboard" : "My Classroom"}
+          </span>
         </div>
         <div className="header__right">
-          <div className="header__i header__i-plus" onClick={handleAction2}>
-            <AiOutlinePlus size={25} />
-          </div>
-          <div className="header__i header__i-exit" onClick={handleAction3}>
-            <GiExitDoor size={25} />
-          </div>
+          {!isAdminHeader && (
+            <>
+              <div className="header__i header__i-plus" onClick={handleAction2}>
+                <AiOutlinePlus size={25} />
+              </div>
+              <div className="header__i header__i-exit" onClick={handleAction3}>
+                <GiExitDoor size={25} />
+              </div>
+            </>
+          )}
 
           <div
             className="header__i header__i-notify"

@@ -15,6 +15,7 @@ import { EToken } from "../../constants";
 import { SvgLogin } from "../../constants/images";
 import { useHistory } from "react-router";
 import FacebookLogin from "react-facebook-login";
+import { validateEmail } from "../../helpers";
 
 export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
   const dispatch = useAppDispatch();
@@ -52,7 +53,14 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
             window.localStorage.setItem(EToken.loginToken, token);
             window.location.replace("/");
           } else {
-            setMessage(res.message);
+            if (res.message === "ACCOUNT_IS_NOT_ACTIVATED_BY_USER") {
+              setMessage(
+                "Tài khoản chưa được kích hoạt. Vui lòng xác nhận ở tài khoản email đã đăng ký"
+              );
+            }
+            if (res.message === "INCORRECT_PASSWORD") {
+              setMessage("Mật khẩu đăng nhập không đúng");
+            } else setMessage(res.message);
             setShowModal(true);
           }
         });
@@ -61,12 +69,16 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
         username: data.register_username,
         password: data.register_password,
         fullname: data.register_fullname,
+        email: data.register_email,
       };
 
       dispatch(doRegister(value))
         .then(unwrapResult)
         .then((res: IResLogin) => {
-          setMessage(res.message);
+          if (res?.content || res?.message) {
+            setMessage(res.message || res.content);
+          }
+          setMessage("Đăng ký thành công ");
           setShowModal(true);
         });
     }
@@ -224,6 +236,21 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                     : ""
                 }
               />
+
+              <Input
+                label="Email"
+                type="text"
+                placeholder="Nhập họ và tên"
+                {...register2("register_email", {
+                  required: "Vui lòng nhập email",
+                  validate: (value) =>
+                    validateEmail(value) || "Email chưa đúng định dạng",
+                })}
+                error={
+                  errors2.register_email ? errors2.register_email.message : ""
+                }
+              />
+
               <div className="login-modal__password">
                 <Input
                   label="Mật khẩu"

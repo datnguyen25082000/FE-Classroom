@@ -7,6 +7,7 @@ import {
   doUpdateInfo,
   doUpdateAvatar,
   doFakeUpdateAvatar,
+  doChangePass,
 } from "../../redux";
 import { useHistory } from "react-router";
 import { Col, Row, Button } from "react-bootstrap";
@@ -16,6 +17,7 @@ import { ModalAddCourse, OffCanvas, ModalJoinCourse } from "../../components";
 import { useForm } from "react-hook-form";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Modal } from "react-bootstrap";
+import { ToastContainer, toast } from "react-toastify";
 
 export const UpdatePass = () => {
   const dispatch = useAppDispatch();
@@ -39,17 +41,14 @@ export const UpdatePass = () => {
   } = useForm();
 
   const onSubmit = (data: any) => {
-    console.log("data", data);
-
-    // dispatch(doUpdateInfo(data))
-    //   .then(unwrapResult)
-    //   .then((res: any) => {
-    //     if (res.content && res.content.update) {
-    //       setMessage("Cập nhập thông tin thành công");
-    //     } else setMessage("Đã có lỗi xảy ra, vui lòng thử lại");
-
-    //     setShowModal(true);
-    //   });
+    const { oldpass, newpass } = data;
+    dispatch(doChangePass({ currentPassword: oldpass, newPassword: newpass }))
+      .then(unwrapResult)
+      .then((res: any) => {
+        if (res.content && res.content.user_id) {
+          notify("Chỉnh sửa mật khẩu thành công");
+        } else notify(res.content);
+      });
   };
 
   useEffect(() => {
@@ -61,6 +60,13 @@ export const UpdatePass = () => {
     history.goBack();
   };
 
+  const notify = (string: string) => {
+    toast(string, {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      className: "foo-bar",
+    });
+  };
+
   return (
     <div className="update-pass">
       <Header
@@ -68,7 +74,7 @@ export const UpdatePass = () => {
         handleAction2={() => setShow(true)}
         handleAction3={() => setShowJoin(true)}
       />
-
+      <ToastContainer autoClose={1500} />
       <Row>
         <Col md={3}>
           <div className="card h-100 update-pass__card">

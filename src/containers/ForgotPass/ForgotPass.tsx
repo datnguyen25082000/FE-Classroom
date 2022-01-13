@@ -10,9 +10,12 @@ import { EToken } from "../../constants";
 import { SvgLogin } from "../../constants/images";
 import { useHistory } from "react-router";
 import { validateEmail } from "../../helpers";
+import { useAppDispatch, doForgotPass, doResetPass } from "../../redux";
+import { ToastContainer, toast } from "react-toastify";
 
 export const ForgotPass = () => {
   const history = useHistory();
+  const dispatch = useAppDispatch();
   const [message, setMessage] = useState("");
   const [isDisable, setIsDisable] = useState(true);
   const [kindModal, setKindModal] = useState(1);
@@ -30,15 +33,27 @@ export const ForgotPass = () => {
   };
 
   const onSubmit = (data: any) => {
-    
+    const { email, otp, password } = data;
+
+    dispatch(doResetPass({ email, otp, newPassword: password }));
+    notify();
   };
 
   const handleSendOTP = () => {
+    dispatch(doForgotPass({ email: watch("email") }));
     setIsDisable(false);
+  };
+
+  const notify = () => {
+    toast("Reset mật khẩu thành công", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      className: "foo-bar",
+    });
   };
 
   return (
     <div className="login-container">
+      <ToastContainer autoClose={1500} />
       <img src={SvgLogin} alt="Image" />
       <div className="login-modal forgot-pass__modal">
         <h1>NTD Classroom</h1>
@@ -63,11 +78,11 @@ export const ForgotPass = () => {
             type="text"
             isDisable={isDisable}
             placeholder="Nhập mã OTP được gửi đến email"
-            {...register("login_username", {
-              required: "Vui lòng nhập tên đăng nhập",
+            {...register("otp", {
+              required: "Vui lòng nhập mã OTP",
               maxLength: 40,
             })}
-            error={errors.login_username ? errors.login_username.message : ""}
+            error={errors.otp ? errors.otp.message : ""}
           />
           <Input
             label="Mật khẩu mới"

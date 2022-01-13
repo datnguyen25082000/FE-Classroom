@@ -13,3 +13,5 @@ export * from "./Table/Table";
 export * from "./CardNotify/CardNotify";
 export * from "./CardReview/CardReview";
 export * from "./ReviewItem/ReviewItem";
+export * from "./AdminComponent";
+export * from "./TableAdmin/TableAdmin";
