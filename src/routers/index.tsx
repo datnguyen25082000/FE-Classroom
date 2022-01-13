@@ -18,6 +18,7 @@ import {
   RoomScore,
   StudentScore,
   ReviewList,
+  InvaliAccount,
 } from "../containers";
 import { PrivateRouter } from "./PrivateRouter";
 import { PublicRouter } from "./PublicRouter";
@@ -53,6 +54,14 @@ export const Routers = () => {
           component={RoomJoin}
           layout={BlankLayout}
         />
+
+        <PublicRouter
+          exact={true}
+          path={"/account-active"}
+          component={InvaliAccount}
+          layout={BlankLayout}
+        />
+
         <PrivateRouter
           exact={true}
           path={"/classroom/:classId/members"}
@@ -139,7 +148,21 @@ export const Routers = () => {
           exact={true}
           path={"/admin/home"}
           component={Admin}
-          layout={BlankLayout}
+          layout={FullLayout}
+        />
+
+        <PrivateRouter
+          exact={true}
+          path={"/admin/manage-user"}
+          component={Admin}
+          layout={FullLayout}
+        />
+
+        <PrivateRouter
+          exact={true}
+          path={"/admin/manage-class"}
+          component={Admin}
+          layout={FullLayout}
         />
       </Switch>
     </Router>

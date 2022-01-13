@@ -9,6 +9,7 @@ interface IHeader {
   handleAction4?: any;
   classId?: number | string;
   className?: string;
+  isAdminHeader?: boolean;
 }
 
 interface IModalAddCourse {
@@ -129,12 +130,12 @@ interface IDDContainer {
 interface ITable {
   columns: any;
   data: any;
-  updateMyData: any;
-  skipPageReset: any;
-  updateStatusStudent: any;
-  handleImportColumn: any;
-  handleFinalizeColumn: any;
-  handleSaveData: any;
+  updateMyData?: any;
+  skipPageReset?: any;
+  updateStatusStudent?: any;
+  handleImportColumn?: any;
+  handleFinalizeColumn?: any;
+  handleSaveData?: any;
   isStudentTable?: boolean;
   handleReviewStudent?: any;
 }

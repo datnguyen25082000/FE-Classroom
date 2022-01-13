@@ -42,3 +42,11 @@ export const doFindUserByStudentId = createAsyncThunk(
     return result.data;
   }
 );
+
+export const doChangePass = createAsyncThunk(
+  "user@post/doChangePass",
+  async (params: IParamsChangePassword) => {
+    const result = await apiUser.changePass(params);
+    return result.data;
+  }
+);

@@ -85,3 +85,21 @@ interface IParamsAddScoreAssignmentCate {
     point: number;
   }>;
 }
+
+interface IParamsForgotPassword {
+  email: string;
+}
+interface IParamsResetPassword {
+  email: string;
+  otp: string;
+  newPassword: string;
+}
+
+interface IParamsChangePassword {
+  currentPassword: string;
+  newPassword: string;
+}
+
+interface IParamsActivateUser {
+  code: string;
+}

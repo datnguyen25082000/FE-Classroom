@@ -1,0 +1,36 @@
+.admin-home {
+  padding-top: 80px;
+
+  &__container {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+  }
+
+  &__left {
+    height: calc(100vh - 80px);
+    background-color: #f7f7f7;
+    border-right: 1px solid #ececec;
+    padding-top: 20px;
+  }
+
+  &__button {
+    display: block;
+    cursor: pointer;
+    margin: 10px 0px;
+    padding: 10px 20px;
+    transition: all 0.5s;
+    font-weight: 500;
+    &:hover {
+      color: rgb(204, 134, 3);
+    }
+
+    &--active {
+      color: red;
+    }
+  }
+
+  &__right {
+    padding: 30px;
+    background-color: white;
+  }
+}
