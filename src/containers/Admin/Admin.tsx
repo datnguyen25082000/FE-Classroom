@@ -3,7 +3,13 @@ import { Header } from "../../components/common";
 import { Button } from "react-bootstrap";
 import { useLocation, useHistory } from "react-router-dom";
 import "./Admin.scss";
-import { ManageAdmin, ManageClass, ManageUser } from "../../components";
+import {
+  ManageAdmin,
+  ManageClass,
+  ManageUser,
+  DetailUser,
+  DetailClass,
+} from "../../components";
 
 export const Admin = () => {
   const location = useLocation();
@@ -14,6 +20,8 @@ export const Admin = () => {
     if (location.pathname === "/admin/home") setScreen(1);
     if (location.pathname === "/admin/manage-user") setScreen(2);
     if (location.pathname === "/admin/manage-class") setScreen(3);
+    if (location.pathname.includes("/admin/detail-user/")) setScreen(4);
+    if (location.pathname.includes("/admin/detail-class/")) setScreen(5);
   }, [location]);
 
   const handleClickSidebar = (num: number) => {
@@ -36,10 +44,12 @@ export const Admin = () => {
         return <ManageAdmin />;
       case 2:
         return <ManageUser />;
-
       case 3:
         return <ManageClass />;
-
+      case 4:
+        return <DetailUser />;
+      case 5:
+        return <DetailClass />;
       default:
         return <ManageAdmin />;
     }

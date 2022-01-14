@@ -137,5 +137,6 @@ interface ITable {
   handleFinalizeColumn?: any;
   handleSaveData?: any;
   isStudentTable?: boolean;
+  handleDetail?: any;
   handleReviewStudent?: any;
 }

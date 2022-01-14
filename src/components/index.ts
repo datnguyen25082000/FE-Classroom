@@ -15,3 +15,4 @@ export * from "./CardReview/CardReview";
 export * from "./ReviewItem/ReviewItem";
 export * from "./AdminComponent";
 export * from "./TableAdmin/TableAdmin";
+export * from './ModalAddUser/ModalAddUser'

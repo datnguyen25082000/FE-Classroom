@@ -1,0 +1,22 @@
+.detail-class {
+  &__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    h3 {
+      font-size: 30px;
+      font-weight: 500;
+      margin: 0px;
+      margin-left: 10px;
+    }
+  }
+
+  &__back {
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(0, 153, 255);
+    }
+  }
+}
