@@ -8,15 +8,15 @@ import {
   AiOutlineLeft,
   AiOutlineRight,
 } from "react-icons/ai";
-import { FiMoreVertical } from "react-icons/fi";
-import { Popover, OverlayTrigger, Button, Modal } from "react-bootstrap";
+import { BiEdit } from "react-icons/bi";
+import { Button } from "react-bootstrap";
 
 const EditableCell = ({
   value: initialValue,
   row: { index },
   column: { id, isFinalized, isStudent },
   updateMyData,
-  updateStatusStudent,
+  handleDetail,
 }: any) => {
   const [value, setValue] = React.useState(initialValue);
   const onChange = (e: any) => {
@@ -31,20 +31,26 @@ const EditableCell = ({
     setValue(initialValue);
   }, [initialValue]);
 
-  // const popover = (
-  //   <Popover
-  //     id="popover-basic"
-  //     // style={{ display: showOverlay ? "block" : "none" }}
-  //   >
-  //     <Popover.Header as="h3">Tùy chọn</Popover.Header>
-  //     <Popover.Body>
-  //       <div className="card-student__item" onClick={() => {}}>
-  //         <span>Hoàn tất cột điểm</span>
-  //       </div>
-  //     </Popover.Body>
-  //   </Popover>
-  // );
+  if (id === "detail")
+    return (
+      <div
+        style={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
+      >
+        <BiEdit size={25} color="green" onClick={() => handleDetail(value)} />
+      </div>
+    );
 
+  if (id === "block") {
+    return (
+      <div
+        style={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
+      >
+        <Button variant="outline-danger" onClick={() => handleDetail(value)}>
+          Danger
+        </Button>
+      </div>
+    );
+  }
   return <span>{value}</span>;
 };
 
@@ -57,12 +63,8 @@ export const TableAdmin: React.FC<ITable> = ({
   data,
   updateMyData,
   skipPageReset,
-  updateStatusStudent,
-  handleImportColumn,
-  handleFinalizeColumn,
-  handleSaveData,
+  handleDetail,
   isStudentTable = false,
-  handleReviewStudent,
 }) => {
   const {
     getTableProps,
@@ -86,7 +88,7 @@ export const TableAdmin: React.FC<ITable> = ({
       defaultColumn,
       autoResetPage: !skipPageReset,
       updateMyData,
-      updateStatusStudent,
+      handleDetail,
     },
     usePagination
   );
@@ -106,22 +108,7 @@ export const TableAdmin: React.FC<ITable> = ({
                         : column.classname,
                     })}
                   >
-                    {column.isTotal ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          fontWeight: column.isFinalized ? "bold" : "normal",
-                        }}
-                      >
-                        {column.render("Header")}
-                      </div>
-                    ) : column.Header === "none" ? (
-                      <></>
-                    ) : (
-                      column.render("Header")
-                    )}
+                    {column.render("Header")}
                   </th>
                 ))}
               </tr>
@@ -151,10 +138,7 @@ export const TableAdmin: React.FC<ITable> = ({
           </tbody>
         </BTable>
 
-        <div
-          className="pagination"
-          style={{ display: isStudentTable ? "none" : "" }}
-        >
+        <div className="pagination">
           <button
             style={{ marginRight: "8px" }}
             onClick={() => gotoPage(0)}
