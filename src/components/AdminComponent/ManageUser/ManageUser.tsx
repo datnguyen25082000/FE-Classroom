@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { TableAdmin } from "../..";
 import "./ManageUser.scss";
 import { useHistory } from "react-router-dom";
+import { InputGroup, FormControl } from "react-bootstrap";
+import { FaSearchengin } from "react-icons/fa";
+
 export const ManageUser = () => {
   const history = useHistory();
   const columns = [
@@ -72,9 +75,19 @@ export const ManageUser = () => {
   return (
     <div className="manage-user">
       {" "}
-      <h3 style={{ fontSize: "30px", fontWeight: "500", marginBottom: "30px" }}>
-        Quản lý danh sách người dùng
-      </h3>
+      <div className="manage-class__header">
+        <h3 style={{ fontSize: "30px", fontWeight: "500" }}>
+          Quản lý danh sách người dùng
+        </h3>
+        <InputGroup className="manage-class__input">
+          <FormControl
+            aria-label="Text input with dropdown button"
+            placeholder="Nhập từ khóa tìm kiếm"
+          />
+
+          <FaSearchengin size={30} className="manage-class__search" />
+        </InputGroup>
+      </div>
       <TableAdmin columns={columns} data={data} handleDetail={handleDetail} />
     </div>
   );

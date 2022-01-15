@@ -43,10 +43,15 @@ const EditableCell = ({
   if (id === "block") {
     return (
       <div
-        style={{ display: "flex", justifyContent: "center", cursor: "pointer" }}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          cursor: "pointer",
+          paddingRight: 10,
+        }}
       >
         <Button variant="outline-danger" onClick={() => handleDetail(value)}>
-          Danger
+          Khóa lớp học
         </Button>
       </div>
     );
