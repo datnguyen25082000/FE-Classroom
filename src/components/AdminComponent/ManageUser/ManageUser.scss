@@ -1,3 +1,35 @@
 .manage-user {
-  
+  &__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+
+    h3 {
+      font-size: 30px;
+      font-weight: 500;
+      margin: 0px;
+      margin-left: 10px;
+    }
+  }
+
+  &__input {
+    display: flex;
+    // flex: 1;
+    margin-right: 50px;
+    margin-left: auto;
+    justify-content: center;
+    padding-left: 100px;
+    width: 500px !important;
+    input {
+      margin-right: 10px;
+    }
+  }
+
+  &__search {
+    margin-left: 10px;
+    cursor: pointer;
+    &:hover {
+      color: green;
+    }
+  }
 }

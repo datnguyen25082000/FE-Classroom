@@ -26,6 +26,7 @@ export const EditProfile = () => {
   const [showJoin, setShowJoin] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showAvatar, setShowAvatar] = useState(false);
+  const [isDisable, setIsDisable] = useState(false);
   const [message, setMessage] = useState("");
 
   const { dataUser } = useAppSelector((state) => state.userSlice);
@@ -33,6 +34,7 @@ export const EditProfile = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors },
   } = useForm();
@@ -52,6 +54,17 @@ export const EditProfile = () => {
   useEffect(() => {
     dispatch(doGetCurrentUser());
   }, []);
+
+  useEffect(() => {
+    if (dataUser) {
+      setValue("user_displayname", dataUser.user_displayname);
+      setValue("user_phone", dataUser.user_phone);
+      setValue("user_address", dataUser.user_address);
+      setValue("user_studentid", dataUser.user_studentid);
+      setValue("user_nameinroom", dataUser.user_nameinroom);
+      setValue("user_email", dataUser.user_email);
+    }
+  }, [dataUser]);
 
   const handleRedirect = () => {
     history.goBack();
@@ -104,9 +117,7 @@ export const EditProfile = () => {
             <div className="card-body">
               <div className="row gutters">
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                  <h6 className="edit-profile__title">
-                    Thông tin cá nhân
-                  </h6>
+                  <h6 className="edit-profile__title">Thông tin cá nhân</h6>
                 </div>
                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <Input
@@ -116,6 +127,11 @@ export const EditProfile = () => {
                       required: "Vui lòng nhập họ tên",
                       maxLength: 40,
                     })}
+                    error={
+                      errors.user_displayname
+                        ? errors.user_displayname.message
+                        : ""
+                    }
                   />
                 </div>
                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
@@ -140,9 +156,7 @@ export const EditProfile = () => {
 
               <div className="row gutters">
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                  <h6 className="edit-profile__title">
-                    Thông tin vào lớp
-                  </h6>
+                  <h6 className="edit-profile__title">Thông tin vào lớp</h6>
                 </div>
                 <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <Input
@@ -156,6 +170,7 @@ export const EditProfile = () => {
                   <Input
                     label="Email"
                     type="email"
+                    isDisable={true}
                     value={dataUser?.user_email}
                     {...register("user_email", {
                       pattern: {
@@ -232,8 +247,14 @@ export const EditProfile = () => {
 
       <ModalCenter
         show={showModal}
-        onHide={() => setShowModal(false)}
-        handleClose={() => setShowModal(false)}
+        onHide={() => {
+          setShowModal(false);
+          window.location.reload();
+        }}
+        handleClose={() => {
+          setShowModal(false);
+          window.location.reload();
+        }}
         message={message}
       ></ModalCenter>
 

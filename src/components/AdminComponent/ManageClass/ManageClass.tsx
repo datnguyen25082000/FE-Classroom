@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { TableAdmin } from "../..";
+import { TableAdmin, ModalConfirm } from "../..";
 import "./ManageClass.scss";
 import { useHistory } from "react-router-dom";
+import { InputGroup, FormControl } from "react-bootstrap";
+import { FaSearchengin } from "react-icons/fa";
 
 const columns = [
   {
@@ -15,12 +17,12 @@ const columns = [
     collapse: false,
   },
   {
-    Header: "Số lượng học viên",
+    Header: "Mã lớp học",
     accessor: "studentid",
     collapse: false,
   },
   {
-    Header: "Ngày tạo",
+    Header: "Số lượng học viên",
     accessor: "status",
     collapse: false,
   },
@@ -33,6 +35,7 @@ const columns = [
 
 export const ManageClass = () => {
   const history = useHistory();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const [data, setData] = useState([
     {
@@ -65,15 +68,41 @@ export const ManageClass = () => {
     },
   ]);
 
-  const handleDetail = (id: any) => {};
+  const handleDetail = (id: any) => {
+    setShowConfirm(true);
+  };
 
   return (
     <div className="manage-class">
       {" "}
-      <h3 style={{ fontSize: "30px", fontWeight: "500", marginBottom: "30px" }}>
-        Quản lý danh sách lớp học
-      </h3>
+      <div className="manage-class__header">
+        <h3 style={{ fontSize: "30px", fontWeight: "500" }}>
+          Quản lý danh sách lớp học
+        </h3>
+        <InputGroup className="manage-class__input">
+          <FormControl
+            aria-label="Text input with dropdown button"
+            placeholder="Nhập từ khóa tìm kiếm"
+          />
+
+          <FaSearchengin size={30} className="manage-class__search" />
+        </InputGroup>
+      </div>
       <TableAdmin columns={columns} data={data} handleDetail={handleDetail} />
+      <ModalConfirm
+        show={showConfirm}
+        handleClose={() => setShowConfirm(false)}
+        title="Khóa lớp học"
+        buttonAction="Khóa lớp học"
+      >
+        <p>
+          Khóa lớp học
+          <span style={{ fontWeight: 500 }}> {"ABC"}</span> ?
+        </p>
+        <p>
+          Học viên và giảng viên của lớp học sẽ tạm thời không vào được lớp.
+        </p>
+      </ModalConfirm>
     </div>
   );
 };
