@@ -140,3 +140,13 @@ interface ITable {
   handleDetail?: any;
   handleReviewStudent?: any;
 }
+
+interface ICardReview {
+  column?: any;
+}
+
+interface ICardReview2 {
+  column: IScoreReviewItem;
+  isTeacherView?: boolean;
+  isShow?: boolean;
+}

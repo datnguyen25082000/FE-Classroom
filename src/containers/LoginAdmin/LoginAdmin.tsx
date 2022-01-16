@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Tabs, Input, ModalCenter } from "../../components/common";
 import { Button } from "react-bootstrap";
 import { MdFacebook } from "react-icons/md";
-import "./Login.scss";
+import "./LoginAdmin.scss";
 import { useForm } from "react-hook-form";
 import {
   useAppDispatch,
   useAppSelector,
-  doLogin,
+  doLoginAdmin,
   doRegister,
 } from "../../redux";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -17,7 +17,7 @@ import { useHistory } from "react-router";
 import FacebookLogin from "react-facebook-login";
 import { validateEmail } from "../../helpers";
 
-export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
+export const LoginAdmin: React.FC<any> = ({ isOpen, setIsOpen }) => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
@@ -45,13 +45,13 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
         password: data.login_password,
       };
 
-      dispatch(doLogin(value))
+      dispatch(doLoginAdmin(value))
         .then(unwrapResult)
         .then((res: IResLogin) => {
           if (res.content && res.content.token) {
             const token = res.content.token;
             window.localStorage.setItem(EToken.loginToken, token);
-            window.location.replace("/");
+            window.location.replace("/admin/home");
           } else {
             if (res.message === "ACCOUNT_IS_NOT_ACTIVATED_BY_USER") {
               setMessage(
@@ -128,16 +128,16 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                 setKindModal(1);
               }}
             >
-              <span>Đăng nhập</span> <hr />
+              <span>Đăng nhập admin hệ thống</span> <hr />
             </div>,
-            <div
-              className="login-modal__title"
-              onClick={() => {
-                setKindModal(2);
-              }}
-            >
-              <span>Đăng ký</span> <hr />
-            </div>,
+            // <div
+            //   className="login-modal__title"
+            //   onClick={() => {
+            //     setKindModal(2);
+            //   }}
+            // >
+            //   <span>Đăng ký</span> <hr />
+            // </div>,
             ,
           ]}
           bodyTabs={[
@@ -170,7 +170,7 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
               <div>
                 Quick start:{" "}
                 <span style={{ fontSize: 15, fontWeight: "bold" }}>
-                  (Username: admin - password: 123123)
+                  (Username: superadmin - password: 123456)
                 </span>
               </div>
               <span
@@ -198,7 +198,7 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                     Đăng nhập
                   </Button>
                 </span>
-                <FacebookLogin
+                {/* <FacebookLogin
                   appId="1042906876485319"
                   fields="name,email,picture"
                   scope="public_profile,user_friends"
@@ -206,111 +206,7 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                   textButton=" Đăng nhập bằng Facebook"
                   cssClass="login-modal__btn btn btn-primary"
                   icon={<MdFacebook size={25} />}
-                />
-              </div>
-            </div>,
-            <div className="login-modal__register">
-              <Input
-                label="Tên đăng nhập"
-                type="text"
-                placeholder="Nhập tên đăng nhập"
-                // titleAction="Gửi mã OTP"
-                {...register2("register_username", {
-                  required: "Vui lòng nhập tên đăng nhập",
-                  minLength: {
-                    value: 6,
-                    message: "Độ dài tên không nhỏ hơn 6",
-                  },
-                  maxLength: 40,
-                })}
-                error={
-                  errors2.register_username
-                    ? errors2.register_username.message
-                    : ""
-                }
-              />
-              <Input
-                label="Họ và tên"
-                type="text"
-                placeholder="Nhập họ và tên"
-                // titleAction="Gửi mã OTP"
-                {...register2("register_fullname", {
-                  required: "Vui lòng nhập họ và tên",
-
-                  maxLength: 40,
-                })}
-                error={
-                  errors2.register_fullname
-                    ? errors2.register_fullname.message
-                    : ""
-                }
-              />
-
-              <Input
-                label="Email"
-                type="text"
-                placeholder="Nhập họ và tên"
-                {...register2("register_email", {
-                  required: "Vui lòng nhập email",
-                  validate: (value) =>
-                    validateEmail(value) || "Email chưa đúng định dạng",
-                })}
-                error={
-                  errors2.register_email ? errors2.register_email.message : ""
-                }
-              />
-
-              <div className="login-modal__password">
-                <Input
-                  label="Mật khẩu"
-                  type="password"
-                  showPassword={true}
-                  placeholder="Nhập mật khẩu"
-                  {...register2("register_password", {
-                    required: "Vui lòng nhập mật khẩu",
-                    minLength: {
-                      value: 6,
-                      message: "Độ dài mật khẩu không nhỏ hơn 6",
-                    },
-                    maxLength: 40,
-                  })}
-                  error={
-                    errors2.register_password
-                      ? errors2.register_password.message
-                      : ""
-                  }
-                />
-                <Input
-                  label="Nhập lại mật khẩu"
-                  type="password"
-                  showPassword={true}
-                  placeholder="Nhập lại mật khẩu"
-                  {...register2("register_repassword", {
-                    required: "Nhập lại mật khẩu không chính xác",
-                    minLength: {
-                      value: 6,
-                      message: "Độ dài mật khẩu không nhỏ hơn 6",
-                    },
-                    validate: (value) =>
-                      value === watch2("register_password") ||
-                      "Nhập lại mật khẩu không chính xác",
-                  })}
-                  error={
-                    errors2.register_repassword
-                      ? errors2.register_repassword.message
-                      : ""
-                  }
-                />
-              </div>
-
-              <div className="login-modal__group-btn">
-                <Button
-                  variant="primary"
-                  className="login-modal__btn"
-                  onClick={handleSubmit2(onSubmit)}
-                >
-                  Đăng ký
-                </Button>
+                /> */}
               </div>
             </div>,
           ]}

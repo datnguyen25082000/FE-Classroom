@@ -12,8 +12,8 @@ export const doGetCurrentUser = createAsyncThunk(
 
 export const doGetUserInfo = createAsyncThunk(
   "user@get/getUserInfo",
-  async () => {
-    const result = await apiUser.getUserInfo();
+  async (params: any) => {
+    const result = await apiUser.getUserInfo(params);
     return result.data;
   }
 );

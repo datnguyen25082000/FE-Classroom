@@ -6,3 +6,7 @@ export * from "./apiAssignCate";
 export * from "./apiAssignCate";
 export * from "./apiCourseStudent";
 export * from "./apiScore";
+export * from "./apiReviewComment";
+export * from "./apiScoreReview";
+export * from "./apiNotification";
+export * from "./apiAdmin";

@@ -1,5 +1,7 @@
 .card-notify {
   cursor: pointer;
+  width: 100%;
+  // opacity: 0.8;
   &:hover {
     background-color: rgb(223, 221, 221) !important;
   }
@@ -16,5 +18,10 @@
     color: #2cdd9b;
     background-color: #e5f7f0;
     border-color: #d8f7eb;
+  }
+
+  &__unread {
+    // opacity: 1;
+    font-weight: 500;
   }
 }

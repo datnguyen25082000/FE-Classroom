@@ -1,33 +1,34 @@
 import React from "react";
 import "./CardNotify.scss";
-
+import { transformDatetimeFormat } from "../../helpers/time";
+import { Avatar } from "../common";
 interface ICardNotify {
   showMore?: boolean;
   onClick?: any;
+  notify?: INotification;
 }
 export const CardNotify: React.FC<ICardNotify> = ({
   showMore = true,
   onClick,
+  notify,
 }) => {
   return (
-    <div className="card-notify bg-light" onClick={onClick}>
+    <div
+      className={`card-notify bg-light ${
+        notify?.isRead ? "" : "card-notify__unread"
+      }`}
+      onClick={onClick}
+    >
       <div className="p-3 d-flex align-items-center  border-bottom osahan-post-header">
-        <div className="dropdown-list-image" style={{ marginRight: "12px" }}>
-          <img
-            className="rounded-circle"
-            src="https://bootdey.com/img/Content/avatar/avatar3.png"
-            alt=""
-          />
-        </div>
+        {/* <div className="dropdown-list-image" style={{ marginRight: "12px" }}>
+          <Avatar />
+        </div> */}
         <div className="font-weight-bold mr-3" style={{ flex: "1" }}>
-          <div className="text-truncate">DAILY RUNDOWN: WEDNESDAY</div>
-          <div className="small">
-            Income tax sops on the cards, The bias in VC funding, and other top
-            news for you
-          </div>
+          {/* <div className="text-truncate">DAILY RUNDOWN: WEDNESDAY</div> */}
+          <div className="">{notify?.content}</div>
         </div>
-        <span className="ml-auto mb-auto">
-          <div className="btn-group">
+        <span className="ml-auto mb-auto p-3">
+          {/* <div className="btn-group">
             {showMore && (
               <button
                 type="button"
@@ -47,9 +48,11 @@ export const CardNotify: React.FC<ICardNotify> = ({
                 <i className="mdi mdi-close"></i> Turn Off
               </button>
             </div>
+          </div> */}
+          {/* <br /> */}
+          <div className="text-right text-muted pt-1">
+            {transformDatetimeFormat(notify?.created_at || "")}
           </div>
-          <br />
-          <div className="text-right text-muted pt-1">3d</div>
         </span>
       </div>
     </div>

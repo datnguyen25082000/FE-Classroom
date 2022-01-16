@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Header } from "../../components/common";
+import { Header, Page404 } from "../../components/common";
 import { Button } from "react-bootstrap";
 import { useLocation, useHistory } from "react-router-dom";
 import "./Admin.scss";
@@ -10,11 +10,13 @@ import {
   DetailUser,
   DetailClass,
 } from "../../components";
+import { useAppSelector } from "../../redux";
 
 export const Admin = () => {
   const location = useLocation();
   const history = useHistory();
   const [screen, setScreen] = useState(0);
+  const { dataUser } = useAppSelector((state) => state.userSlice);
 
   useEffect(() => {
     if (location.pathname === "/admin/home") setScreen(1);
@@ -54,6 +56,10 @@ export const Admin = () => {
         return <ManageAdmin />;
     }
   };
+
+  if (dataUser && dataUser?.user_username) {
+    return <Page404 />;
+  }
 
   return (
     <div className="admin-home">

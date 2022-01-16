@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TableAdmin } from "../..";
 import "./ManageAdmin.scss";
 import { useHistory } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { ModalAddUser } from "../../";
+import { useAppSelector, useAppDispatch, doGetAllAdmin } from "../../../redux";
 
 const columns = [
   {
@@ -13,56 +14,56 @@ const columns = [
   },
   {
     Header: "Username",
+    accessor: "username",
+    collapse: false,
+  },
+
+  {
+    Header: "Email",
     accessor: "email",
     collapse: false,
   },
   {
-    Header: "Chi tiết",
-    accessor: "detail",
+    Header: "Phân admin",
+    accessor: "super_admin",
     collapse: false,
   },
 ];
 
+const makeData = (data: Array<IAdminAdmin>) => {
+  if (data) {
+    return data.map((item) => {
+      return {
+        fullname: item.display_name,
+        email: item.email,
+        username: item.username,
+        super_admin: item.super_admin ? "Super admin" : "Admin",
+      };
+    });
+  } else return [];
+};
+
 export const ManageAdmin = () => {
   const history = useHistory();
+  const dispatch = useAppDispatch();
   const [show, setShow] = useState(false);
+  const { listAdmin } = useAppSelector((state) => state.adminSlice);
 
-  const [data, setData] = useState([
-    {
-      studentid: "18120308",
-      fullname: "Nguyen Tan Dat",
-      email: "datnguyen25082000@gmail.com",
-      status: "Active",
-      detail: "1",
-    },
-    {
-      studentid: "18120308",
-      fullname: "Nguyen Tan Dat",
-      email: "datnguyen25082000@gmail.com",
-      status: "Active",
-      detail: "2",
-    },
-    {
-      studentid: "18120308",
-      fullname: "Nguyen Tan Dat",
-      email: "datnguyen25082000@gmail.com",
-      status: "Active",
-      detail: "3",
-    },
-    {
-      studentid: "18120308",
-      fullname: "Nguyen Tan Dat",
-      email: "datnguyen25082000@gmail.com",
-      status: "Active",
-      detail: "4",
-    },
-  ]);
+  const [data, setData] = useState(makeData(listAdmin));
 
   const handleDetail = (id: any) => {
     if (id) {
       history.push(`/admin/detail-user/${id}`);
     }
   };
+
+  useEffect(() => {
+    dispatch(doGetAllAdmin());
+  }, []);
+
+  useEffect(() => {
+    setData(makeData(listAdmin));
+  }, [listAdmin]);
 
   return (
     <div className="manage-admin">
@@ -71,9 +72,13 @@ export const ManageAdmin = () => {
           Quản lý quản trị viên
         </h3>
 
-        <Button variant="outline-primary" onClick={() => setShow(true)}>
-          Thêm mới
-        </Button>
+        {listAdmin && listAdmin.length ? (
+          <Button variant="outline-primary" onClick={() => setShow(true)}>
+            Thêm mới
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
       <TableAdmin columns={columns} data={data} handleDetail={handleDetail} />
       <ModalAddUser show={show} setShow={setShow} />

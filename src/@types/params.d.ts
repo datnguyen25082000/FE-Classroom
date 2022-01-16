@@ -103,3 +103,51 @@ interface IParamsChangePassword {
 interface IParamsActivateUser {
   code: string;
 }
+
+interface IParamsCreateScoreReview {
+  score_id: string | number;
+  expected_point: string;
+  reason: string;
+}
+
+interface IParamsGetAllReviewByCourse {
+  course_id: number;
+}
+
+interface IParamsFinalizeReviewScore {
+  scoreReviewId: number;
+  updatedPoint: number;
+}
+
+interface IParamsAddCommentReview {
+  score_review_id: number;
+  content: string;
+}
+
+interface IParamsMarkAsRead {
+  id: number;
+}
+
+interface IParamsGetReviewByAssignment {
+  assignment_category_id: number;
+}
+
+interface IParamsGetAllCommentByScoreReview {
+  scoreReviewId: number;
+}
+
+interface IParamsAddAdmin {
+  username: string;
+  password: string;
+  display_name: string;
+  email: string;
+}
+
+interface IParamsUpdateStudentId {
+  user_id: number;
+  new_student_id: string;
+}
+
+interface IParamsLockUser {
+  user_id: number;
+}
