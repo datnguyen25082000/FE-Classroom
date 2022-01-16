@@ -8,6 +8,11 @@ export const apiAuth = {
     return axiosClient.post(url, params);
   },
 
+  loginAdmin: (params: any) => {
+    const url = baseUrl + "login-admin";
+    return axiosClient.post(url, params);
+  },
+
   register: (params: any) => {
     const url = baseUrl + "Register";
     return axiosClient.post(url, params);
@@ -24,7 +29,7 @@ export const apiAuth = {
   },
 
   activateUser: (params: IParamsActivateUser) => {
-    const url = baseUrl + 'activate-user';
-    return axiosClient.post(url, params)
-  }
+    const url = baseUrl + "activate-user";
+    return axiosClient.post(url, params);
+  },
 };

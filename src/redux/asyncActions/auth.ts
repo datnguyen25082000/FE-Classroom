@@ -10,6 +10,14 @@ export const doLogin = createAsyncThunk(
   }
 );
 
+export const doLoginAdmin = createAsyncThunk(
+  "auth@post/doLoginAdmin",
+  async (params: any) => {
+    const result = await apiAuth.loginAdmin(params);
+    return result.data;
+  }
+);
+
 export const doRegister = createAsyncThunk(
   "auth@post/register",
   async (params: any) => {

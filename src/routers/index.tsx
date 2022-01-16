@@ -19,6 +19,7 @@ import {
   StudentScore,
   ReviewList,
   InvaliAccount,
+  LoginAdmin,
 } from "../containers";
 import { PrivateRouter } from "./PrivateRouter";
 import { PublicRouter } from "./PublicRouter";
@@ -96,6 +97,13 @@ export const Routers = () => {
           exact={true}
           path={"/login"}
           component={Login}
+          layout={FullLayout}
+        />
+
+        <PublicRouter
+          exact={true}
+          path={"/admin/login"}
+          component={LoginAdmin}
           layout={FullLayout}
         />
         <PublicRouter

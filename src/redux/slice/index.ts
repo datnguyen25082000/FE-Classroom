@@ -5,3 +5,6 @@ export * from "./apiSlice/user";
 export * from "./apiSlice/assign-cate";
 export * from "./apiSlice/score";
 export * from "./apiSlice/course-student";
+export * from "./apiSlice/score-review";
+export * from "./apiSlice/review-comment";
+export * from "./apiSlice/notification";

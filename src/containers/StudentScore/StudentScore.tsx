@@ -8,6 +8,7 @@ import {
   useFetchOneCourseQuery,
   doGetAllAssignByCourse,
   doGetSStudentScore,
+  doGetScoreReviewByCourse,
 } from "../../redux";
 import { makeData } from "../RoomScore/MakeData";
 import { useHistory } from "react-router-dom";
@@ -19,6 +20,7 @@ export const StudentScore = () => {
   const { classId } = useParams<{ classId: string }>();
   const [showCanvas, setShowCanvas] = useState(false);
   const [showReview, setShowReview] = useState(false);
+  const [reviewColumn, setReviewColumn] = useState<any>({});
   const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
   const { listAssign } = useAppSelector((state) => state.assignCateSlice);
   const { listScore, studentScore } = useAppSelector(
@@ -89,13 +91,28 @@ export const StudentScore = () => {
     return arrayHeader;
   }, [listAssign]);
 
-  const handleReviewStudent = () => {
-    setShowReview(true);
+  const handleReviewStudent = (column: any) => {
+    if (column && column.colId && column.Header && studentScore) {
+      const index = studentScore?.score.findIndex(
+        (item) => item.assignment_category_id === column.colId
+      );
+
+      if (index >= 0) {
+        setReviewColumn({
+          colId: studentScore.score[index].id,
+          title: column.Header,
+          score: studentScore.score[index].point,
+          assignId: column.colId,
+        });
+        setShowReview(true);
+      }
+    }
   };
 
   useEffect(() => {
     dispatch(doGetAllAssignByCourse({ course_id: classId }));
     dispatch(doGetSStudentScore({ course_id: parseInt(classId) }));
+    // dispatch(doGetScoreReviewByCourse({ course_id: parseInt(classId) }));
   }, [classId]);
 
   useEffect(() => {
@@ -190,7 +207,7 @@ export const StudentScore = () => {
       >
         <div className="student-score__modal-review">
           <h1 className="student-score__title">Phúc khảo điểm</h1>
-          <CardReview />
+          <CardReview column={reviewColumn} />
         </div>
         <Modal.Footer>
           <Button onClick={() => setShowReview(false)}>Tắt</Button>

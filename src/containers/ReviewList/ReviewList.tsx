@@ -6,8 +6,10 @@ import {
   useAppSelector,
   useFetchOneCourseQuery,
   useAppDispatch,
+  doGetScoreReviewByCourse,
 } from "../../redux";
 import "./ReviewList.scss";
+import { SvgEmpty } from "../../constants/images";
 
 export const ReviewList = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +17,15 @@ export const ReviewList = () => {
   const [showCanvas, setShowCanvas] = useState(false);
   const [openContent, setOpenContent] = useState(false);
   const oneCourse = useFetchOneCourseQuery({ courseId: classId }).data;
+  const { listReviewOfCourse } = useAppSelector(
+    (state) => state.scoreReviewSlice
+  );
+
+  useEffect(() => {
+    if (classId) {
+      dispatch(doGetScoreReviewByCourse({ course_id: parseInt(classId) }));
+    }
+  }, [classId]);
 
   if (!oneCourse || !oneCourse.course_id) {
     return <Page404 />;
@@ -29,9 +40,18 @@ export const ReviewList = () => {
       />
 
       <div>
-        {[1, 2, 3, 4, 5].map((item, i) => {
-          return <ReviewItem />;
-        })}
+        {listReviewOfCourse && listReviewOfCourse.length ? (
+          listReviewOfCourse.map((item, i) => {
+            return <ReviewItem reviewItem={item} />;
+          })
+        ) : (
+          <>
+            <div className="home__empty">
+              <p>Bạn không có yêu cầu phúc khảo nào.</p>
+              <img src={SvgEmpty} alt="" />
+            </div>
+          </>
+        )}
       </div>
 
       <OffCanvas

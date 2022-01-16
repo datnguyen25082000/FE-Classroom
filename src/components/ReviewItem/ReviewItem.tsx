@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import { CardReview } from "../CardReview/CardReview";
+import { CardReview2 } from "../CardReview2/CardReview2";
 import { CardNotify } from "../CardNotify/CardNotify";
 import { Button, Collapse, Card } from "react-bootstrap";
 import "./ReviewItem.scss";
-export const ReviewItem = () => {
+import { Avatar } from "../common";
+
+interface IReviewItem {
+  reviewItem: IScoreReviewItem;
+}
+export const ReviewItem: React.FC<IReviewItem> = ({ reviewItem }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -19,20 +24,19 @@ export const ReviewItem = () => {
               className="dropdown-list-image"
               style={{ marginRight: "12px" }}
             >
-              <img
-                className="rounded-circle"
-                src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                alt=""
-              />
+              <Avatar />
             </div>
             <div className="font-weight-bold mr-3" style={{ flex: "1" }}>
-              <div className="text-truncate">DAILY RUNDOWN: WEDNESDAY</div>
-              <div className="small">
-                Income tax sops on the cards, The bias in VC funding, and other
-                top news for you
+              <div
+                className="text-truncate font-weight-bold"
+                style={{ fontWeight: 500 }}
+              >
+                {reviewItem.student_id} -{" "}
+                {"Phúc khảo cột điểm " + reviewItem.assignment_name}
               </div>
+              <div className="small">{reviewItem.reason}</div>
             </div>
-            <span className="ml-auto mb-auto">
+            {/* <span className="ml-auto mb-auto">
               <div className="btn-group">
                 <div className="dropdown-menu dropdown-menu-right">
                   <button className="dropdown-item" type="button">
@@ -45,13 +49,13 @@ export const ReviewItem = () => {
               </div>
               <br />
               <div className="text-right text-muted pt-1">3d</div>
-            </span>
+            </span> */}
           </div>
         </Card.Header>
       </Card>
       <Collapse in={open}>
         <div id="example-collapse-text">
-          <CardReview />
+          <CardReview2 column={reviewItem} isTeacherView={true} isShow={open} />
         </div>
       </Collapse>
     </div>

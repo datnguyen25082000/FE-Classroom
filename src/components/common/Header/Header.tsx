@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Header.scss";
 import { AiOutlinePlus } from "react-icons/ai";
 import { GoThreeBars, GoSettings } from "react-icons/go";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { GiExitDoor } from "react-icons/gi";
 import { Avatar, PopupAccount, PopupNotify } from "../../common";
-import { useAppSelector } from "../../../redux";
+import {
+  useAppSelector,
+  useAppDispatch,
+  doGetAllNotifications,
+} from "../../../redux";
 import { IDefaultAvatar } from "../../../constants/images";
 
 export const Header: React.FC<IHeader> = ({
@@ -18,6 +22,28 @@ export const Header: React.FC<IHeader> = ({
   const { user_avatar } = useAppSelector((state) => state.userSlice.dataUser);
   const [show, setShow] = useState(false);
   const [showNoti, setShowNoti] = useState(false);
+  const dispatch = useAppDispatch();
+  const { listNotifications } = useAppSelector(
+    (state) => state.notificationSlice
+  );
+
+  useEffect(() => {
+    dispatch(doGetAllNotifications());
+  }, []);
+
+  const handleCalcUnRead = () => {
+    let sum = 0;
+
+    if (listNotifications) {
+      listNotifications.forEach((item) => {
+        if (!item.isRead) {
+          sum++;
+        }
+      });
+    }
+
+    return sum;
+  };
 
   return (
     <>
@@ -56,7 +82,7 @@ export const Header: React.FC<IHeader> = ({
             <IoIosNotificationsOutline size={25} />
 
             <div className="header__i--number">
-              <span>99</span>
+              <span>{listNotifications ? handleCalcUnRead() : 0}</span>
             </div>
 
             <PopupNotify

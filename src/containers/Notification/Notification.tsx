@@ -8,7 +8,14 @@ import {
   ModalJoinCourse,
   CardNotify,
 } from "../../components";
-import { useAppDispatch, useAppSelector, doGetAllCourse } from "../../redux";
+import {
+  useAppDispatch,
+  useAppSelector,
+  doGetAllCourse,
+  doGetAllNotifications,
+  doMarkNotificationAsRead,
+  doMarkAllNotificationAsRead,
+} from "../../redux";
 import { SvgEmpty } from "../../constants/images";
 import "./Notification.scss";
 
@@ -16,6 +23,9 @@ export const Notifications = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const { listClass, isLoading } = useAppSelector((state) => state.courseSlice);
+  const { listNotifications } = useAppSelector(
+    (state) => state.notificationSlice
+  );
 
   const [show, setShow] = useState(false);
   const [showCanvas, setShowCanvas] = useState(false);
@@ -30,8 +40,17 @@ export const Notifications = () => {
     history.push(`/classroom/${id}/newsfeed`);
   };
 
+  const handleMarkAsRead = (item: INotification) => {
+    dispatch(doMarkNotificationAsRead({ id: item.id }));
+  };
+
+  const handleMarkAll = () => {
+    dispatch(doMarkAllNotificationAsRead());
+  };
+
   useEffect(() => {
     dispatch(doGetAllCourse({}));
+    dispatch(doGetAllNotifications());
   }, []);
 
   return (
@@ -47,36 +66,39 @@ export const Notifications = () => {
       {/* <h1 className='notification__title'>Thông báo</h1> */}
 
       <div className="box shadow-sm rounded bg-white mb-5">
-        <div className="box-title border-bottom p-3">
-          <h6 className="m-0 notification__header">Thông báo mới</h6>
+        <div
+          className="box-title border-bottom p-3"
+          style={{
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <h6 className="m-0 notification__header">Tất cả thông báo</h6>
+          <a href="javascript:void(0)" onClick={() => handleMarkAll()}>
+            Đánh dấu tất cả đã đọc
+          </a>
         </div>
         <div className="box-body p-0">
-          {[1, 2, 3, 4, 5].map((item) => {
-            return <CardNotify></CardNotify>;
-          })}
+          {listNotifications && listNotifications.length ? (
+            listNotifications.map((item) => {
+              return (
+                <CardNotify
+                  notify={item}
+                  onClick={() => handleMarkAsRead(item)}
+                ></CardNotify>
+              );
+            })
+          ) : (
+            <>
+              <div className="home__empty">
+                <p>Bạn chưa có thông báo nào.</p>
+                <img src={SvgEmpty} alt="" />
+              </div>
+            </>
+          )}
         </div>
       </div>
-      <div className="box shadow-sm rounded bg-white mb-5">
-        <div className="box-title border-bottom p-3">
-          <h6 className="m-0 notification__header">Thông báo cũ hơn</h6>
-        </div>
-        <div className="box-body p-0">
-          {[1, 2, 3, 4, 5].map((item) => {
-            return <CardNotify></CardNotify>;
-          })}
-        </div>
-      </div>
-
-      {!listClass || !listClass.length ? (
-        <div className="home__empty">
-          <p>
-            Hiện bạn chưa tham gia phòng học nào, vui lòng tạo phòng học mới
-          </p>
-          <img src={SvgEmpty} alt="" />
-        </div>
-      ) : (
-        <></>
-      )}
 
       <ModalAddCourse show={show} setShow={setShow} />
       <ModalJoinCourse

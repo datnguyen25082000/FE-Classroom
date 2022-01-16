@@ -9,9 +9,9 @@ export const apiUser = {
     return axiosClient.get(url);
   },
 
-  getUserInfo: () => {
+  getUserInfo: (params: any) => {
     const url = baseUrl + "GetUserInfo";
-    return axiosClient.get(url);
+    return axiosClient.post(url, params);
   },
 
   updateInfo: (params: IParamsUpdateInfo) => {

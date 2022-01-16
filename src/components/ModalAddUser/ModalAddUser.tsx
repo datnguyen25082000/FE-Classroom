@@ -7,8 +7,10 @@ import {
   useAppSelector,
   doAddCourse,
   doFakeAddCourse,
+  doAddAdmin,
 } from "../../redux";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { validateEmail } from "../../helpers";
 
 export const ModalAddUser: React.FC<IModalAddCourse> = ({ show, setShow }) => {
   const dispatch = useAppDispatch();
@@ -22,17 +24,11 @@ export const ModalAddUser: React.FC<IModalAddCourse> = ({ show, setShow }) => {
   } = useForm();
 
   const onSubmit = handleSubmit((data) => {
-    dispatch(
-      doAddCourse({
-        hostclass: dataUser.user_displayname,
-        nameclass: data.nameclass,
-        codeclass: data?.codeclass,
-      })
-    )
+    const { username, password, display_name, email } = data;
+    dispatch(doAddAdmin({ username, password, display_name, email }))
       .then(unwrapResult)
       .then((res: any) => {
-        if (res.content) dispatch(doFakeAddCourse(res.content.course));
-        setShow(false);
+        window.location.reload();
       });
   });
 
@@ -55,7 +51,7 @@ export const ModalAddUser: React.FC<IModalAddCourse> = ({ show, setShow }) => {
             id="floatingInputCustom"
             type="text"
             placeholder="Tên đăng nhập"
-            {...register("nameclass", { required: true, maxLength: 45 })}
+            {...register("username", { required: true, maxLength: 45 })}
           />
           <label htmlFor="floatingInputCustom">Tên đăng nhập</label>
         </Form.Floating>
@@ -64,19 +60,34 @@ export const ModalAddUser: React.FC<IModalAddCourse> = ({ show, setShow }) => {
             id="floatingPasswordCustom"
             type="text"
             placeholder="Mật khẩu"
-            {...register("codeclass")}
+            {...register("password", { required: true, maxLength: 45 })}
           />
           <label htmlFor="floatingPasswordCustom">Mật khẩu</label>
+        </Form.Floating>
+
+        <Form.Floating className="mb-3">
+          <Form.Control
+            id="floatingPasswordCustom"
+            type="text"
+            placeholder="Tên hiển thị"
+            {...register("display_name", { required: true, maxLength: 45 })}
+          />
+          <label htmlFor="floatingPasswordCustom">Tên hiển thị</label>
         </Form.Floating>
 
         <Form.Floating>
           <Form.Control
             id="floatingPasswordCustom"
-            type="text"
-            placeholder="Tên hiển thị"
-            {...register("codeclass")}
+            type="email"
+            placeholder="Email"
+            {...register("email", {
+              required: true,
+              maxLength: 45,
+              validate: (value) =>
+                validateEmail(value) || "Email chưa đúng định dạng",
+            })}
           />
-          <label htmlFor="floatingPasswordCustom">Tên hiển thị</label>
+          <label htmlFor="floatingPasswordCustom">Email</label>
         </Form.Floating>
       </div>
 

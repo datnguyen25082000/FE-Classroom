@@ -8,6 +8,10 @@ import userSlice from "../slice/apiSlice/user";
 import assignCateSlice from "../slice/apiSlice/assign-cate";
 import scoreSlice from "../slice/apiSlice/score";
 import courseStudentSlice from "../slice/apiSlice/course-student";
+import scoreReviewSlice from "../slice/apiSlice/score-review";
+import reviewCommentSlice from "../slice/apiSlice/review-comment";
+import notificationSlice from "../slice/apiSlice/notification";
+import adminSlice from "../slice/apiSlice/admin";
 import { courseApi } from "../apis";
 
 export const rootReducer = combineReducers({
@@ -20,5 +24,9 @@ export const rootReducer = combineReducers({
   assignCateSlice,
   scoreSlice,
   courseStudentSlice,
+  scoreReviewSlice,
+  reviewCommentSlice,
+  notificationSlice,
+  adminSlice,
 });
 export type RootState = ReturnType<typeof rootReducer>;
