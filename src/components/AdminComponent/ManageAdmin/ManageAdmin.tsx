@@ -18,14 +18,19 @@ const columns = [
     collapse: false,
   },
 
+  // {
+  //   Header: "Email",
+  //   accessor: "email",
+  //   collapse: false,
+  // },
   {
-    Header: "Email",
-    accessor: "email",
+    Header: "Loại admin",
+    accessor: "super_admin",
     collapse: false,
   },
   {
-    Header: "Phân admin",
-    accessor: "super_admin",
+    Header: "Chi tiết",
+    accessor: "detail",
     collapse: false,
   },
 ];
@@ -38,6 +43,7 @@ const makeData = (data: Array<IAdminAdmin>) => {
         email: item.email,
         username: item.username,
         super_admin: item.super_admin ? "Super admin" : "Admin",
+        detail: item.username,
       };
     });
   } else return [];
@@ -53,7 +59,7 @@ export const ManageAdmin = () => {
 
   const handleDetail = (id: any) => {
     if (id) {
-      history.push(`/admin/detail-user/${id}`);
+      history.push(`/admin/detail-admin/${id}`);
     }
   };
 

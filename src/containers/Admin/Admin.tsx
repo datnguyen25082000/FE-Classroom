@@ -9,6 +9,7 @@ import {
   ManageUser,
   DetailUser,
   DetailClass,
+  DetailAdmin,
 } from "../../components";
 import { useAppSelector } from "../../redux";
 
@@ -24,6 +25,7 @@ export const Admin = () => {
     if (location.pathname === "/admin/manage-class") setScreen(3);
     if (location.pathname.includes("/admin/detail-user/")) setScreen(4);
     if (location.pathname.includes("/admin/detail-class/")) setScreen(5);
+    if (location.pathname.includes("/admin/detail-admin/")) setScreen(6);
   }, [location]);
 
   const handleClickSidebar = (num: number) => {
@@ -52,6 +54,8 @@ export const Admin = () => {
         return <DetailUser />;
       case 5:
         return <DetailClass />;
+      case 6:
+        return <DetailAdmin />;
       default:
         return <ManageAdmin />;
     }
