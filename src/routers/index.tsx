@@ -175,6 +175,13 @@ export const Routers = () => {
 
         <PrivateRouter
           exact={true}
+          path={"/admin/detail-admin/:id"}
+          component={Admin}
+          layout={FullLayout}
+        />
+
+        <PrivateRouter
+          exact={true}
           path={"/admin/detail-user/:id"}
           component={Admin}
           layout={FullLayout}
