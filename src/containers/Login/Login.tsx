@@ -170,7 +170,7 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
               <div>
                 Quick start:{" "}
                 <span style={{ fontSize: 15, fontWeight: "bold" }}>
-                  (Username: admin - password: 123123)
+                  (Username: tandat - password: 123123)
                 </span>
               </div>
               <span
@@ -207,6 +207,16 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
                   cssClass="login-modal__btn btn btn-primary"
                   icon={<MdFacebook size={25} />}
                 />
+
+                <Button
+                  variant={"primary"}
+                  className="login-modal__btn"
+                  onClick={() => {
+                    history.push("/admin/login");
+                  }}
+                >
+                  Đăng nhập tài khoản admin
+                </Button>
               </div>
             </div>,
             <div className="login-modal__register">
