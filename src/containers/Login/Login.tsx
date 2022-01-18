@@ -83,9 +83,30 @@ export const Login: React.FC<any> = ({ isOpen, setIsOpen }) => {
 
       dispatch(doRegister(value))
         .then(unwrapResult)
-        .then((res: IResLogin) => {
-          if (res?.content || res?.message) {
-            setMessage(res.message || res.content);
+        .then((res) => {
+          console.log("me", res);
+
+          if (res.message === "USERNAME_ALREADY_EXISTS") {
+            setMessage("Username đã tồn tại");
+            setShowModal(true);
+            return;
+          }
+
+          if (res.message === "EMAIL_ALREADY_EXISTS") {
+            setMessage("Email đã tồn tại");
+            setShowModal(true);
+            return;
+          }
+          if (res.message) {
+            setMessage(res.message);
+            setShowModal(true);
+            return;
+          }
+
+          if (res.content) {
+            setMessage(res.content);
+            setShowModal(true);
+            return;
           }
           setMessage("Đăng ký thành công ");
           setShowModal(true);
