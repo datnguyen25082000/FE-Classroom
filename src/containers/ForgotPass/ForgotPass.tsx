@@ -35,8 +35,17 @@ export const ForgotPass = () => {
   const onSubmit = (data: any) => {
     const { email, otp, password } = data;
 
-    dispatch(doResetPass({ email, otp, newPassword: password }));
-    notify();
+    dispatch(doResetPass({ email, otp, newPassword: password }))
+      .then(unwrapResult)
+      .then((res: any) => {
+        notify(res.message);
+
+        if (res.content && res.content.username) {
+          setTimeout(() => {
+            history.push("/login");
+          }, 2000);
+        }
+      });
   };
 
   const handleSendOTP = () => {
@@ -44,8 +53,8 @@ export const ForgotPass = () => {
     setIsDisable(false);
   };
 
-  const notify = () => {
-    toast("Reset mật khẩu thành công", {
+  const notify = (message: string) => {
+    toast(message || "Reset mật khẩu thành công", {
       position: toast.POSITION.BOTTOM_RIGHT,
       className: "foo-bar",
     });
